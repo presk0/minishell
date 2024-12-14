@@ -6,11 +6,11 @@
 /*   By: supersko <supersko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 17:24:45 by supersko          #+#    #+#             */
-/*   Updated: 2024/12/08 14:38:00 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/12/11 20:41:10 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_btree.h"
+#include "btree.h"
 
 t_btree	*btree_create_node(void *content)
 {

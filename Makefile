@@ -1,43 +1,75 @@
-NAME := pipex
+TARGET = minishell
 
-CC := cc
-CFLAGS := -Wextra -Wall -Werror
+LIBRARIES = btree ft
+LIB_NAMES = $(addprefix lib, $(LIBRARIES))
 
-LIBFT_DIR := ./lib/libft
-LIBFT := $(LIBFT_DIR)/libft.a
-BTREE_DIR := ./lib/btree
-BTREE := $(BTREE_DIR)/btree.a
+LIB_DIR = ./lib
 
-LIBS :=  $(LIBFT) $(BTREE_DIR)
-HEADERS := -I ./include -I $(LIBMLX_DIR)/include -I $(BTREE_DIR)
+INCLUDE_DIRS = ./include
+INCLUDE_DIRS += $(addsuffix /include,$(addprefix $(LIB_DIR)/,$(LIB_NAMES)))
 
-SRCS := src/main.c src/utils.c
-OBJS := $(SRCS:.c=.o)
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
+LDFLAGS = $(addprefix -L$(LIB_DIR)/lib,$(LIBRARIES))
+LDLIBS = $(addprefix -l,$(LIBRARIES))
+LIBS = $(addprefix $(LIB_DIR)/,$(LIBRARIES))
+#LIBS = $(addsuffix /.a,$(addprefix $(LIB_DIR)/,$(LIBRARIES)))
+INCLUDES = $(addprefix -I,$(INCLUDE_DIRS))
 
-all: make_libft $(NAME)
+SRC_DIR = ./src
+SRCS = $(wildcard $(SRC_DIR)/*.c)
 
-make_libft:
-	@make -C $(LIBFT_DIR)
+all: $(TARGET)
 
-%.o: %.c
-	@$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
+$(TARGET): $(LIBS)
+	echo $(INCLUDES)
+	$(CC) $(CFLAGS) $(INCLUDES) $(LDFLAGS) $(SRCS) -o $@ $(LDLIBS)
 
-$(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) $(HEADERS) $(OBJS) $(LIBS) -o $(NAME)
-
-debug: $(OBJS)
-	@$(CC) -g $(HEADERS) src/*.c $(LIBS) -o pouet
-	lldb pouet
-	rm pouet
+$(LIBS):
+	@for lib in $(LIB_NAMES); do \
+		$(MAKE) -C $(LIB_DIR)/$$lib; \
+	done
 
 clean:
-	@rm -rf $(OBJS)
-	@make clean -C $(LIBFT_DIR)
+	@for lib in $(LIB_NAMES); do \
+		$(MAKE) -C $(LIB_DIR)/$$lib clean; \
+	done
+#	rm -rf $(OBJ_DIR)
 
 fclean: clean
-	@make fclean -C $(LIBFT_DIR)
-	@rm -f $(NAME)
+	@for lib in $(LIB_NAMES); do \
+		$(MAKE) -C $(LIB_DIR)/$$lib fclean; \
+	done
+	rm -f $(TARGET)
 
 re: fclean all
 
+test:
+	echo "[LDLIBS] "$(LDLIBS)
+	echo "[LDFLAGS] "$(LDFLAGS)
+
 .PHONY: all clean fclean re make_libft
+
+#CC = cc
+#CFLAGS = -Wall -Wextra -Werror
+#LIBFT = ./lib/libft
+#LIBBTREE = ./lib/libbtree
+#INCLUDES = -I$(LIBFT)/include -I$(LIBBTREE)/include -I./include
+#SRC = ./src/main.c
+#OBJ = $(SRC:.c=.o)
+#
+#all: minishell
+#
+#minishell: $(OBJ)
+#	$(CC) $(CFLAGS) -L$(LIBFT) -lft -L$(LIBBTREE) -lbtree -o minishell $^
+#
+#%.o: %.c
+#	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
+#
+#clean:
+#	rm -f $(OBJ)
+#
+#fclean: clean
+#	rm -f minishell
+#
+#re: fclean all

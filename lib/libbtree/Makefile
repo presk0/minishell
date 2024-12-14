@@ -9,7 +9,7 @@ FILES = ft_btree.c
 
 OBJS = $(addprefix $(OBJ_DIR)/, $(FILES:.c=.o))
 
-NAME = btree.a
+NAME = libbtree.a
 
 $(NAME): $(OBJS)
 	ar rcs $@ $^
