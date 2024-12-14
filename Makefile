@@ -1,6 +1,6 @@
 TARGET = minishell
 
-LIBRARIES = btree ft
+LIBRARIES = btree ft gc
 LIB_NAMES = $(addprefix lib, $(LIBRARIES))
 
 LIB_DIR = ./lib
