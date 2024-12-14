@@ -9,7 +9,7 @@ INCLUDE_DIRS = ./include
 INCLUDE_DIRS += $(addsuffix /include,$(addprefix $(LIB_DIR)/,$(LIB_NAMES)))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -lreadline
 LDFLAGS = $(addprefix -L$(LIB_DIR)/lib,$(LIBRARIES))
 LDLIBS = $(addprefix -l,$(LIBRARIES))
 LIBS = $(addprefix $(LIB_DIR)/,$(LIBRARIES))

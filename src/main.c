@@ -12,11 +12,26 @@
 
 #include <minishell.h>
 
+void	minishell(void)
+{
+	char	*line;
+
+	while (1)
+	{
+		line = readline(PS1);
+		if (!line)
+			break ;
+		printf("%s\n", line);
+		add_history(line);
+		free(line);
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	(void)argc;
 	(void)argv;
-	printf("%i\n", ft_atoi("12"));
+	minishell();
 	return (0);
 }
 
