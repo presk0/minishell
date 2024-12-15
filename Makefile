@@ -1,6 +1,6 @@
 TARGET = minishell
 
-LIBRARIES = btree ft gc
+LIBRARIES = btree gc ft
 LIB_NAMES = $(addprefix lib, $(LIBRARIES))
 
 LIB_DIR = ./lib
@@ -9,11 +9,10 @@ INCLUDE_DIRS = ./include
 INCLUDE_DIRS += $(addsuffix /include,$(addprefix $(LIB_DIR)/,$(LIB_NAMES)))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -lreadline
+CFLAGS = -Wall -Wextra -Werror -lreadline -g3
 LDFLAGS = $(addprefix -L$(LIB_DIR)/lib,$(LIBRARIES))
 LDLIBS = $(addprefix -l,$(LIBRARIES))
 LIBS = $(addprefix $(LIB_DIR)/,$(LIBRARIES))
-#LIBS = $(addsuffix /.a,$(addprefix $(LIB_DIR)/,$(LIBRARIES)))
 INCLUDES = $(addprefix -I,$(INCLUDE_DIRS))
 
 SRC_DIR = ./src
@@ -49,27 +48,3 @@ test:
 	echo "[LDFLAGS] "$(LDFLAGS)
 
 .PHONY: all clean fclean re make_libft
-
-#CC = cc
-#CFLAGS = -Wall -Wextra -Werror
-#LIBFT = ./lib/libft
-#LIBBTREE = ./lib/libbtree
-#INCLUDES = -I$(LIBFT)/include -I$(LIBBTREE)/include -I./include
-#SRC = ./src/main.c
-#OBJ = $(SRC:.c=.o)
-#
-#all: minishell
-#
-#minishell: $(OBJ)
-#	$(CC) $(CFLAGS) -L$(LIBFT) -lft -L$(LIBBTREE) -lbtree -o minishell $^
-#
-#%.o: %.c
-#	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
-#
-#clean:
-#	rm -f $(OBJ)
-#
-#fclean: clean
-#	rm -f minishell
-#
-#re: fclean all
