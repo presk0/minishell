@@ -17,6 +17,7 @@
 # include <stdio.h>
 # define LEFT 0
 # define RIGHT 1
+# define ROOT 2
 
 typedef struct s_btree
 {
@@ -28,5 +29,7 @@ typedef struct s_btree
 t_btree	*btree_create_node(void *content);
 void	btree_apply_inorder(t_btree *root, void (*applyf)(void *));
 void	print_node_content(void *content);
+void display_tree(t_btree *root);
+t_btree	*btree_split_node(t_btree *node, void *(*splitf)(void *, int));
 
 #endif

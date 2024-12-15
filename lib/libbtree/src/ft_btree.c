@@ -66,7 +66,50 @@ t_btree	*btree_split_node(t_btree *node, void *(*splitf)(void *, int))
 	node_right = splitf(node->content, RIGHT);
 	node->left = btree_create_node(node_left);
 	node->right = btree_create_node(node_right);
+	splitf(node->content, ROOT);
 	return (node);
+}
+
+void	print_node_content(void *content)
+{
+	printf("%s\n", (char *)content);
+}
+
+void	print_tree_pretty(t_btree *root)
+{
+	if (!root)
+		return ;
+	print_tree_pretty(root->left);
+	print_node_content(root->content);
+	print_tree_pretty(root->right);
+}
+
+void print_tree(t_btree *root, int space) {
+    if (root == NULL) {
+        return;
+    }
+    space += 10;
+    print_tree(root->right, space);
+    printf("\n");
+    for (int i = 10; i < space; i++) {
+        printf(" ");
+    }
+    printf("%s\n", (char *)root->content);
+    print_tree(root->left, space);
+}
+
+void display_tree(t_btree *root)
+{
+    print_tree(root, 0);
+}
+
+void	free_tree(t_btree *root)
+{
+	if (!root)
+		return ;
+	free_tree(root->left);
+	free_tree(root->right);
+	free(root);
 }
 
 /*
