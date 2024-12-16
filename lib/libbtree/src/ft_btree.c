@@ -31,8 +31,10 @@ void	btree_apply_prefix(\
 	if (!root)
 		return ;
 	applyf(root);
-	btree_apply_prefix(root->left, applyf);
-	btree_apply_prefix(root->right, applyf);
+	if (root->left)
+		btree_apply_prefix(root->left, applyf);
+	if (root->right)
+		btree_apply_prefix(root->right, applyf);
 }
 
 void	btree_apply_infix(\
@@ -40,9 +42,11 @@ void	btree_apply_infix(\
 {
 	if (!root)
 		return ;
-	btree_apply_infix(root->left, applyf);
+	if (root->left)
+		btree_apply_infix(root->left, applyf);
 	applyf(root);
-	btree_apply_infix(root->right, applyf);
+	if (root->right)
+		btree_apply_infix(root->right, applyf);
 }
 
 void	btree_apply_postfix(\
@@ -50,8 +54,10 @@ void	btree_apply_postfix(\
 {
 	if (!root)
 		return ;
-	btree_apply_postfix(root->left, applyf);
-	btree_apply_postfix(root->right, applyf);
+	if (root->right)
+		btree_apply_postfix(root->left, applyf);
+	if (root->left)
+		btree_apply_postfix(root->right, applyf);
 	applyf(root);
 }
 
@@ -92,11 +98,12 @@ void print_tree(t_btree *root, int space) {
     }
     space += 5;
     print_tree(root->right, space);
-    printf("\n");
-    for (int i = 100; i < space; i++) {
+    //printf("\n");
+    for (int i = 0; i < space; i++) {
         printf(" ");
     }
-    printf("%s\n", (char *)root->content);
+	if (root->content)
+		printf("%s\n", (char *)root->content);
     print_tree(root->left, space);
 }
 
@@ -109,11 +116,11 @@ void	free_tree(t_btree *root, void (*f_free)(void *content))
 {
 	if (!root)
 		return ;
+	free_tree(root->left, f_free);
+	free_tree(root->right, f_free);
 	if (root->content)
 	    f_free(root->content);
 	root->content = NULL;
-	free_tree(root->left, f_free);
-	free_tree(root->right, f_free);
 	free(root);
 	root = NULL;
 }
