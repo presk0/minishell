@@ -43,11 +43,11 @@ size_t	substitute_var(char *str, t_list *gc)
 	return (ft_strlen(tmp));
 }
 
-char	*substr_left(char *node_content, char c)
+char	*substr_left(char *node_content, char *found)
 {
 	char	*ret;
 
-	ret = ft_substr(node_content, 0, ft_strchr(node_content, c) - node_content);
+	ret = ft_substr(node_content, 0, found - node_content);
 	if (ret && !*ret)
 	{
 		free(ret);
@@ -55,11 +55,15 @@ char	*substr_left(char *node_content, char c)
 	}
 	return (ret);
 }
-char	*substr_right(char *node_content, char c)
+char	*substr_right(char *node_content, char *found)
 {
 	char	*ret;
 
-	ret = ft_substr(node_content, ft_strchr(node_content, c) - node_content + 1, ft_strlen(node_content));
+	(void)node_content;
+	while (found[0] == found[1])
+		found++;
+	found++;
+	ret = ft_substr(found, 0, ft_strlen(found));
 	if (ret && !*ret)
 	{
 		free(ret);
@@ -68,83 +72,35 @@ char	*substr_right(char *node_content, char c)
 	return (ret);
 }
 
-void	*pipe_split(t_btree *node)
+void	split_node(t_btree *root, char *sep)
 {
-	t_btree	*left;
-	t_btree	*right;
-	char	*left_content;
-	char	*right_content;
-	char	*node_content;
+	char	*str;
+	char	*found;
 
-	char	c = '|';
-	if (!node)
-		return (NULL);
-	left = NULL;
-	right = NULL;
-	node_content = (char *)node->content;
- 	if (!ft_strchr(node_content, c))
-		return (NULL);
-	left_content = substr_left(node_content, c);
-	right_content = substr_right(node_content, c);
-	if (left_content)
-		left = btree_create_node(left_content);
-	if (right_content)
-		right = btree_create_node(right_content);
-	if (node->left)
-		ft_errmsg("[pipe_split] create left node but one already exists\n");
-	node->left = left;
-	if (node->right)
-		ft_errmsg("[pipe_split] create right node but one already exists\n");
-	node->right = right;
-	if (node_content)
+	if (root->left || root->right)
+		return ;
+	str = root->content;
+	found = ft_strnstr(str, sep, ft_strlen(str));
+	if (found)
 	{
-		*node_content = c;
-		node_content[1] = '\0';
+		root->left = btree_create_node(substr_left(str, found));
+		root->right = btree_create_node(substr_right(str, found));
+		root->content = ft_strdup(sep);
+		free(str);
+		str = NULL;
 	}
-	return (NULL);
 }
 
-
-void	*redir_in_split(t_btree *node)
+void	btree_split(t_btree *root, char *sep)
 {
-	t_btree	*left;
-	t_btree	*right;
-	char	*left_content;
-	char	*right_content;
-	char	*node_content;
-
-	char	c = '<';
-	if (!node)
-		return (NULL);
-	left = NULL;
-	right = NULL;
-	node_content = (char *)node->content;
- 	if (!ft_strchr(node_content, c))
-		return (NULL);
-	left_content = substr_left(node_content, c);
-	right_content = substr_right(node_content, c);
-	if (left_content)
-		left = btree_create_node(left_content);
-	if (right_content)
-		right = btree_create_node(right_content);
-	if (node->left)
-		ft_errmsg("[pipe_split] create left node but one already exists\n");
-	node->left = left;
-	if (node->right)
-		ft_errmsg("[pipe_split] create right node but one already exists\n");
-	node->right = right;
-	if (node_content)
-	{
-		*node_content = c;
-		node_content[1] = '\0';
-	}
-	return (NULL);
+	if (!root)
+		return ;
+	split_node(root, sep);
+	if (root->left)
+		btree_split(root->left, sep);
+	if (root->right)
+		btree_split(root->right, sep);
 }
-
-//void	*btree_pipe_split(t_btree *root, char c)
-//{
-//    btree_split_node(*root, pipe_split);
-//}
 
 void	apply_cmd(char *line, t_list *gc)
 {
@@ -152,8 +108,12 @@ void	apply_cmd(char *line, t_list *gc)
 	(void)gc;
 
 	cmd_tree = btree_create_node(line);
-	btree_apply_prefix(cmd_tree, pipe_split);
-	btree_apply_prefix(cmd_tree, redir_in_split);
+	btree_split(cmd_tree, "|");
+	btree_split(cmd_tree, "<<<");
+	btree_split(cmd_tree, "<<");
+	btree_split(cmd_tree, ">>");
+	btree_split(cmd_tree, "<");
+	btree_split(cmd_tree, ">");
 	display_tree(cmd_tree);
 	free_tree(cmd_tree, free);
 }
