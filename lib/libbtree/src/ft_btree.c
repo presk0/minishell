@@ -6,7 +6,7 @@
 /*   By: supersko <supersko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 17:24:45 by supersko          #+#    #+#             */
-/*   Updated: 2024/12/11 20:41:10 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/12/15 21:48:39 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,35 +26,36 @@ t_btree	*btree_create_node(void *content)
 }
 
 void	btree_apply_prefix(\
-	t_btree *root, void (*applyf)(void *, t_btree **node))
+	t_btree *root, void *(*applyf)(t_btree *node))
 {
 	if (!root)
 		return ;
-	applyf(root->content, &root);
+	applyf(root);
 	btree_apply_prefix(root->left, applyf);
 	btree_apply_prefix(root->right, applyf);
 }
 
 void	btree_apply_infix(\
-	t_btree *root, void (*applyf)(void *, t_btree **node))
+	t_btree *root, void *(*applyf)(t_btree *node))
 {
 	if (!root)
 		return ;
 	btree_apply_infix(root->left, applyf);
-	applyf(root->content, &root);
+	applyf(root);
 	btree_apply_infix(root->right, applyf);
 }
 
 void	btree_apply_postfix(\
-	t_btree *root, void (*applyf)(void *, t_btree **node))
+	t_btree *root, void *(*applyf)(t_btree *node))
 {
 	if (!root)
 		return ;
 	btree_apply_postfix(root->left, applyf);
 	btree_apply_postfix(root->right, applyf);
-	applyf(root->content, &root);
+	applyf(root);
 }
 
+/*
 t_btree	*btree_split_node(t_btree *node, void *(*splitf)(void *, int))
 {
 	t_btree	*node_left;
@@ -69,6 +70,7 @@ t_btree	*btree_split_node(t_btree *node, void *(*splitf)(void *, int))
 	splitf(node->content, ROOT);
 	return (node);
 }
+*/
 
 void	print_node_content(void *content)
 {
@@ -88,10 +90,10 @@ void print_tree(t_btree *root, int space) {
     if (root == NULL) {
         return;
     }
-    space += 10;
+    space += 5;
     print_tree(root->right, space);
     printf("\n");
-    for (int i = 10; i < space; i++) {
+    for (int i = 100; i < space; i++) {
         printf(" ");
     }
     printf("%s\n", (char *)root->content);
@@ -103,13 +105,17 @@ void display_tree(t_btree *root)
     print_tree(root, 0);
 }
 
-void	free_tree(t_btree *root)
+void	free_tree(t_btree *root, void (*f_free)(void *content))
 {
 	if (!root)
 		return ;
-	free_tree(root->left);
-	free_tree(root->right);
+	if (root->content)
+	    f_free(root->content);
+	root->content = NULL;
+	free_tree(root->left, f_free);
+	free_tree(root->right, f_free);
 	free(root);
+	root = NULL;
 }
 
 /*
@@ -119,7 +125,7 @@ void	print_node_content(void *content)
 }
 
 
-void	*split_function(void *content, int is_right)
+void	*split_function(t_btree *node int is_right)
 {
 	char *original = (char *)content;
 	char *new_content = (char *)malloc(100);

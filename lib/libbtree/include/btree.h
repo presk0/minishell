@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_btree.h                                         :+:      :+:    :+:   */
+/*   btree.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: supersko <supersko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 17:24:45 by supersko          #+#    #+#             */
-/*   Updated: 2024/12/08 14:40:01 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/12/15 21:48:26 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@ t_btree	*btree_create_node(void *content);
 void	btree_apply_inorder(t_btree *root, void (*applyf)(void *));
 void	print_node_content(void *content);
 void display_tree(t_btree *root);
-t_btree	*btree_split_node(t_btree *node, void *(*splitf)(void *, int));
+void	free_tree(t_btree *root, void (*f_free)(void *content));
+void	btree_apply_prefix(\
+	t_btree *root, void *(*applyf)(t_btree *node));
+void	btree_apply_postfix(\
+	t_btree *root, void *(*applyf)(t_btree *node));
+void	btree_apply_infix(\
+	t_btree *root, void *(*applyf)(t_btree *node));
 
 #endif
