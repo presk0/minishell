@@ -43,11 +43,11 @@ size_t	substitute_var(char *str, t_list *gc)
 	return (ft_strlen(tmp));
 }
 
-char	*substr_left(char *node_content)
+char	*substr_left(char *node_content, char c)
 {
 	char	*ret;
 
-	ret = ft_substr(node_content, 0, ft_strchr(node_content, '|') - node_content);
+	ret = ft_substr(node_content, 0, ft_strchr(node_content, c) - node_content);
 	if (ret && !*ret)
 	{
 		free(ret);
@@ -55,11 +55,11 @@ char	*substr_left(char *node_content)
 	}
 	return (ret);
 }
-char	*substr_right(char *node_content)
+char	*substr_right(char *node_content, char c)
 {
 	char	*ret;
 
-	ret = ft_substr(node_content, ft_strchr(node_content, '|') - node_content + 1, ft_strlen(node_content));
+	ret = ft_substr(node_content, ft_strchr(node_content, c) - node_content + 1, ft_strlen(node_content));
 	if (ret && !*ret)
 	{
 		free(ret);
@@ -67,6 +67,7 @@ char	*substr_right(char *node_content)
 	}
 	return (ret);
 }
+
 void	*pipe_split(t_btree *node)
 {
 	t_btree	*left;
@@ -75,15 +76,16 @@ void	*pipe_split(t_btree *node)
 	char	*right_content;
 	char	*node_content;
 
+	char	c = '|';
 	if (!node)
 		return (NULL);
 	left = NULL;
 	right = NULL;
 	node_content = (char *)node->content;
- 	if (!ft_strchr(node_content, '|'))
+ 	if (!ft_strchr(node_content, c))
 		return (NULL);
-	left_content = substr_left(node_content);
-	right_content = substr_right(node_content);
+	left_content = substr_left(node_content, c);
+	right_content = substr_right(node_content, c);
 	if (left_content)
 		left = btree_create_node(left_content);
 	if (right_content)
@@ -96,7 +98,44 @@ void	*pipe_split(t_btree *node)
 	node->right = right;
 	if (node_content)
 	{
-		*node_content = '|';
+		*node_content = c;
+		node_content[1] = '\0';
+	}
+	return (NULL);
+}
+
+
+void	*redir_in_split(t_btree *node)
+{
+	t_btree	*left;
+	t_btree	*right;
+	char	*left_content;
+	char	*right_content;
+	char	*node_content;
+
+	char	c = '<';
+	if (!node)
+		return (NULL);
+	left = NULL;
+	right = NULL;
+	node_content = (char *)node->content;
+ 	if (!ft_strchr(node_content, c))
+		return (NULL);
+	left_content = substr_left(node_content, c);
+	right_content = substr_right(node_content, c);
+	if (left_content)
+		left = btree_create_node(left_content);
+	if (right_content)
+		right = btree_create_node(right_content);
+	if (node->left)
+		ft_errmsg("[pipe_split] create left node but one already exists\n");
+	node->left = left;
+	if (node->right)
+		ft_errmsg("[pipe_split] create right node but one already exists\n");
+	node->right = right;
+	if (node_content)
+	{
+		*node_content = c;
 		node_content[1] = '\0';
 	}
 	return (NULL);
@@ -114,6 +153,7 @@ void	apply_cmd(char *line, t_list *gc)
 
 	cmd_tree = btree_create_node(line);
 	btree_apply_prefix(cmd_tree, pipe_split);
+	btree_apply_prefix(cmd_tree, redir_in_split);
 	display_tree(cmd_tree);
 	free_tree(cmd_tree, free);
 }
