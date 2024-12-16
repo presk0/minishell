@@ -72,22 +72,72 @@ char	*substr_right(char *node_content, char *found)
 	return (ret);
 }
 
+int	is_quoted(char c, int reset)
+{
+	static int	quote;
+
+	if (reset)
+		quote = 0;
+	if (c == '\'')
+	{
+		if (quote == 1 || !quote)
+			quote = !quote;
+	}
+	if (c == '"')
+	{
+		if (quote == 2)
+			quote = 0;
+		if (quote == 0)
+			quote = 2;
+	}
+	return (quote);
+}
+
+char	*ft_strnstr_quotes(const char *str, const char *ndl, size_t len)
+{
+	char		*p_str;
+	size_t		ndl_len;
+
+	p_str = (char *)str;
+	ndl_len = ft_strlen(ndl);
+	is_quoted(0, 1);
+	if (len >= ndl_len)
+	{
+		while (*p_str && len-- && len + 1 >= ndl_len)
+		{
+			if (!ft_strncmp(p_str, ndl, ndl_len) && !is_quoted(*p_str, 0))
+				return (p_str);
+			p_str++;
+		}
+	}
+	if (!*ndl)
+		return (p_str);
+	return (NULL);
+}
+
 void	split_node(t_btree *root, char *sep)
 {
-	char	*str;
-	char	*found;
+	char			*str;
+	char			*found;
+	t_btree_content	*content;
 
 	if (root->left || root->right)
 		return ;
-	str = root->content;
-	found = ft_strnstr(str, sep, ft_strlen(str));
+	content = root->content;
+	str = content->cmd;
+	found = ft_strnstr_quotes(str, sep, ft_strlen(str));
 	if (found)
 	{
-		root->left = btree_create_node(substr_left(str, found));
-		root->right = btree_create_node(substr_right(str, found));
-		root->content = ft_strdup(sep);
-		free(str);
-		str = NULL;
+		content = ft_calloc(1, sizeof(t_btree_content));
+		content->cmd = substr_left(str, found);
+		root->left = btree_create_node(content);
+		content = ft_calloc(1, sizeof(t_btree_content));
+		content->cmd = substr_right(str, found);
+		root->right = btree_create_node(content);
+		content = ft_calloc(1, sizeof(t_btree_content));
+		content->cmd = found;
+		content->token = sep;
+		root->content = content;
 	}
 }
 
@@ -102,20 +152,56 @@ void	btree_split(t_btree *root, char *sep)
 		btree_split(root->right, sep);
 }
 
+void	free_node_content(void *stuff)
+{
+	t_btree_content	*content;
+
+	content = stuff;
+	if (content)
+	{
+		if (content->cmd)
+		{
+			free(content->cmd);
+			content->cmd = NULL;
+		}
+		if (content->token)
+		{
+			free(content->token);
+			content->token = NULL;
+		}
+		free(content);
+		content = NULL;
+	}
+}
+
+void	print_node_content(void *content)
+{
+	t_btree_content	*stuff;
+
+	stuff = content;
+	if (stuff->token)
+		printf("%s", stuff->token);
+	else
+		printf("%s", stuff->cmd);
+}
+
 void	apply_cmd(char *line, t_list *gc)
 {
 	t_btree	*cmd_tree;
+	t_btree_content	*content;
 	(void)gc;
 
-	cmd_tree = btree_create_node(line);
-	btree_split(cmd_tree, "|");
-	btree_split(cmd_tree, "<<<");
-	btree_split(cmd_tree, "<<");
-	btree_split(cmd_tree, ">>");
-	btree_split(cmd_tree, "<");
-	btree_split(cmd_tree, ">");
-	display_tree(cmd_tree);
-	free_tree(cmd_tree, free);
+	content = ft_calloc(1, sizeof(t_btree_content));
+	content->cmd = line;
+	content->token = NULL;
+	cmd_tree = btree_create_node(content);
+	btree_split(cmd_tree, ft_strdup("|"));
+	btree_split(cmd_tree, ft_strdup("<<"));
+	btree_split(cmd_tree, ft_strdup(">>"));
+	btree_split(cmd_tree, ft_strdup("<"));
+	btree_split(cmd_tree, ft_strdup(">"));
+	display_tree(cmd_tree, print_node_content);
+	//free_tree(cmd_tree, free_node_content);
 }
 
 void	minishell(void)

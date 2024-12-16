@@ -78,46 +78,49 @@ t_btree	*btree_split_node(t_btree *node, void *(*splitf)(void *, int))
 }
 */
 
-void	print_node_content(void *content)
-{
-	printf("%s\n", (char *)content);
-}
-
-void	print_tree_pretty(t_btree *root)
-{
-	if (!root)
-		return ;
-	print_tree_pretty(root->left);
-	print_node_content(root->content);
-	print_tree_pretty(root->right);
-}
-
-void print_tree(t_btree *root, int space) {
+/*************  ✨ Codeium Command ⭐  *************/
+/**
+ * Prints the binary tree in a visually appealing way.
+ *
+ * The function takes a binary tree rooted at `root`, and a callback function
+ * `print` that will be called on each node's content. The `space` parameter
+ * is used to keep track of the indentation level.
+ *
+ * The tree is printed inorder, meaning that the left subtree is printed first,
+ * then the root node, and finally the right subtree. The root node is printed
+ * with an indentation level equal to `space`, and the left and right subtrees
+ * are printed with an indentation level of `space + 3`.
+ *
+ * If the node's content is NULL, nothing is printed for that node.
+ */
+/******  fb5c55b6-aae8-4819-9286-1c2369e3f9c1  *******/
+void print_tree(t_btree *root, int space, void (*print)(void *content)) {
     if (root == NULL) {
         return;
     }
-    space += 5;
-    print_tree(root->right, space);
-    //printf("\n");
+    print_tree(root->right, space + 3, print);
     for (int i = 0; i < space; i++) {
         printf(" ");
     }
-	if (root->content)
-		printf("%s\n", (char *)root->content);
-    print_tree(root->left, space);
+    if (root->content)
+        print(root->content);
+    printf("\n");
+    print_tree(root->left, space + 3, print);
 }
 
-void display_tree(t_btree *root)
+void display_tree(t_btree *root, void(*print)(void *content))
 {
-    print_tree(root, 0);
+    print_tree(root, 0, print);
 }
 
 void	free_tree(t_btree *root, void (*f_free)(void *content))
 {
 	if (!root)
 		return ;
-	free_tree(root->left, f_free);
-	free_tree(root->right, f_free);
+	if (root->left)
+		free_tree(root->left, f_free);
+	if (root->right)
+		free_tree(root->right, f_free);
 	if (root->content)
 	    f_free(root->content);
 	root->content = NULL;

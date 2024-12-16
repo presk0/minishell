@@ -28,8 +28,7 @@ typedef struct s_btree
 
 t_btree	*btree_create_node(void *content);
 void	btree_apply_inorder(t_btree *root, void (*applyf)(void *));
-void	print_node_content(void *content);
-void display_tree(t_btree *root);
+void display_tree(t_btree *root, void(*print)(void *content));
 void	free_tree(t_btree *root, void (*f_free)(void *content));
 void	btree_apply_prefix(\
 	t_btree *root, void *(*applyf)(t_btree *node));

@@ -17,7 +17,7 @@
 typedef struct btree_content
 {
     char	*cmd;
-    int     token;
+    char    *token;
 }	t_btree_content;
 
 #endif
