@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/12/15 19:17:17 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/12/15 21:49:12 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,34 +80,59 @@ size_t	substitute_var(char *str, t_list *gc)
 // 	}
 // 	return (new_str);
 // }
-
-void	*split_pipes(void *content, int	POS)
+char	*substr_left(char *node_content)
 {
-	size_t	i;
-	char	*str;
+	char	*ret;
 
-	str = (char *)content;
-	if (!str)
+	ret = ft_substr(node_content, 0, ft_strchr(node_content, '|') - node_content);
+	return (ret);
+}
+char	*substr_right(char *node_content)
+{
+	char	*ret;
+
+	ret = ft_substr(node_content, ft_strchr(node_content, '|') - node_content + 1, ft_strlen(node_content));
+	return (ret);
+}
+void	*pipe_split(t_btree *node)
+{
+	t_btree	*left;
+	t_btree	*right;
+	char	*left_content;
+	char	*right_content;
+	char	*node_content;
+
+	if (!node)
 		return (NULL);
-	i = 0;
-	while (str[i] && str[i] != '|')
-		i++;
-	if (POS == LEFT)
-		return (ft_substr(str, 0, i));
-	else if (POS == RIGHT)
-		return (ft_substr(str, i + 1, ft_strlen(str)));
-	strcpy(content, "|");
+	node_content = (char *)node->content;
+	left_content = substr_left(node_content);
+	right_content = substr_right(node_content);
+	left = btree_create_node(left_content);
+	right = btree_create_node(right_content);
+	if (left)
+		ft_errmsg("[pipe_split] create left node but one already exists\n");
+	node->left = left;
+	if (right)
+		ft_errmsg("[pipe_split] create right node but one already exists\n");
+	node->right = right;
 	return (NULL);
 }
+
+//void	*btree_pipe_split(t_btree *root, char c)
+//{
+//    btree_split_node(*root, pipe_split);
+//}
 
 void	apply_cmd(char *line, t_list *gc)
 {
 	t_btree	*cmd_tree;
 
 	cmd_tree = btree_create_node(line);
-	btree_split_node(cmd_tree, split_pipes);
+	//btree_split_node(cmd_tree, substr_split);
+	btree_apply_prefix(cmd_tree, pipe_split);
 	gc_append(&gc, cmd_tree);
 	display_tree(cmd_tree);
+	free_tree(cmd_tree, &free);
 }
 
 void	minishell(void)
@@ -138,8 +163,9 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)envp;
 	//minishell();
-	apply_cmd(argv[1], NULL);
-	printf("%s\n", argv[0]);
+	//apply_cmd(argv[1], NULL);
+	printf("[substr_left] %s\n", substr_left(argv[1]));
+	printf("[substr_right] %s\n", substr_right(argv[1]));
 	return (0);
 }
 
