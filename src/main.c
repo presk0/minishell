@@ -105,7 +105,7 @@ char	*ft_strnstr_quotes(const char *str, const char *ndl, size_t len)
 	{
 		while (*p_str && len-- && len + 1 >= ndl_len)
 		{
-			if (!ft_strncmp(p_str, ndl, ndl_len) && !is_quoted(*p_str, 0))
+			if (!is_quoted(*p_str, 0) && !ft_strncmp(p_str, ndl, ndl_len))
 				return (p_str);
 			p_str++;
 		}
