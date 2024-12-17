@@ -1,4 +1,4 @@
-TARGET = minishell
+NAME = minishell
 
 LIBRARIES = btree gc ft
 LIB_NAMES = $(addprefix lib, $(LIBRARIES))
@@ -15,14 +15,17 @@ LDLIBS = $(addprefix -l,$(LIBRARIES))
 LIBS = $(addprefix $(LIB_DIR)/,$(LIBRARIES))
 INCLUDES = $(addprefix -I,$(INCLUDE_DIRS))
 
-SRC_DIR = ./src
-SRCS = $(wildcard $(SRC_DIR)/*.c)
+SRC_DIR =	./src
+SRCS =	$(wildcard $(SRC_DIR)/*.c)	\
+		$(wildcard ./src/ft_env/*.c)	\
 
-all: $(TARGET)
+all: $(NAME)
 
-$(TARGET): $(LIBS)
+$(NAME): $(LIBS)
 	echo $(INCLUDES)
 	$(CC) $(CFLAGS) $(INCLUDES) $(LDFLAGS) $(SRCS) -o $@ $(LDLIBS)
+
+
 
 $(LIBS):
 	@for lib in $(LIB_NAMES); do \
@@ -39,7 +42,7 @@ fclean: clean
 	@for lib in $(LIB_NAMES); do \
 		$(MAKE) -C $(LIB_DIR)/$$lib fclean; \
 	done
-	rm -f $(TARGET)
+	rm -f $(NAME)
 
 re: fclean all
 
