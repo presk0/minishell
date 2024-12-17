@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gc.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/12/17 16:19:32 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/12/17 17:02:12 by nkieffer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	clean_exit(t_list **gc_addr)
 	while (gc)
 	{
 		tmp = gc->next;
-		lstdelone(gc, free);
-	 = tmp;
+		ft_lstdelone(gc, free);
+		gc = tmp;
 	}
 }
 
@@ -32,9 +32,9 @@ void	*gc_append(t_list **gc_addr, void *ptr)
 
 	new_garbage = ft_lstnew(ptr);
 	if (!new_garbage)
-	 clean_exit(gc_addr);
+		clean_exit(gc_addr);
 	ft_lstadd_back(gc_addr, new_garbage);
-	urn (ptr);
+	return (ptr);
 }
 
 void	*gc_malloc(t_list **gc_addr, size_t count, size_t size)
