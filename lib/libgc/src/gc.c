@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/12/18 13:55:33 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/12/18 17:16:54 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	clean_exit(t_list **gc_addr)
 		ft_lstdelone(gc, free);
 		gc = tmp;
 	}
+	gc = NULL;
 }
 
 void	*gc_append(t_list **gc_addr, void *ptr)
@@ -40,6 +41,7 @@ void	*gc_append(t_list **gc_addr, void *ptr)
 void	*gc_malloc(t_list **gc_addr, size_t count, size_t size)
 {
 	void	*ptr;
+	void	*node;
 
 	if (size)
 		if (size * count / size != count)
@@ -47,11 +49,17 @@ void	*gc_malloc(t_list **gc_addr, size_t count, size_t size)
 	ptr = malloc(count * size);
 	if (ptr == NULL)
 	{
-		write(2, "[gc_malloc] failed to malloc\n", 30);
+		write(2, "[gc_malloc 1] failed to malloc\n", 32);
 		clean_exit(gc_addr);
 		return (NULL);
 	}
-	gc_append(gc_addr, ptr);
+	node = gc_append(gc_addr, ptr);
+	if (!node)
+	{
+		write(2, "[gc_malloc 1] failed to malloc\n", 32);
+		clean_exit(gc_addr);
+		return (NULL);
+	}
 	return (ptr);
 }
 

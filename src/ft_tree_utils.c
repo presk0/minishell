@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/12/18 14:16:39 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/12/18 17:13:10 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,30 @@
 void	split_node(t_list *gc, t_btree *root, char *sep)
 {
 	char			*str;
-	char			*found;
+	char			*sep_found;
 	t_btree_content	*content;
 
 	if (root->left || root->right)
 		return ;
 	content = root->content;
 	str = content->cmd;
-	found = ft_strnstr_quotes(str, sep, ft_strlen(str));
-	if (found)
+	sep_found = ft_strnstr_quotes(str, sep, ft_strlen(str));
+	if (sep_found)
 	{
 		content = gc_malloc(&gc, 1, sizeof(t_btree_content));
 		if (!content)
 			minishell_exit(gc);
-		content->cmd = substr_left(str, found);
+		content->cmd = substr_left(str, sep_found);
 		root->left = btree_create_node(content);
 		content = gc_malloc(&gc, 1, sizeof(t_btree_content));
 		if (!content)
 			minishell_exit(gc);
-		content->cmd = substr_right(str, found);
+		content->cmd = substr_right(str, sep_found);
 		root->right = btree_create_node(content);
 		content = gc_malloc(&gc, 1, sizeof(t_btree_content));
 		if (!content)
 			minishell_exit(gc);
-		content->cmd = found;
+		content->cmd = sep_found;
 		content->token = sep;
 		root->content = content;
 	}
@@ -48,9 +48,9 @@ void	btree_split(t_list *gc, t_btree *root, char *sep)
 {
 	if (!root)
 		return ;
-	split_node(gc, root, sep);
 	if (root->left)
 		btree_split(gc, root->left, sep);
+	split_node(gc, root, sep);
 	if (root->right)
 		btree_split(gc, root->right, sep);
 }
