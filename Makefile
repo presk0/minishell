@@ -19,15 +19,15 @@ SRC_DIR =	./src
 SRCS =	$(wildcard $(SRC_DIR)/*.c)	\
 		$(wildcard ./src/ft_env/*.c)	\
 
-all: $(NAME)
+all: make_libs $(NAME)
 
-$(NAME): $(LIBS)
+$(NAME):
 	echo $(INCLUDES)
 	$(CC) $(CFLAGS) $(INCLUDES) $(LDFLAGS) $(SRCS) -o $@ $(LDLIBS)
 
 
 
-$(LIBS):
+make_libs:
 	@for lib in $(LIB_NAMES); do \
 		$(MAKE) -C $(LIB_DIR)/$$lib; \
 	done
@@ -36,7 +36,6 @@ clean:
 	@for lib in $(LIB_NAMES); do \
 		$(MAKE) -C $(LIB_DIR)/$$lib clean; \
 	done
-#	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	@for lib in $(LIB_NAMES); do \
@@ -46,8 +45,4 @@ fclean: clean
 
 re: fclean all
 
-test:
-	echo "[LDLIBS] "$(LDLIBS)
-	echo "[LDFLAGS] "$(LDFLAGS)
-
-.PHONY: all clean fclean re make_libft
+.PHONY: all clean fclean re make_libs
