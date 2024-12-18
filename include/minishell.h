@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2024/12/17 18:35:38 by nkieffer         ###   ########.fr       */
+/*   Updated: 2024/12/18 13:37:54 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,18 @@
 
 typedef struct btree_content
 {
-    char	*cmd;
-    char    *token;
+	char	*cmd;
+	char	*token;
 }	t_btree_content;
+
+
+void	split_node(t_btree *root, char *sep);
+void	btree_split(t_btree *root, char *sep);
+void	free_node_content(void *stuff);
+void	print_node_content(void *content);
+char	*substr_left(char *node_content, char *found);
+char	*substr_right(char *node_content, char *found);
+int		is_quoted(char c, int reset);
+char	*ft_strnstr_quotes(const char *str, const char *ndl, size_t len);
 
 #endif
