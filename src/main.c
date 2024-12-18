@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/12/18 18:03:21 by nkieffer         ###   ########.fr       */
+/*   Updated: 2024/12/18 19:24:52 by nkieffer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,21 @@ void	minishell(void)
 	// minishell_exit(gc);
 }
 
+t_lexing	*ft_lexing(char *line)
+{
+	new_lexing_node();
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	(void)argc;
 	(void)argv;
 	(void)env;
+	t_lexing	*first;
+
 	char	*line = ft_strdup(argv[1]);
 	//minishell();
+
 	apply_cmd(line, NULL);
 	//printf("[substr_left] %s\n", substr_left(argv[1]));
 	//printf("[substr_right] %s\n", substr_right(argv[1]));
@@ -101,5 +109,7 @@ int	main(int argc, char **argv, char **env)
 	// print_export(local_env);
 	// free_env(local_env);
 	// return (0);
+	test;
+	
 }
 
