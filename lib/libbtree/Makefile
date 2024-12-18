@@ -5,7 +5,7 @@ SRC_DIR = src
 OBJ_DIR = obj
 INCLUDE_DIR = include
 
-FILES = ft_btree.c
+FILES = ft_btree.c display_tree.c
 
 OBJS = $(addprefix $(OBJ_DIR)/, $(FILES:.c=.o))
 

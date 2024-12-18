@@ -6,12 +6,12 @@
 /*   By: supersko <supersko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 17:24:45 by supersko          #+#    #+#             */
-/*   Updated: 2024/12/15 21:48:26 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/12/18 13:16:52 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_BTREE_H
-# define FT_BTREE_H
+#ifndef BTREE_H
+# define BTREE_H
 
 # include <stdlib.h>
 # include <stdio.h>
@@ -21,14 +21,14 @@
 
 typedef struct s_btree
 {
-	void			*content;
+	void				*content;
 	struct s_btree		*left;
 	struct s_btree		*right;
 }	t_btree;
 
 t_btree	*btree_create_node(void *content);
 void	btree_apply_inorder(t_btree *root, void (*applyf)(void *));
-void display_tree(t_btree *root, void(*print)(void *content));
+void	display_tree(t_btree *root, void (*print)(void *content));
 void	free_tree(t_btree *root, void (*f_free)(void *content));
 void	btree_apply_prefix(\
 	t_btree *root, void *(*applyf)(t_btree *node));
