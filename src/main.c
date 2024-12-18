@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nidionis <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/12/18 13:40:16 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/12/18 18:03:21 by nkieffer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	minishell_exit(t_list *gc)
 {
-	rl_clear_history();
+	// rl_clear_history();
 	clean_exit(&gc);
 }
 
@@ -64,36 +64,42 @@ void	apply_cmd(char *line, t_list *gc)
 
 void	minishell(void)
 {
-	char	*line;
-	t_list	*gc;
+	// char	*line;
+	// t_list	*gc;
 
-	gc = NULL;
-	while (1)
-	{
-		line = readline(PS1);
-		if (line == NULL)
-		{
-			printf("Error reading input or EOF encountered.\n");
-			return ;
-		}
-		gc_append(&gc, line);
-		apply_cmd(line, gc);
-		add_history(line);
-		gc_free_item(&gc, line);
-	}
-	minishell_exit(gc);
+	// gc = NULL;
+	// while (1)
+	// {
+	// 	line = readline(PS1);
+	// 	if (line == NULL)
+	// 	{
+	// 		printf("Error reading input or EOF encountered.\n");
+	// 		return ;
+	// 	}
+	// 	gc_append(&gc, line);
+	// 	apply_cmd(line, gc);
+	// 	add_history(line);
+	// 	gc_free_item(&gc, line);
+	// }
+	// minishell_exit(gc);
 }
 
-int	main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **env)
 {
 	(void)argc;
 	(void)argv;
-	(void)envp;
+	(void)env;
 	char	*line = ft_strdup(argv[1]);
 	//minishell();
 	apply_cmd(line, NULL);
 	//printf("[substr_left] %s\n", substr_left(argv[1]));
 	//printf("[substr_right] %s\n", substr_right(argv[1]));
-	return (0);
+
+	// t_env		*local_env;
+	// local_env = init_env(env);
+	// print_env(local_env);
+	// print_export(local_env);
+	// free_env(local_env);
+	// return (0);
 }
 
