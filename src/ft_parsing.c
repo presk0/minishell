@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/12/18 13:37:07 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/12/18 13:48:47 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ char	*ft_strnstr_quotes(const char *str, const char *ndl, size_t len)
 	char		*p_str;
 	size_t		ndl_len;
 
+	if (!str || !ndl)
+		return (NULL);
 	p_str = (char *)str;
 	ndl_len = ft_strlen(ndl);
 	is_quoted(0, 1);

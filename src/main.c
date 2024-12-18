@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/12/18 13:40:16 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/12/18 14:02:56 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	minishell_exit(t_list *gc)
 {
 	rl_clear_history();
 	clean_exit(&gc);
+	exit(-1);
 }
 
 char	*end_of_word(char *str)
@@ -48,18 +49,19 @@ void	apply_cmd(char *line, t_list *gc)
 	t_btree			*cmd_tree;
 	t_btree_content	*content;
 
-	(void)gc;
-	content = ft_calloc(1, sizeof(t_btree_content));
+	content = gc_malloc(&gc, 1, sizeof(t_btree_content));
+	if (!content)
+		minishell_exit(gc);
 	content->cmd = line;
 	content->token = NULL;
 	cmd_tree = btree_create_node(content);
-	btree_split(cmd_tree, ft_strdup("|"));
-	btree_split(cmd_tree, ft_strdup("<<"));
-	btree_split(cmd_tree, ft_strdup(">>"));
-	btree_split(cmd_tree, ft_strdup("<"));
-	btree_split(cmd_tree, ft_strdup(">"));
+	btree_split(gc, cmd_tree, ft_strdup("|"));
+	btree_split(gc, cmd_tree, ft_strdup("<<"));
+	btree_split(gc, cmd_tree, ft_strdup(">>"));
+	btree_split(gc, cmd_tree, ft_strdup("<"));
+	btree_split(gc, cmd_tree, ft_strdup(">"));
 	display_tree(cmd_tree, print_node_content);
-	//free_tree(cmd_tree, free_node_content);
+	free_tree(cmd_tree, free_node_content);
 }
 
 void	minishell(void)

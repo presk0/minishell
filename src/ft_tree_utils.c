@@ -6,13 +6,13 @@
 /*   By: nidionis <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/12/18 13:35:08 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/12/18 14:16:39 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	split_node(t_btree *root, char *sep)
+void	split_node(t_list *gc, t_btree *root, char *sep)
 {
 	char			*str;
 	char			*found;
@@ -25,28 +25,34 @@ void	split_node(t_btree *root, char *sep)
 	found = ft_strnstr_quotes(str, sep, ft_strlen(str));
 	if (found)
 	{
-		content = ft_calloc(1, sizeof(t_btree_content));
+		content = gc_malloc(&gc, 1, sizeof(t_btree_content));
+		if (!content)
+			minishell_exit(gc);
 		content->cmd = substr_left(str, found);
 		root->left = btree_create_node(content);
-		content = ft_calloc(1, sizeof(t_btree_content));
+		content = gc_malloc(&gc, 1, sizeof(t_btree_content));
+		if (!content)
+			minishell_exit(gc);
 		content->cmd = substr_right(str, found);
 		root->right = btree_create_node(content);
-		content = ft_calloc(1, sizeof(t_btree_content));
+		content = gc_malloc(&gc, 1, sizeof(t_btree_content));
+		if (!content)
+			minishell_exit(gc);
 		content->cmd = found;
 		content->token = sep;
 		root->content = content;
 	}
 }
 
-void	btree_split(t_btree *root, char *sep)
+void	btree_split(t_list *gc, t_btree *root, char *sep)
 {
 	if (!root)
 		return ;
-	split_node(root, sep);
+	split_node(gc, root, sep);
 	if (root->left)
-		btree_split(root->left, sep);
+		btree_split(gc, root->left, sep);
 	if (root->right)
-		btree_split(root->right, sep);
+		btree_split(gc, root->right, sep);
 }
 
 void	free_node_content(void *stuff)
