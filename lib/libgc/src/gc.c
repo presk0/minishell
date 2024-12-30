@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/12/30 16:52:19 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/12/30 17:07:01 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,13 @@ void	gc_free_all(t_list **gc_addr)
 		ft_lstdelone(gc, free);
 		gc = tmp;
 	}
-	gc = NULL;
+	*gc_addr = NULL;
 }
 
+/* use carefully:
+ * returns NULL if lstnew crashed
+ * (and if ptr == NULL)
+ */
 void	*gc_append(t_list **gc_addr, void *ptr)
 {
 	t_list	*new_garbage;
