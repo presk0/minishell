@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/12/30 15:40:45 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/12/30 17:00:44 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,14 @@ void	minishell(void)
 			printf("Error reading input or EOF encountered.\n");
 			return ;
 		}
-		gc_append(&gc, line);
-		apply_cmd(line, gc);
-		add_history(line);
-		gc_free_item(&gc, line);
+		if (gc_append(&gc, line))
+		{
+			apply_cmd(line, gc);
+			add_history(line);
+			gc_free_item(&gc, line);
+		}
+		else
+			minishell_exit(gc);
 	}
 	minishell_exit(gc);
 }

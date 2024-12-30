@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/12/30 15:56:21 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/12/30 16:52:19 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	gc_free_all(t_list **gc_addr)
 	t_list	*tmp;
 	t_list	*gc;
 
+	if (!gc_addr)
+		return ;
 	gc = *gc_addr;
 	while (gc)
 	{
