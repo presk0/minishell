@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   gc.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/12/18 17:16:54 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/12/30 15:56:21 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-void	clean_exit(t_list **gc_addr)
+void	gc_free_all(t_list **gc_addr)
 {
 	t_list	*tmp;
 	t_list	*gc;
@@ -31,10 +31,17 @@ void	*gc_append(t_list **gc_addr, void *ptr)
 {
 	t_list	*new_garbage;
 
+	if (!ptr)
+		return (NULL);
 	new_garbage = ft_lstnew(ptr);
 	if (!new_garbage)
-		clean_exit(gc_addr);
-	ft_lstadd_back(gc_addr, new_garbage);
+	{
+		free(ptr);
+		ptr = NULL;
+		gc_free_all(gc_addr);
+	}
+	else
+		ft_lstadd_back(gc_addr, new_garbage);
 	return (ptr);
 }
 
@@ -50,14 +57,14 @@ void	*gc_malloc(t_list **gc_addr, size_t count, size_t size)
 	if (ptr == NULL)
 	{
 		write(2, "[gc_malloc 1] failed to malloc\n", 32);
-		clean_exit(gc_addr);
+		gc_free_all(gc_addr);
 		return (NULL);
 	}
 	node = gc_append(gc_addr, ptr);
 	if (!node)
 	{
 		write(2, "[gc_malloc 1] failed to malloc\n", 32);
-		clean_exit(gc_addr);
+		gc_free_all(gc_addr);
 		return (NULL);
 	}
 	return (ptr);

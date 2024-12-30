@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nidionis <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/12/18 14:02:56 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/12/30 15:40:45 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	minishell_exit(t_list *gc)
 {
 	rl_clear_history();
-	clean_exit(&gc);
+	gc_free_all(&gc);
 	exit(-1);
 }
 
