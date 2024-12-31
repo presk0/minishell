@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/12/31 14:19:05 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/12/31 15:01:33 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	apply_cmd(char *line, t_list *gc)
 {
 	t_btree			*cmd_tree;
 	t_btree_content	*content;
+	char			*sep;
 
 	content = gc_malloc(&gc, 1, sizeof(t_btree_content));
 	if (!content)
@@ -55,19 +56,24 @@ void	apply_cmd(char *line, t_list *gc)
 	content->cmd = line;
 	content->token = NULL;
 	cmd_tree = btree_create_node(content);
-	btree_split(gc, cmd_tree, ft_strdup("|"));
-	btree_split(gc, cmd_tree, ft_strdup("<<"));
-	btree_split(gc, cmd_tree, ft_strdup(">>"));
-	btree_split(gc, cmd_tree, ft_strdup("<"));
-	btree_split(gc, cmd_tree, ft_strdup(">"));
-	display_tree(cmd_tree, print_node_content);
-	free_tree(cmd_tree, free_node_content);
+	sep = gc_malloc(&gc, 1, 2);
+	if (sep)
+	{
+		sep[0] = '|';
+		sep[1] = '\0';
+		btree_split(gc, cmd_tree, sep);
+		display_tree(cmd_tree, print_node_content);
+		//free_tree(cmd_tree, free_node_content);
+		//gc_free_item(&gc, sep);
+	}
+	//else
+		minishell_exit(gc);
 }
 
 void	minishell(void)
 {
-	// char	*line;
-	// t_list	*gc;
+	char	*line;
+	t_list	*gc;
 
 	gc = NULL;
 	while (1)

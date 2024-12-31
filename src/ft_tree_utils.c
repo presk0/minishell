@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/12/18 17:13:10 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/12/31 16:26:30 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,18 @@ void	split_node(t_list *gc, t_btree *root, char *sep)
 		content = gc_malloc(&gc, 1, sizeof(t_btree_content));
 		if (!content)
 			minishell_exit(gc);
-		content->cmd = substr_left(str, sep_found);
+		content->cmd = substr_left(gc, str, sep_found);
 		root->left = btree_create_node(content);
 		content = gc_malloc(&gc, 1, sizeof(t_btree_content));
-		if (!content)
+		if (!content || !gc_append(&gc, root->left))
 			minishell_exit(gc);
-		content->cmd = substr_right(str, sep_found);
+
+		content->cmd = substr_right(gc, str, sep_found);
 		root->right = btree_create_node(content);
 		content = gc_malloc(&gc, 1, sizeof(t_btree_content));
-		if (!content)
+		if (!content || !gc_append(&gc, root->right))
 			minishell_exit(gc);
+
 		content->cmd = sep_found;
 		content->token = sep;
 		root->content = content;
@@ -73,7 +75,6 @@ void	free_node_content(void *stuff)
 			content->token = NULL;
 		}
 		free(content);
-		content = NULL;
 	}
 }
 

@@ -6,13 +6,13 @@
 /*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/12/31 14:17:46 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/12/31 16:28:12 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*substr_left(char *node_content, char *found)
+char	*substr_left(t_list *gc, char *node_content, char *found)
 {
 	char	*ret;
 
@@ -22,10 +22,17 @@ char	*substr_left(char *node_content, char *found)
 		free(ret);
 		ret = NULL;
 	}
+	if (ret)
+	{
+		if (!gc_append(&gc, ret))
+		{
+			minishell_exit(gc);
+		}
+	}
 	return (ret);
 }
 
-char	*substr_right(char *node_content, char *found)
+char	*substr_right(t_list *gc, char *node_content, char *found)
 {
 	char	*ret;
 
@@ -38,6 +45,13 @@ char	*substr_right(char *node_content, char *found)
 	{
 		free(ret);
 		ret = NULL;
+	}
+	if (ret)
+	{
+		if (!gc_append(&gc, ret))
+		{
+			minishell_exit(gc);
+		}
 	}
 	return (ret);
 }
