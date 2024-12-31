@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   libgc.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 15:51:11 by supersko          #+#    #+#             */
-/*   Updated: 2024/12/30 15:40:45 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/12/31 14:17:14 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBGC_H
 # define LIBGC_H
-# include <libft.h>
+# include "../../libft/include/libft.h"
 
 void	*gc_append(t_list **gc_addr, void *ptr);
 void	gc_free_all(t_list **gc_addr);

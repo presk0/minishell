@@ -9,23 +9,22 @@ INCLUDE_DIRS = ./include
 INCLUDE_DIRS += $(addsuffix /include,$(addprefix $(LIB_DIR)/,$(LIB_NAMES)))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -lreadline -g3
+CFLAGS = -Wall -Wextra -Werror -I includes -g3 #-lreadline
 LDFLAGS = $(addprefix -L$(LIB_DIR)/lib,$(LIBRARIES))
 LDLIBS = $(addprefix -l,$(LIBRARIES))
 LIBS = $(addprefix $(LIB_DIR)/,$(LIBRARIES))
 INCLUDES = $(addprefix -I,$(INCLUDE_DIRS))
 
-SRC_DIR =	./src
-SRCS =	$(wildcard $(SRC_DIR)/*.c)	\
+SRCS =	$(wildcard ./src/*.c)	\
 		$(wildcard ./src/ft_env/*.c)	\
+
+OBJS = $(SRCS:.c=.o)
 
 all: make_libs $(NAME)
 
-$(NAME):
+$(NAME): $(OBJS)
 	echo $(INCLUDES)
-	$(CC) $(CFLAGS) $(INCLUDES) $(LDFLAGS) $(SRCS) -o $@ $(LDLIBS)
-
-
+	$(CC) $(CFLAGS) $(INCLUDES) $(LDFLAGS) $(OBJS) -o $@ $(LDLIBS)
 
 make_libs:
 	@for lib in $(LIB_NAMES); do \
@@ -36,6 +35,7 @@ clean:
 	@for lib in $(LIB_NAMES); do \
 		$(MAKE) -C $(LIB_DIR)/$$lib clean; \
 	done
+	rm -rf $(OBJS)
 
 fclean: clean
 	@for lib in $(LIB_NAMES); do \

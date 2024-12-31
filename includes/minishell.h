@@ -6,15 +6,15 @@
 /*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2024/12/18 14:15:12 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/12/31 14:16:51 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# include <libft.h>
-# include <libgc.h>
-# include <btree.h>
+# include "../lib/libft/include/libft.h"
+# include "../lib/libgc/include/libgc.h"
+# include "../lib/libbtree/include/btree.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
