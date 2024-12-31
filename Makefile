@@ -9,7 +9,8 @@ INCLUDE_DIRS = ./include
 INCLUDE_DIRS += $(addsuffix /include,$(addprefix $(LIB_DIR)/,$(LIB_NAMES)))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I includes -g3 #-lreadline
+CFLAGS = -Wall -Wextra -Werror -I includes -g3
+LFLAGS = -lreadline
 LDFLAGS = $(addprefix -L$(LIB_DIR)/lib,$(LIBRARIES))
 LDLIBS = $(addprefix -l,$(LIBRARIES))
 LIBS = $(addprefix $(LIB_DIR)/,$(LIBRARIES))
@@ -24,7 +25,7 @@ all: make_libs $(NAME)
 
 $(NAME): $(OBJS)
 	echo $(INCLUDES)
-	$(CC) $(CFLAGS) $(INCLUDES) $(LDFLAGS) $(OBJS) -o $@ $(LDLIBS)
+	$(CC) $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LDFLAGS) $(OBJS) -o $@ $(LDLIBS)
 
 make_libs:
 	@for lib in $(LIB_NAMES); do \
