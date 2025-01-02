@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/02 18:18:11 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/02 20:43:18 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@
 # define TOKEN_REDIR_OUT 2
 # define TOKEN_HEREDOC 3
 # define TOKEN_APPEND 4
+# define RESET 1
+# define SAVE 0
+# define REDIR_IN 1
+# define REDIR_OUT 2
+# define HERE_DOC 3
+# define REDIR_APPEND 4
 
 typedef struct	s_token
 {
@@ -58,5 +64,6 @@ t_btree_content	*new_content(t_list *gc);
 t_btree	*new_node(t_list *gc, t_btree_content *content);
 int	check_childs_rec(t_list *gc, t_btree *root);
 int	check_childs(t_list *gc, t_btree *root);
+int	is_operand(char *cmd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/02 18:51:32 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/02 20:44:07 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,18 +101,11 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	(void)env;
-	char	*line = ft_strdup(argv[1]);
+	//char	*line = ft_strdup(argv[1]);
 
 	//minishell();
-	apply_cmd(line, NULL);
-	//printf("[substr_left] %s\n", substr_left(argv[1]));
-	//printf("[substr_right] %s\n", substr_right(argv[1]));
-
-	// t_env		*local_env;
-	// local_env = init_env(env);
-	// print_env(local_env);
-	// print_export(local_env);
-	// free_env(local_env);
+	//apply_cmd(line, NULL);
+	printf("is_operand returns: %i", is_operand(argv[1]));
 	// return (0);
 }
 

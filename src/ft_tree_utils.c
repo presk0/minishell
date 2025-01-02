@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/02 19:04:15 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/02 20:00:18 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,4 +145,3 @@ int	check_childs(t_list *gc, t_btree *root)
 		printf("bash: syntax error near unexpected token `|'");
 	return (each_nodes_have_two_childs);
 }
-
