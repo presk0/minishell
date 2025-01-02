@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/02 16:14:01 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/02 18:51:32 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	apply_cmd(char *line, t_list *gc)
 	if (!content)
 		minishell_exit(gc);
 	content->cmd = line;
-	content->token = NULL;
 	cmd_tree = new_node(gc, content);
 	sep = gc_malloc(&gc, 1, 2);
 	if (sep)
@@ -62,7 +61,8 @@ void	apply_cmd(char *line, t_list *gc)
 		sep[0] = '|';
 		sep[1] = '\0';
 		btree_split(gc, cmd_tree, sep);
-		display_tree(cmd_tree, print_node_content);
+		if (!check_childs(gc, cmd_tree))
+			minishell_exit(gc);
 		//free_tree(cmd_tree, free_node_content);
 		//gc_free_item(&gc, sep);
 	}

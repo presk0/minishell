@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/12/31 16:32:46 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/02 16:46:46 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ char	*substr_right(t_list *gc, char *node_content, char *found)
 	char	*ret;
 
 	(void)node_content;
-	while (found[0] == found[1])
-		found++;
+	//while (found[0] == found[1])
+	//	found++;
 	found++;
 	ret = ft_substr(found, 0, ft_strlen(found));
 	if (ret && !*ret)

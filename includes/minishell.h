@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/02 16:13:40 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/02 18:18:11 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,18 @@
 # define TOKEN_HEREDOC 3
 # define TOKEN_APPEND 4
 
+typedef struct	s_token
+{
+	char	*cmd;
+	char	**arg;
+	char	*redir_in;
+	char	*redir_out;
+}	t_token;
+
 typedef struct btree_content
 {
 	char	*cmd;
-	char	*token;
+	t_token	token;
 }	t_btree_content;
 
 char	*substr_left(t_list *gc, char *node_content, char *found);
@@ -48,5 +56,7 @@ void	apply_cmd(char *line, t_list *gc);
 void	minishell(void);
 t_btree_content	*new_content(t_list *gc);
 t_btree	*new_node(t_list *gc, t_btree_content *content);
+int	check_childs_rec(t_list *gc, t_btree *root);
+int	check_childs(t_list *gc, t_btree *root);
 
 #endif

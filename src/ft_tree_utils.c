@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/02 16:09:40 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/02 19:04:15 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	split_node(t_list *gc, t_btree *root, char *sep)
 			root->right = new_node(gc, content);
 		content = root->content;
 		content->cmd = sep_found;
-		content->token = sep;
+	//	content->token.brut = sep;
 		root->content = content;
 	}
 }
@@ -91,11 +91,11 @@ void	free_node_content(void *stuff)
 			free(content->cmd);
 			content->cmd = NULL;
 		}
-		if (content->token)
-		{
-			free(content->token);
-			content->token = NULL;
-		}
+		//if (content->token)
+		//{
+		//	free(content->token);
+		//	content->token = NULL;
+		//}
 		free(content);
 	}
 }
@@ -105,8 +105,44 @@ void	print_node_content(void *content)
 	t_btree_content	*stuff;
 
 	stuff = content;
-	if (stuff->token)
-		printf("%s", stuff->token);
+	if (stuff)
+		printf("%s", stuff->token.cmd);
 	else
 		printf("%s", stuff->cmd);
 }
+
+int	node_is_pipe(t_btree *node)
+{
+	t_btree_content	*content;
+
+	content = node->content;
+	if (ft_strncmp(content->cmd, "|", 2))
+		return (0);
+	return (1);
+}
+
+int	check_childs_rec(t_list *gc, t_btree *root)
+{
+	if (!root)
+		return (0);
+	if ((root->right && !root->left) || (!root->right && root->left))
+		return (0);
+	if (root->right && !check_childs_rec(gc, root->right))
+		return (0);
+	if (root->left && !check_childs_rec(gc, root->left))
+		return (0);
+	if (!root->right && !root->left && node_is_pipe(root))
+		return (0);
+	return (1);
+}
+
+int	check_childs(t_list *gc, t_btree *root)
+{
+	int	each_nodes_have_two_childs;
+	
+	each_nodes_have_two_childs = check_childs_rec(gc, root);
+	if (!each_nodes_have_two_childs)
+		printf("bash: syntax error near unexpected token `|'");
+	return (each_nodes_have_two_childs);
+}
+
