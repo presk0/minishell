@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/12/31 15:01:33 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/02 16:14:01 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	apply_cmd(char *line, t_list *gc)
 		minishell_exit(gc);
 	content->cmd = line;
 	content->token = NULL;
-	cmd_tree = btree_create_node(content);
+	cmd_tree = new_node(gc, content);
 	sep = gc_malloc(&gc, 1, 2);
 	if (sep)
 	{
@@ -102,6 +102,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	(void)env;
 	char	*line = ft_strdup(argv[1]);
+
 	//minishell();
 	apply_cmd(line, NULL);
 	//printf("[substr_left] %s\n", substr_left(argv[1]));

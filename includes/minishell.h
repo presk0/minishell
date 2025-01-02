@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2024/12/31 16:28:54 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/02 16:13:40 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ char	*end_of_word(char *str);
 size_t	substitute_var(char *str, t_list *gc);
 void	apply_cmd(char *line, t_list *gc);
 void	minishell(void);
-
+t_btree_content	*new_content(t_list *gc);
+t_btree	*new_node(t_list *gc, t_btree_content *content);
 
 #endif

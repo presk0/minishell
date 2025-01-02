@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/12/31 16:28:12 by nidionis         ###   ########.fr       */
+/*   Updated: 2024/12/31 16:32:46 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char	*substr_left(t_list *gc, char *node_content, char *found)
 	{
 		if (!gc_append(&gc, ret))
 		{
+			write(2, "[substr_left]\n", 14);
 			minishell_exit(gc);
 		}
 	}
@@ -50,6 +51,7 @@ char	*substr_right(t_list *gc, char *node_content, char *found)
 	{
 		if (!gc_append(&gc, ret))
 		{
+			write(2, "[substr_right]\n", 14);
 			minishell_exit(gc);
 		}
 	}
