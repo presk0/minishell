@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/02 20:43:18 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/03 20:01:08 by nkieffer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,22 @@
 # define HERE_DOC 3
 # define REDIR_APPEND 4
 
+typedef enum e_builtin_id
+{
+	ECHO_ID = 1,
+	CD_ID,
+	PWD_ID,
+	EXPORT_ID,
+	UNSET_ID,
+	ENV_ID,
+	EXIT_ID,
+	MINISHELL_ID,
+}	t_builtin_id;
+
 typedef struct	s_token
 {
 	char	*cmd;
+	int		cmd_id;
 	char	**arg;
 	char	*redir_in;
 	char	*redir_out;
@@ -46,6 +59,22 @@ typedef struct btree_content
 	char	*cmd;
 	t_token	token;
 }	t_btree_content;
+
+typedef struct	s_token
+{
+	char	*cmd;
+	int		cmd_id;
+	char	**arg;
+	char	*redir_in;
+	char	*redir_out;
+}	t_token;
+
+typedef struct s_data
+{
+	t_env		local_env;
+	t_export	local_export;
+	t_btree		tree_root;
+}	t_data;
 
 char	*substr_left(t_list *gc, char *node_content, char *found);
 char	*substr_right(t_list *gc, char *node_content, char *found);
