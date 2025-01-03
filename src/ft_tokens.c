@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/03 13:10:26 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/03 15:46:24 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,24 +51,33 @@ int	strlen_wd_quoted(char *cmd)
 
 char	*strdup_wd_quote(t_list *gc, char *cmd)
 {
-	(void)gc;
-	(void)cmd;
-	int	wd_len_quoted;
+	int		wd_len_quoted;
+	char	*duplicated;
+	char	*out;
 
-	wd_len_quoted = 0;
-	return (NULL);
+	wd_len_quoted = strlen_wd_quoted(cmd);
+	duplicated = gc_malloc(&gc, 1, wd_len_quoted);
+	if (!duplicated)
+		return (NULL);
+	out = duplicated;
+	while (wd_len_quoted--)
+		*duplicated++ = *cmd++;
+	return (out);
 }
 
 char	*grep_token(t_list *gc, char op, char *cmd)
 {
-	//char	*token;
-	(void)gc;
-	(void)cmd;
-	(void)op;
-	return (NULL);
+	if (cmd)
+	{
+		while (*cmd == op)
+			cmd++;
+		while (*cmd && ft_strchr(WHITE_SPACE, *cmd))
+			cmd++;
+	}
+	return (strdup_wd_quote(gc, cmd));
 }
 
-char	*save_token(t_list *gc, char *cmd, int op, t_token *token)
+char	*save_token_op(t_list *gc, char *cmd, int op, t_token *token)
 {
 	(void)gc;
 	(void)cmd;
@@ -95,7 +104,9 @@ t_token	*tokenize_cmd(t_list *gc, char *cmd)
 		if (op == -1)
 			return (gc_free_item(&gc, token), NULL);
 		if (op && !is_quoted(*cmd, SAVE))
-			cmd = save_token(gc, cmd, op, token);
+			cmd = save_token_op(gc, cmd, op, token);
+		//else if (!op && !token->cmd && !is_quoted(*cmd, SAVE))
+		//	cmd = save_token_cmd(gc, cmd, op, token);
 		else
 			cmd++;
 	}

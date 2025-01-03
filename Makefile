@@ -24,22 +24,21 @@ OBJS = $(SRCS:.c=.o)
 all: make_libs $(NAME)
 
 $(NAME): $(OBJS)
-	echo $(INCLUDES)
 	$(CC) $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LDFLAGS) $(OBJS) -o $@ $(LDLIBS)
 
 make_libs:
-	@for lib in $(LIB_NAMES); do \
+	for lib in $(LIB_NAMES); do \
 		$(MAKE) -C $(LIB_DIR)/$$lib; \
 	done
 
 clean:
-	@for lib in $(LIB_NAMES); do \
+	for lib in $(LIB_NAMES); do \
 		$(MAKE) -C $(LIB_DIR)/$$lib clean; \
 	done
 	rm -rf $(OBJS)
 
 fclean: clean
-	@for lib in $(LIB_NAMES); do \
+	for lib in $(LIB_NAMES); do \
 		$(MAKE) -C $(LIB_DIR)/$$lib fclean; \
 	done
 	rm -f $(NAME)

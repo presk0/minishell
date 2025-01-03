@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/03 13:05:39 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/03 15:27:12 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,6 @@ int	check_childs_rec(t_list *gc, t_btree *root);
 int	check_childs(t_list *gc, t_btree *root);
 int	is_operand(char *cmd);
 int	strlen_wd_quoted(char *cmd);
+char	*save_token_op(t_list *gc, char *cmd, int op, t_token *token);
 
 #endif
