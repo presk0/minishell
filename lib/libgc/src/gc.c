@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2024/12/31 14:42:03 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/03 16:59:01 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	*gc_malloc(t_list **gc_addr, size_t count, size_t size)
 	if (size)
 		if (size * count / size != count)
 			return (NULL);
-	ptr = malloc(count * size);
+	ptr = ft_calloc(count, size);
 	if (ptr == NULL)
 	{
 		write(2, "[gc_malloc 1] failed to malloc\n", 32);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/02 16:46:46 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/03 19:59:21 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,25 +58,25 @@ char	*substr_right(t_list *gc, char *node_content, char *found)
 	return (ret);
 }
 
-int	is_quoted(char c, int reset)
+int	is_quoted(char c, int buff, int reset)
 {
-	static int	quote;
+	static int	quote[BUFF_QUOTE_MAX];
 
-	if (reset)
-		quote = 0;
+	if (reset == RESET)
+		quote[buff] = 0;
 	if (c == '\'')
 	{
-		if (quote == 1 || !quote)
-			quote = !quote;
+		if (quote[buff] == 1 || !quote[buff])
+			quote[buff] = !quote[buff];
 	}
 	if (c == '"')
 	{
-		if (quote == 2)
-			quote = 0;
-		if (quote == 0)
-			quote = 2;
+		if (quote[buff] == 2)
+			quote[buff] = 0;
+		if (quote[buff] == 0)
+			quote[buff] = 2;
 	}
-	return (quote);
+	return (quote[buff]);
 }
 
 char	*ft_strnstr_quotes(const char *str, const char *ndl, size_t len)
@@ -88,12 +88,12 @@ char	*ft_strnstr_quotes(const char *str, const char *ndl, size_t len)
 		return (NULL);
 	p_str = (char *)str;
 	ndl_len = ft_strlen(ndl);
-	is_quoted(0, 1);
+	is_quoted(0, BUFF_STRNSTR, RESET);
 	if (len >= ndl_len)
 	{
 		while (*p_str && len-- && len + 1 >= ndl_len)
 		{
-			if (!is_quoted(*p_str, 0) && !ft_strncmp(p_str, ndl, ndl_len))
+			if (!is_quoted(*p_str, BUFF_STRNSTR, SAVE) && !ft_strncmp(p_str, ndl, ndl_len))
 				return (p_str);
 			p_str++;
 		}

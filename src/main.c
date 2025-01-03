@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/03 15:32:47 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/03 17:17:06 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,14 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	(void)env;
+	t_list	*gc = NULL;
 	//char	*line = ft_strdup(argv[1]);
 
 	//minishell();
 	//apply_cmd(line, NULL);
-	t_token	token;
-	save_token_op(NULL, argv[1], REDIR_IN, &token);
-	printf("save_token_op returns: %s", token.redir_in);
+	t_token	*token = NULL;
+	token = tokenize_cmd(gc, argv[1]);
+	print_token(token);
 	// return (0);
 }
 
