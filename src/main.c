@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/02 20:44:07 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/03 13:06:42 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	main(int argc, char **argv, char **env)
 
 	//minishell();
 	//apply_cmd(line, NULL);
-	printf("is_operand returns: %i", is_operand(argv[1]));
+	printf("strlen_wd_quoted returns: %i", strlen_wd_quoted(argv[1]));
 	// return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/02 20:43:18 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/03 13:05:39 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define REDIR_OUT 2
 # define HERE_DOC 3
 # define REDIR_APPEND 4
+# define WHITE_SPACE " \t\n\r\v"
 
 typedef struct	s_token
 {
@@ -39,6 +40,7 @@ typedef struct	s_token
 	char	**arg;
 	char	*redir_in;
 	char	*redir_out;
+	int		append_flag;
 }	t_token;
 
 typedef struct btree_content
@@ -65,5 +67,6 @@ t_btree	*new_node(t_list *gc, t_btree_content *content);
 int	check_childs_rec(t_list *gc, t_btree *root);
 int	check_childs(t_list *gc, t_btree *root);
 int	is_operand(char *cmd);
+int	strlen_wd_quoted(char *cmd);
 
 #endif

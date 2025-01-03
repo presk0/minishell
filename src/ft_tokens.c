@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/02 20:38:21 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/03 13:10:26 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,48 @@ int	is_operand(char *cmd)
 	return (0);
 }
 
+int	strlen_wd_quoted(char *cmd)
+{
+	int	len;
+
+	is_quoted(0, RESET);
+	len = 0;
+	while (*cmd && (is_quoted(*cmd, SAVE) || (!is_operand(cmd) && !ft_strchr(WHITE_SPACE, *cmd))))
+	{
+		cmd++;
+		len++;
+	}
+	return (len);
+}
+
+char	*strdup_wd_quote(t_list *gc, char *cmd)
+{
+	(void)gc;
+	(void)cmd;
+	int	wd_len_quoted;
+
+	wd_len_quoted = 0;
+	return (NULL);
+}
+
+char	*grep_token(t_list *gc, char op, char *cmd)
+{
+	//char	*token;
+	(void)gc;
+	(void)cmd;
+	(void)op;
+	return (NULL);
+}
+
 char	*save_token(t_list *gc, char *cmd, int op, t_token *token)
 {
 	(void)gc;
 	(void)cmd;
 	(void)op;
 	(void)token;
+
+	if (op == REDIR_IN)
+		token->redir_in = grep_token(gc, '<', cmd);
 	return (NULL);
 }
 
