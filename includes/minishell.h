@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/03 19:25:02 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/04 15:50:37 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 typedef struct	s_token
 {
 	char	*cmd;
-	char	**arg;
+	char	**args;
 	char	*redir_in;
 	char	*redir_out;
 	int		append_flag;
