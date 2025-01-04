@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/02 20:00:18 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/04 17:34:52 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_btree_content	*new_content(t_list *gc)
 	content = malloc(sizeof(t_btree_content));
 	gc_ok = gc_append(&gc, content);
 	if (!gc_ok || !content)
-		minishell_exit(gc);
+		minishell_exit(&gc);
 	return (content);
 }
 
@@ -35,7 +35,7 @@ t_btree	*new_node(t_list *gc, t_btree_content *content)
 		node = btree_create_node(content);
 		gc_ok = gc_append(&gc, node);
 		if (!gc_ok || !node)
-			minishell_exit(gc);
+			minishell_exit(&gc);
 	}
 	return (node);
 }

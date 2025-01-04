@@ -92,9 +92,10 @@ all	Makefile	/^all: make_libs $(NAME)$/;"	t
 all	lib/libft/Makefile	/^all: $(NAME)$/;"	t
 append_flag	includes/minishell.h	/^	int		append_flag;$/;"	m	struct:s_token	typeref:typename:int
 append_line	lib/libft/src/ft_split.c	/^static size_t	append_line(char *str, char sep, char **ret, size_t i_wd)$/;"	f	typeref:typename:size_t	file:
+append_tab	src/ft_tokens.c	/^void	append_tab(t_list **gc, char ***tab_addr, char *str)$/;"	f	typeref:typename:void
 apply_cmd	src/main.c	/^void	apply_cmd(char *line, t_list *gc)$/;"	f	typeref:typename:void
-arg	includes/minishell.h	/^	char	**arg;$/;"	m	struct:s_token	typeref:typename:char **
 args	.vscode/launch.json	/^            "args": ['|'],$/;"	a	object:configurations.0
+args	includes/minishell.h	/^	char	**args;$/;"	m	struct:s_token	typeref:typename:char **
 btree_apply_infix	lib/libbtree/src/ft_btree.c	/^void	btree_apply_infix(\\$/;"	f	typeref:typename:void
 btree_apply_postfix	lib/libbtree/src/ft_btree.c	/^void	btree_apply_postfix(\\$/;"	f	typeref:typename:void
 btree_apply_prefix	lib/libbtree/src/ft_btree.c	/^void	btree_apply_prefix(\\$/;"	f	typeref:typename:void
@@ -188,6 +189,7 @@ ft_strnstr_quotes	src/ft_parsing.c	/^char	*ft_strnstr_quotes(const char *str, co
 ft_strrchr	lib/libft/src/ft_strrchr.c	/^char	*ft_strrchr(char *s, int c)$/;"	f	typeref:typename:char *
 ft_strtrim	lib/libft/src/ft_strtrim.c	/^char	*ft_strtrim(char const *str, char const *set)$/;"	f	typeref:typename:char *
 ft_substr	lib/libft/src/ft_substr.c	/^char	*ft_substr(char const *s, unsigned int start, size_t len)$/;"	f	typeref:typename:char *
+ft_tablen	src/ft_tokens.c	/^int	ft_tablen(char **tab)$/;"	f	typeref:typename:int
 ft_tolower	lib/libft/src/ft_tolower.c	/^int	ft_tolower(int c)$/;"	f	typeref:typename:int
 ft_toupper	lib/libft/src/ft_toupper.c	/^int	ft_toupper(int c)$/;"	f	typeref:typename:int
 ft_wd_count	lib/libft/src/ft_split.c	/^static int	ft_wd_count(char *str, char sep)$/;"	f	typeref:typename:int	file:
@@ -195,7 +197,7 @@ gc_append	lib/libgc/src/gc.c	/^void	*gc_append(t_list **gc_addr, void *ptr)$/;"	
 gc_free_all	lib/libgc/src/gc.c	/^void	gc_free_all(t_list **gc_addr)$/;"	f	typeref:typename:void
 gc_free_item	lib/libgc/src/gc.c	/^void	gc_free_item(t_list **gc_addr, void *ptr)$/;"	f	typeref:typename:void
 gc_malloc	lib/libgc/src/gc.c	/^void	*gc_malloc(t_list **gc_addr, size_t count, size_t size)$/;"	f	typeref:typename:void *
-grep_token	src/ft_tokens.c	/^char	*grep_token(t_list *gc, char op, char *cmd)$/;"	f	typeref:typename:char *
+grep_token	src/ft_tokens.c	/^char	*grep_token(t_list **gc, char op, char *cmd)$/;"	f	typeref:typename:char *
 heredoc	includes/minishell.h	/^	int		heredoc;$/;"	m	struct:s_token	typeref:typename:int
 ignoreFailures	.vscode/launch.json	/^                    "ignoreFailures": true$/;"	b	object:configurations.0.setupCommands.0
 ignoreFailures	.vscode/launch.json	/^                    "ignoreFailures": true$/;"	b	object:configurations.0.setupCommands.1
@@ -213,7 +215,7 @@ make_str	lib/libft/src/ft_itoa.c	/^static void	make_str(long int *n, char *str, 
 make_tab	lib/libft/src/ft_split.c	/^static char	**make_tab(char **ret, char const *s, char sep, unsigned int nb_wd)$/;"	f	typeref:typename:char **	file:
 malloc_len	lib/libft/src/ft_substr.c	/^size_t	malloc_len(char const *s, unsigned int start, size_t len)$/;"	f	typeref:typename:size_t
 minishell	src/main.c	/^void	minishell(void)$/;"	f	typeref:typename:void
-minishell_exit	src/main.c	/^void	minishell_exit(t_list *gc)$/;"	f	typeref:typename:void
+minishell_exit	src/main.c	/^void	minishell_exit(t_list **gc)$/;"	f	typeref:typename:void
 my_env	includes/ft_env.h	/^	char		**my_env;$/;"	m	struct:s_env	typeref:typename:char **
 my_export	includes/ft_env.h	/^	t_export	*my_export;$/;"	m	struct:s_env	typeref:typename:t_export *
 name	.vscode/launch.json	/^            "name": "(gdb) Launch",$/;"	s	object:configurations.0
@@ -243,14 +245,15 @@ s_env	includes/ft_env.h	/^typedef struct s_env$/;"	s
 s_export	includes/ft_env.h	/^typedef struct s_export$/;"	s
 s_list	lib/libft/include/libft.h	/^typedef struct s_list$/;"	s
 s_token	includes/minishell.h	/^typedef struct	s_token$/;"	s
-save_token_op	src/ft_tokens.c	/^char	*save_token_op(t_list *gc, char *cmd, int op, t_token *token)$/;"	f	typeref:typename:char *
+save_token_cmd	src/ft_tokens.c	/^char	*save_token_cmd(t_list **gc, char *cmd, t_token *token)$/;"	f	typeref:typename:char *
+save_token_op	src/ft_tokens.c	/^char	*save_token_op(t_list **gc, char *cmd, int op, t_token *token)$/;"	f	typeref:typename:char *
 setupCommands	.vscode/launch.json	/^            "setupCommands": [$/;"	a	object:configurations.0
 skip_op_and_arg	src/ft_tokens.c	/^char	*skip_op_and_arg(char *str, char op)$/;"	f	typeref:typename:char *
 skip_operand	src/ft_tokens.c	/^char	*skip_operand(char *cmd, char op)$/;"	f	typeref:typename:char *
 sort_export	src/ft_env/init_export_utils.c	/^void	sort_export(t_export **first)$/;"	f	typeref:typename:void
 split_node	src/ft_tree_utils.c	/^void	split_node(t_list *gc, t_btree *root, char *sep)$/;"	f	typeref:typename:void
 stopAtEntry	.vscode/launch.json	/^            "stopAtEntry": false,$/;"	b	object:configurations.0
-strdup_wd_quote	src/ft_tokens.c	/^char	*strdup_wd_quote(t_list *gc, char *cmd)$/;"	f	typeref:typename:char *
+strdup_wd_quote	src/ft_tokens.c	/^char	*strdup_wd_quote(t_list **gc, char *cmd)$/;"	f	typeref:typename:char *
 strlen_wd_quoted	src/ft_tokens.c	/^int	strlen_wd_quoted(char *cmd)$/;"	f	typeref:typename:int
 substitute_var	src/main.c	/^size_t	substitute_var(char *str, t_list *gc)$/;"	f	typeref:typename:size_t
 substr_left	src/ft_parsing.c	/^char	*substr_left(t_list *gc, char *node_content, char *found)$/;"	f	typeref:typename:char *
@@ -266,5 +269,5 @@ t_token	includes/minishell.h	/^}	t_token;$/;"	t	typeref:struct:s_token
 text	.vscode/launch.json	/^                    "text": "-enable-pretty-printing",$/;"	s	object:configurations.0.setupCommands.0
 text	.vscode/launch.json	/^                    "text": "-gdb-set disassembly-flavor intel",$/;"	s	object:configurations.0.setupCommands.1
 token	includes/minishell.h	/^	t_token	token;$/;"	m	struct:btree_content	typeref:typename:t_token
-tokenize_cmd	src/ft_tokens.c	/^t_token	*tokenize_cmd(t_list *gc, char *cmd)$/;"	f	typeref:typename:t_token *
+tokenize_cmd	src/ft_tokens.c	/^t_token	*tokenize_cmd(t_list **gc, char *cmd)$/;"	f	typeref:typename:t_token *
 type	.vscode/launch.json	/^            "type": "cppdbg",$/;"	s	object:configurations.0

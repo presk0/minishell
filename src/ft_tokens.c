@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/04 16:35:12 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/04 18:45:06 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,14 @@ int	strlen_wd_quoted(char *cmd)
 	return (len);
 }
 
-char	*strdup_wd_quote(t_list *gc, char *cmd)
+char	*strdup_wd_quote(t_list **gc, char *cmd)
 {
 	int		wd_len_quoted;
 	char	*duplicated;
 	char	*out;
 
 	wd_len_quoted = strlen_wd_quoted(cmd);
-	duplicated = gc_malloc(&gc, 1, wd_len_quoted + 1);
+	duplicated = gc_malloc(gc, 1, wd_len_quoted + 1);
 	if (!duplicated)
 		return (NULL);
 	out = duplicated;
@@ -87,19 +87,19 @@ char	*skip_op_and_arg(char *str, char op)
 	return (str + strlen_wd_quoted(str));
 }
 
-char	*grep_token(t_list *gc, char op, char *cmd)
+char	*grep_token(t_list **gc, char op, char *cmd)
 {
 	cmd = skip_operand(cmd, op);
 	return (strdup_wd_quote(gc, cmd));
 }
 
 /* creer et fermer les redir out */
-char	*save_token_op(t_list *gc, char *cmd, int op, t_token *token)
+char	*save_token_op(t_list **gc, char *cmd, int op, t_token *token)
 {
 	if (op == REDIR_IN)
 	{
 		if (token->redir_in)
-			gc_free_item(&gc, token->redir_in);
+			gc_free_item(gc, token->redir_in);
 		token->redir_in = grep_token(gc, '<', cmd);
 		token->heredoc = 0;
 		return (skip_op_and_arg(cmd, '<'));
@@ -107,9 +107,9 @@ char	*save_token_op(t_list *gc, char *cmd, int op, t_token *token)
 	if (op == REDIR_OUT)
 	{
 		if (token->redir_out)
-			gc_free_item(&gc, token->redir_out);
+			gc_free_item(gc, token->redir_out);
 		if (token->redir_out)
-			gc_free_item(&gc, token->redir_out);
+			gc_free_item(gc, token->redir_out);
 		token->redir_out = grep_token(gc, '>', cmd);
 		token->append_flag = 0;
 		return (skip_op_and_arg(cmd, '>'));
@@ -123,7 +123,7 @@ char	*save_token_op(t_list *gc, char *cmd, int op, t_token *token)
 	if (op == REDIR_APPEND)
 	{
 		if (token->redir_out)
-			gc_free_item(&gc, token->redir_out);
+			gc_free_item(gc, token->redir_out);
 		token->redir_out = grep_token(gc, '>', cmd);
 		token->append_flag = 1;
 		return (skip_op_and_arg(cmd, '>'));
@@ -160,35 +160,35 @@ int	ft_tablen(char **tab)
 	return (i);
 }
 
-void	append_tab(t_list *gc, char ***tab_addr, char *str)
+void	append_tab(t_list **gc, char ***tab_addr, char *str)
 {
 	size_t	len;
 	char	**tab;
 	char	**new_tab;
 
 	tab = *tab_addr;
-	len = ft_tablen(tab) + 1;
+	len = ft_tablen(tab) + 2;
 	if (!tab)
-		new_tab = gc_malloc(&gc, sizeof(char *), 2);
+		new_tab = gc_malloc(gc, sizeof(char *), 2);
 	else
-		new_tab = gc_malloc(&gc, sizeof(char *), len);
+		new_tab = gc_malloc(gc, sizeof(char *), len);
 	if (!new_tab)
 	{
 		printf("[append_tab]malloc error\n");
 		minishell_exit(gc);
 	}
-	new_tab[len--] = NULL;
-	new_tab[len] = str;
+	new_tab[--len] = NULL;
+	new_tab[len--] = str;
 	if (tab)
 	{
 		while (len--)
 			new_tab[len] = tab[len];
-		gc_free_item(&gc, tab);
+		gc_free_item(gc, tab);
 	}
 	*tab_addr = new_tab;
 }
 
-char	*save_token_cmd(t_list *gc, char *cmd, t_token *token)
+char	*save_token_cmd(t_list **gc, char *cmd, t_token *token)
 {
 	char	*itm;
 
@@ -199,7 +199,7 @@ char	*save_token_cmd(t_list *gc, char *cmd, t_token *token)
 			token->cmd = itm;
 		if (*itm == '\0')
 		{
-			gc_free_item(&gc, itm);
+			gc_free_item(gc, itm);
 			return (++cmd);
 		}
 		else
@@ -208,12 +208,12 @@ char	*save_token_cmd(t_list *gc, char *cmd, t_token *token)
 	return (cmd + strlen_wd_quoted(cmd));
 }
 
-t_token	*tokenize_cmd(t_list *gc, char *cmd)
+t_token	*tokenize_cmd(t_list **gc, char *cmd)
 {
 	t_token *token;
 	int		op;
 
-	token = gc_malloc(&gc, sizeof(t_token), 1);
+	token = gc_malloc(gc, sizeof(t_token), 1);
 	if (!token)
 		return (NULL);
 	is_quoted(0, BUFF_TOK_CMD, RESET);
@@ -221,7 +221,7 @@ t_token	*tokenize_cmd(t_list *gc, char *cmd)
 	{
 		op = is_operand(cmd);
 		if (op == -1)
-			return (gc_free_item(&gc, token), NULL);
+			return (gc_free_item(gc, token), NULL);
 		if (op && !is_quoted(*cmd, BUFF_TOK_CMD, SAVE))
 			cmd = save_token_op(gc, cmd, op, token);
 		else if (!op && !is_quoted(*cmd, BUFF_TOK_CMD, SAVE) && !ft_strchr(WHITE_SPACE, *cmd))

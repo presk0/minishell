@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/03 19:59:21 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/04 17:34:11 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*substr_left(t_list *gc, char *node_content, char *found)
 		if (!gc_append(&gc, ret))
 		{
 			write(2, "[substr_left]\n", 14);
-			minishell_exit(gc);
+			minishell_exit(&gc);
 		}
 	}
 	return (ret);
@@ -52,7 +52,7 @@ char	*substr_right(t_list *gc, char *node_content, char *found)
 		if (!gc_append(&gc, ret))
 		{
 			write(2, "[substr_right]\n", 14);
-			minishell_exit(gc);
+			minishell_exit(&gc);
 		}
 	}
 	return (ret);
