@@ -13,7 +13,7 @@
 #include <minishell.h>
 int open_redirect(char *file, int mode)
 {
-    int fd = open(file, mode);
+    int fd = open(file, mode, 0666);
     if (fd == -1) {
         perror("Redirection failed");
         exit(EXIT_FAILURE);
@@ -29,19 +29,20 @@ void handle_redir_in(t_token *tok)
 
 void handle_redir_out(t_token *tok)
 {
-    int mode = tok->append_flag ? O_CREAT | O_RDWR | O_APPEND : O_CREAT | O_RDWR | O_TRUNC;
+    int mode = tok->append_flag ? O_CREAT | O_WRONLY | O_APPEND : O_CREAT | O_WRONLY;
     if (tok->redir_out)
         dup2(open_redirect(tok->redir_out, mode), STDOUT_FILENO);
 }
 
 void exec_cmd(t_list *gc, t_token *tok, int p[2], char **envp)
 {
-    handle_redir_in(tok);
-    handle_redir_out(tok);
-    if (p) {  // Handle piping if pipe file descriptors are provided
+    if (p)
+	{
         if (p[1] != STDOUT_FILENO) dup2(p[1], STDOUT_FILENO);
         if (p[0] != STDIN_FILENO) dup2(p[0], STDIN_FILENO);
     }
+    handle_redir_in(tok);
+    handle_redir_out(tok);
     execve(tok->cmd, tok->args, envp);
     perror("[exec_cmd] execve failed");
     minishell_exit(gc);
