@@ -24,7 +24,7 @@ OBJS = $(SRCS:.c=.o)
 all: make_libs $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LDFLAGS) $(OBJS) -o $@ $(LDLIBS)
+	$(CC) $(CFLAGS) $(INCLUDES) $(LDFLAGS) $(OBJS) -o $@ $(LDLIBS) $(LFLAGS)
 
 make_libs:
 	for lib in $(LIB_NAMES); do \
