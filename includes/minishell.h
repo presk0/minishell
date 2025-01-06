@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 # include "ft_env.h"
 
 # define PS1 ">"
@@ -78,5 +79,7 @@ char	*save_token_op(t_list *gc, char *cmd, int op, t_token *token);
 void	print_token(t_token	*token);
 t_token	*init_token(t_list *gc);
 t_token	*tokenize_cmd(t_list *gc, char *cmd);
+void handle_sigint(int sig);
+void init_sig(t_list *gc);
 
 #endif

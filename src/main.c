@@ -76,6 +76,7 @@ void	minishell(void)
 	t_list	*gc;
 
 	gc = NULL;
+	init_sig(gc);
 	while (1)
 	{
 		line = readline(PS1);
@@ -86,12 +87,15 @@ void	minishell(void)
 		}
 		if (gc_append(&gc, line))
 		{
-			apply_cmd(line, gc);
+			//apply_cmd(line, gc);
 			add_history(line);
 			gc_free_item(&gc, line);
 		}
 		else
+		{
+			printf("[minishell] did not append to gc");
 			minishell_exit(gc);
+		}
 	}
 	minishell_exit(gc);
 }
@@ -101,14 +105,10 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	(void)env;
-	t_list	*gc = NULL;
+	//t_list	*gc = NULL;
 	//char	*line = ft_strdup(argv[1]);
 
-	//minishell();
-	//apply_cmd(line, NULL);
-	t_token	*token = NULL;
-	token = tokenize_cmd(gc, argv[1]);
-	print_token(token);
-	// return (0);
+	minishell();
+	return (0);
 }
 
