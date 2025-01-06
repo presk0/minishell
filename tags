@@ -4,7 +4,7 @@
 !_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
 !_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
 !_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
-!_TAG_PROC_CWD	/home/nidionis/minishell/	//
+!_TAG_PROC_CWD	/home/presko/minishell/	//
 !_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
@@ -92,9 +92,10 @@ all	Makefile	/^all: make_libs $(NAME)$/;"	t
 all	lib/libft/Makefile	/^all: $(NAME)$/;"	t
 append_flag	includes/minishell.h	/^	int		append_flag;$/;"	m	struct:s_token	typeref:typename:int
 append_line	lib/libft/src/ft_split.c	/^static size_t	append_line(char *str, char sep, char **ret, size_t i_wd)$/;"	f	typeref:typename:size_t	file:
+append_tab	src/ft_tokens.c	/^void	append_tab(t_list *gc, char ***tab_addr, char *str)$/;"	f	typeref:typename:void
 apply_cmd	src/main.c	/^void	apply_cmd(char *line, t_list *gc)$/;"	f	typeref:typename:void
-arg	includes/minishell.h	/^	char	**arg;$/;"	m	struct:s_token	typeref:typename:char **
 args	.vscode/launch.json	/^            "args": ['|'],$/;"	a	object:configurations.0
+args	includes/minishell.h	/^	char	**args;$/;"	m	struct:s_token	typeref:typename:char **
 btree_apply_infix	lib/libbtree/src/ft_btree.c	/^void	btree_apply_infix(\\$/;"	f	typeref:typename:void
 btree_apply_postfix	lib/libbtree/src/ft_btree.c	/^void	btree_apply_postfix(\\$/;"	f	typeref:typename:void
 btree_apply_prefix	lib/libbtree/src/ft_btree.c	/^void	btree_apply_prefix(\\$/;"	f	typeref:typename:void
@@ -119,6 +120,7 @@ description	.vscode/launch.json	/^                    "description": "Set Disass
 display_tree	lib/libbtree/src/display_tree.c	/^void	display_tree(t_btree *root, void (*print)(void *content))$/;"	f	typeref:typename:void
 end_of_word	src/main.c	/^char	*end_of_word(char *str)$/;"	f	typeref:typename:char *
 environment	.vscode/launch.json	/^            "environment": [],$/;"	a	object:configurations.0
+exec_cmd	src/ft_pipes.c	/^void exec_cmd(t_list *gc, t_token *tok, int p[2], char **envp)$/;"	f	typeref:typename:void
 export_new_deminode	src/ft_env/init_export.c	/^t_export	*export_new_deminode(char *content)$/;"	f	typeref:typename:t_export *
 export_new_node	src/ft_env/init_export.c	/^t_export	*export_new_node(char *content)$/;"	f	typeref:typename:t_export *
 externalConsole	.vscode/launch.json	/^            "externalConsole": false,$/;"	b	object:configurations.0
@@ -188,6 +190,7 @@ ft_strnstr_quotes	src/ft_parsing.c	/^char	*ft_strnstr_quotes(const char *str, co
 ft_strrchr	lib/libft/src/ft_strrchr.c	/^char	*ft_strrchr(char *s, int c)$/;"	f	typeref:typename:char *
 ft_strtrim	lib/libft/src/ft_strtrim.c	/^char	*ft_strtrim(char const *str, char const *set)$/;"	f	typeref:typename:char *
 ft_substr	lib/libft/src/ft_substr.c	/^char	*ft_substr(char const *s, unsigned int start, size_t len)$/;"	f	typeref:typename:char *
+ft_tablen	src/ft_tokens.c	/^int	ft_tablen(char **tab)$/;"	f	typeref:typename:int
 ft_tolower	lib/libft/src/ft_tolower.c	/^int	ft_tolower(int c)$/;"	f	typeref:typename:int
 ft_toupper	lib/libft/src/ft_toupper.c	/^int	ft_toupper(int c)$/;"	f	typeref:typename:int
 ft_wd_count	lib/libft/src/ft_split.c	/^static int	ft_wd_count(char *str, char sep)$/;"	f	typeref:typename:int	file:
@@ -196,12 +199,16 @@ gc_free_all	lib/libgc/src/gc.c	/^void	gc_free_all(t_list **gc_addr)$/;"	f	typere
 gc_free_item	lib/libgc/src/gc.c	/^void	gc_free_item(t_list **gc_addr, void *ptr)$/;"	f	typeref:typename:void
 gc_malloc	lib/libgc/src/gc.c	/^void	*gc_malloc(t_list **gc_addr, size_t count, size_t size)$/;"	f	typeref:typename:void *
 grep_token	src/ft_tokens.c	/^char	*grep_token(t_list *gc, char op, char *cmd)$/;"	f	typeref:typename:char *
+handle_redir_in	src/ft_pipes.c	/^void handle_redir_in(t_token *tok)$/;"	f	typeref:typename:void
+handle_redir_out	src/ft_pipes.c	/^void handle_redir_out(t_token *tok)$/;"	f	typeref:typename:void
+handle_sigint	src/ft_signals.c	/^void handle_sigint(int sig)$/;"	f	typeref:typename:void
 heredoc	includes/minishell.h	/^	int		heredoc;$/;"	m	struct:s_token	typeref:typename:int
 ignoreFailures	.vscode/launch.json	/^                    "ignoreFailures": true$/;"	b	object:configurations.0.setupCommands.0
 ignoreFailures	.vscode/launch.json	/^                    "ignoreFailures": true$/;"	b	object:configurations.0.setupCommands.1
 init_env	src/ft_env/init_env.c	/^t_env	*init_env(char *env[])$/;"	f	typeref:typename:t_env *
 init_export	src/ft_env/init_export.c	/^t_export	*init_export(char *env[])$/;"	f	typeref:typename:t_export *
 init_null_env	src/ft_env/init_env.c	/^char	**init_null_env(void)$/;"	f	typeref:typename:char **
+init_sig	src/ft_signals.c	/^void init_sig(t_list *gc)$/;"	f	typeref:typename:void
 is_operand	src/ft_tokens.c	/^int	is_operand(char *cmd)$/;"	f	typeref:typename:int
 is_quoted	src/ft_parsing.c	/^int	is_quoted(char c, int buff, int reset)$/;"	f	typeref:typename:int
 left	lib/libbtree/include/btree.h	/^	struct s_btree		*left;$/;"	m	struct:s_btree	typeref:struct:s_btree *
@@ -222,12 +229,14 @@ new_node	src/ft_tree_utils.c	/^t_btree	*new_node(t_list *gc, t_btree_content *co
 next	includes/ft_env.h	/^	struct s_export	*next;$/;"	m	struct:s_export	typeref:struct:s_export *
 next	lib/libft/include/libft.h	/^	struct s_list	*next;$/;"	m	struct:s_list	typeref:struct:s_list *
 node_is_pipe	src/ft_tree_utils.c	/^int	node_is_pipe(t_btree *node)$/;"	f	typeref:typename:int
+open_redirect	src/ft_pipes.c	/^int open_redirect(char *file, int mode)$/;"	f	typeref:typename:int
 print_env	src/ft_env/print_env.c	/^void	print_env(t_env *local_env)$/;"	f	typeref:typename:void
 print_export	src/ft_env/print_env.c	/^void	print_export(t_env *local_env)$/;"	f	typeref:typename:void
 print_item	lib/libft/src/ft_printf.c	/^static int	print_item(va_list ap, char c)$/;"	f	typeref:typename:int	file:
 print_node_content	src/ft_tree_utils.c	/^void	print_node_content(void *content)$/;"	f	typeref:typename:void
 print_token	src/ft_tokens.c	/^void	print_token(t_token	*token)$/;"	f	typeref:typename:void
 print_tree	lib/libbtree/src/display_tree.c	/^void	print_tree(t_btree *root, int space, void (*print)(void *content))$/;"	f	typeref:typename:void
+process_pipe	src/ft_pipes.c	/^void process_pipe(t_list *gc, t_token *pipe_left, t_token *pipe_right)$/;"	f	typeref:typename:void
 program	.vscode/launch.json	/^            "program": "${workspaceFolder}\/minishell",$/;"	s	object:configurations.0
 putubase	lib/libft/src/ft_printf.c	/^static size_t	putubase(\\$/;"	f	typeref:typename:size_t	file:
 re	Makefile	/^re: fclean all$/;"	t
@@ -243,6 +252,7 @@ s_env	includes/ft_env.h	/^typedef struct s_env$/;"	s
 s_export	includes/ft_env.h	/^typedef struct s_export$/;"	s
 s_list	lib/libft/include/libft.h	/^typedef struct s_list$/;"	s
 s_token	includes/minishell.h	/^typedef struct	s_token$/;"	s
+save_token_cmd	src/ft_tokens.c	/^char	*save_token_cmd(t_list *gc, char *cmd, t_token *token)$/;"	f	typeref:typename:char *
 save_token_op	src/ft_tokens.c	/^char	*save_token_op(t_list *gc, char *cmd, int op, t_token *token)$/;"	f	typeref:typename:char *
 setupCommands	.vscode/launch.json	/^            "setupCommands": [$/;"	a	object:configurations.0
 skip_op_and_arg	src/ft_tokens.c	/^char	*skip_op_and_arg(char *str, char op)$/;"	f	typeref:typename:char *

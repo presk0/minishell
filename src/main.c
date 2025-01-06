@@ -105,10 +105,12 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	(void)env;
-	//t_list	*gc = NULL;
+	t_list	*gc = NULL;
 	//char	*line = ft_strdup(argv[1]);
-
-	minishell();
+	//minishell();
+	t_token *cmd1 = tokenize_cmd(gc, argv[1]);
+	t_token *cmd2 = tokenize_cmd(gc, argv[2]);
+	process_pipe(gc, cmd1, cmd2);
 	return (0);
 }
 

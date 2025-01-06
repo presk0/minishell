@@ -19,6 +19,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <fcntl.h>
+# include <string.h>
+# include <sys/wait.h>
 # include "ft_env.h"
 
 # define PS1 ">"
@@ -81,5 +84,7 @@ t_token	*init_token(t_list *gc);
 t_token	*tokenize_cmd(t_list *gc, char *cmd);
 void handle_sigint(int sig);
 void init_sig(t_list *gc);
+void exec_cmd(t_list *gc, t_token *tok, int p[2], char **envp);
+void process_pipe(t_list *gc, t_token *pipe_left, t_token *pipe_right);
 
 #endif
