@@ -21,8 +21,9 @@ int open_redirect(char *file, int mode)
     return fd;
 }
 
-void handle_redir_in(t_token *tok)
+void handle_redir_in(t_token *tok, int p[2])
 {
+	(void)p;
 	int	redir;
     int mode = O_RDONLY;
 
@@ -30,20 +31,27 @@ void handle_redir_in(t_token *tok)
 	{
 		redir = open_redirect(tok->redir_in, mode);
 		if (redir != -1)
+		{
 			dup2(redir, STDIN_FILENO);
+			close(redir);
+		}
 	}
 }
 
-void handle_redir_out(t_token *tok)
+void handle_redir_out(t_token *tok, int p[2])
 {
 	int	redir;
     int mode = tok->append_flag ? O_CREAT | O_WRONLY | O_APPEND : O_CREAT | O_WRONLY;
+	(void)p;
 
     if (tok->redir_out)
 	{
-		redir = open_redirect(tok->redir_in, mode);
+		redir = open_redirect(tok->redir_out, mode);
 		if (redir != -1)
-			dup2(open_redirect(tok->redir_out, mode), STDOUT_FILENO);
+		{
+			dup2(redir, STDOUT_FILENO);
+			close(redir);
+		}
 	}
 }
 
@@ -57,17 +65,11 @@ int	is_pipe(t_btree *node)
 
 void    exec_cmd(t_list *gc, t_token *tok, int p[2], char **envp)
 {
+	(void)p;
     if (!tok)
         return ;
-    if (p)
-	{
-        if (p[1] != STDOUT_FILENO)
-			dup2(p[1], STDOUT_FILENO);
-        if (p[0] != STDIN_FILENO)
-			dup2(p[0], STDIN_FILENO);
-    }
-    handle_redir_in(tok);
-    handle_redir_out(tok);
+    handle_redir_in(tok, p);
+    handle_redir_out(tok, p);
     execve(tok->cmd, tok->args, envp);
     perror("[exec_cmd] execve failed");
     minishell_exit(gc);
@@ -78,14 +80,6 @@ void    exec_content(t_list *gc, t_btree *node, int p[2], char **envp)
     t_btree_content *content = node->content;
     t_token *tok = tokenize_cmd(gc, content->cmd);
     exec_cmd(gc, tok, p, envp);
-}
-
-void	wait_child(int pipe_fd[2], pid_t pid)
-{
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
-	(void)pipe_fd;
-	waitpid(pid, NULL, 0);
 }
 
 void recursive_parsing(t_list *gc, t_btree *node, char **envp) {
@@ -133,39 +127,3 @@ void recursive_parsing(t_list *gc, t_btree *node, char **envp) {
         waitpid(pid, &status, 0);
     }
 }
-
-/*
-void recursive_parsing(t_list *gc, t_btree *node, char **envp) {
-    int pipe_fd[2];
-    pid_t pid;
-
-    if (!node)
-        return;
-
-    if (is_pipe(node)) {
-        if (pipe(pipe_fd) == -1) {
-            perror("[recursive_parsing] pipe failed");
-            exit(EXIT_FAILURE);
-        }
-        pid = fork();
-        if (pid == -1) {
-            perror("[recursive_parsing] fork failed");
-            exit(EXIT_FAILURE);
-        }
-
-        if (pid == 0) {
-            close(pipe_fd[0]);
-            dup2(pipe_fd[1], STDOUT_FILENO);
-            close(pipe_fd[1]);
-            recursive_parsing(gc, node->left, envp);
-            exit(EXIT_SUCCESS);
-        }
-        close(pipe_fd[1]);
-        dup2(pipe_fd[0], STDIN_FILENO);
-        close(pipe_fd[0]);
-        recursive_parsing(gc, node->right, envp);
-    } else {
-        exec_content(gc, node, envp);
-    }
-}
-*/
