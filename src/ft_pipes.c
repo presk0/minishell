@@ -38,8 +38,10 @@ void exec_cmd(t_list *gc, t_token *tok, int p[2], char **envp)
 {
     if (p)
 	{
-        if (p[1] != STDOUT_FILENO) dup2(p[1], STDOUT_FILENO);
-        if (p[0] != STDIN_FILENO) dup2(p[0], STDIN_FILENO);
+        if (p[1] != STDOUT_FILENO)
+			dup2(p[1], STDOUT_FILENO);
+        if (p[0] != STDIN_FILENO)
+			dup2(p[0], STDIN_FILENO);
     }
     handle_redir_in(tok);
     handle_redir_out(tok);
@@ -48,28 +50,40 @@ void exec_cmd(t_list *gc, t_token *tok, int p[2], char **envp)
     minishell_exit(gc);
 }
 
-void process_pipe(t_list *gc, t_token *pipe_left, t_token *pipe_right)
+void	wait_child(int pipe_fd[2], pid_t pid1, pid_t pid2)
+{
+	close(pipe_fd[0]);
+	close(pipe_fd[1]);
+	waitpid(pid1, NULL, 0);
+	waitpid(pid2, NULL, 0);
+}
+
+void	process_pipe(t_list *gc, t_token *pipe_left, t_token *pipe_right)
 {
     int pipe_fd[2];
-    if (pipe(pipe_fd) == -1) {
-        perror("pipe failed");
-        exit(EXIT_FAILURE);
-    }
+	pid_t	pid1;
+	pid_t	pid2;
 
-    pid_t pid1 = fork();
-    if (pid1 == 0) {
+    if (pipe(pipe_fd) == -1)
+	{
+        perror("[process_pipe] pipe failed");
+        minishell_exit(gc);
+    }
+    pid1 = fork();
+    if (pid1 == 0)
+	{
         close(pipe_fd[0]);
         exec_cmd(gc, pipe_left, pipe_fd, NULL);
-    } else {
-        pid_t pid2 = fork();
-        if (pid2 == 0) {
+    }
+	else
+	{
+        pid2 = fork();
+        if (pid2 == 0)
+		{
             close(pipe_fd[1]);
             exec_cmd(gc, pipe_right, pipe_fd, NULL);
-        } else {
-            close(pipe_fd[0]);
-            close(pipe_fd[1]);
-            waitpid(pid1, NULL, 0);
-            waitpid(pid2, NULL, 0);
         }
-    }
+		else
+			wait_child(pipe_fd, pid1, pid2);
+	}
 }
