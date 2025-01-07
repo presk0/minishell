@@ -31,6 +31,9 @@
 # define TOKEN_HEREDOC 3
 # define TOKEN_APPEND 4
 
+# define LEFT 0
+# define RIGHT 1
+
 # define BUFF_QUOTE_MAX 10
 # define BUFF_TOK_CMD 0
 # define BUFF_STRLEN 1
@@ -70,7 +73,7 @@ void	print_node_content(void *content);
 void	minishell_exit(t_list *gc);
 char	*end_of_word(char *str);
 size_t	substitute_var(char *str, t_list *gc);
-void	apply_cmd(char *line, t_list *gc);
+void	apply_cmd(t_list *gc, char *line);
 void	minishell(void);
 t_btree_content	*new_content(t_list *gc);
 t_btree	*new_node(t_list *gc, t_btree_content *content);
@@ -85,6 +88,7 @@ t_token	*tokenize_cmd(t_list *gc, char *cmd);
 void handle_sigint(int sig);
 void init_sig(t_list *gc);
 void exec_cmd(t_list *gc, t_token *tok, int p[2], char **envp);
-void process_pipe(t_list *gc, t_token *pipe_left, t_token *pipe_right);
+void	process_pipe(t_list *gc, t_token *cmd);
+void recursive_parsing(t_list *gc, t_btree *node, char **envp);
 
 #endif
