@@ -15,7 +15,7 @@ int open_redirect(char *file, int mode)
 {
     int fd = open(file, mode, 0666);
     if (fd == -1) {
-        perror("Redirection failed");
+        perror("[open_redirect] Redirection failed");
         return (-1);
     }
     return fd;
@@ -78,7 +78,8 @@ void    exec_cmd(t_list *gc, t_token *tok, int p[2], char **envp)
 void    exec_content(t_list *gc, t_btree *node, int p[2], char **envp)
 {
     t_btree_content *content = node->content;
-    t_token *tok = tokenize_cmd(gc, content->cmd);
+    t_token *tok = &(content->token);
+    tokenize_cmd(gc, content->cmd, tok);
     exec_cmd(gc, tok, p, envp);
 }
 
