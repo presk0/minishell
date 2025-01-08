@@ -213,13 +213,14 @@ void    exec_tree(t_list *gc, t_btree *cmd_tree, char **envp)
     }
     if (pid == 0) {
         sep = ft_strdup("|");
+        gc_append(&gc, sep);
 		btree_split(gc, cmd_tree, sep);
 		if (!check_childs(gc, cmd_tree)) 
 			return ;
 		rec_tokenization(gc, cmd_tree, NULL);
         rec_exec(gc, cmd_tree, envp);
 		gc_free_tree(&gc, &cmd_tree, gc_free_node_content);
-        free(sep);
+        gc_free_item(&gc, sep);
         exit(0);
     }
     waitpid(pid, &status, 0);
