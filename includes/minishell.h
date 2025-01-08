@@ -22,6 +22,7 @@
 # include <fcntl.h>
 # include <string.h>
 # include <sys/wait.h>
+# include <sys/wait.h>
 # include "ft_env.h"
 
 # define PS1 ">"
@@ -62,6 +63,13 @@ typedef struct btree_content
 	t_token	token;
 }	t_btree_content;
 
+typedef struct s_data
+{
+	t_list	*gc;
+	t_btree	*tree;
+	t_env	*env;
+}	t_data;
+
 char	*substr_left(t_list *gc, char *node_content, char *found);
 char	*substr_right(t_list *gc, char *node_content, char *found);
 int		is_quoted(char c, int buff, int reset);
@@ -84,7 +92,7 @@ int	strlen_wd_quoted(char *cmd);
 char	*save_token_op(t_list *gc, char *cmd, int op, t_token *token);
 void	print_token(t_token	*token);
 t_token	*init_token(t_list *gc);
-t_token	*tokenize_cmd(t_list *gc, char *cmd);
+t_token	*tokenize_cmd(t_list *gc, char *cmd, t_token *token);
 void handle_sigint(int sig);
 void init_sig(t_list *gc);
 void exec_cmd(t_list *gc, t_token *tok, int p[2], char **envp);

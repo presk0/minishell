@@ -121,6 +121,7 @@ description	.vscode/launch.json	/^                    "description": "Enable pre
 description	.vscode/launch.json	/^                    "description": "Set Disassembly Flavor to Intel",$/;"	s	object:configurations.0.setupCommands.1
 display_tree	lib/libbtree/src/display_tree.c	/^void	display_tree(t_btree *root, void (*print)(void *content))$/;"	f	typeref:typename:void
 end_of_word	src/main.c	/^char	*end_of_word(char *str)$/;"	f	typeref:typename:char *
+env	includes/minishell.h	/^	t_env	*env;$/;"	m	struct:s_data	typeref:typename:t_env *
 environment	.vscode/launch.json	/^            "environment": [],$/;"	a	object:configurations.0
 exec_cmd	src/ft_pipes.c	/^void    exec_cmd(t_list *gc, t_token *tok, int p[2], char **envp)$/;"	f	typeref:typename:void
 exec_content	src/ft_pipes.c	/^void    exec_content(t_list *gc, t_btree *node, int p[2], char **envp)$/;"	f	typeref:typename:void
@@ -197,13 +198,14 @@ ft_tablen	src/ft_tokens.c	/^int	ft_tablen(char **tab)$/;"	f	typeref:typename:int
 ft_tolower	lib/libft/src/ft_tolower.c	/^int	ft_tolower(int c)$/;"	f	typeref:typename:int
 ft_toupper	lib/libft/src/ft_toupper.c	/^int	ft_toupper(int c)$/;"	f	typeref:typename:int
 ft_wd_count	lib/libft/src/ft_split.c	/^static int	ft_wd_count(char *str, char sep)$/;"	f	typeref:typename:int	file:
+gc	includes/minishell.h	/^	t_list	*gc;$/;"	m	struct:s_data	typeref:typename:t_list *
 gc_append	lib/libgc/src/gc.c	/^void	*gc_append(t_list **gc_addr, void *ptr)$/;"	f	typeref:typename:void *
 gc_free_all	lib/libgc/src/gc.c	/^void	gc_free_all(t_list **gc_addr)$/;"	f	typeref:typename:void
 gc_free_item	lib/libgc/src/gc.c	/^void	gc_free_item(t_list **gc_addr, void *ptr)$/;"	f	typeref:typename:void
 gc_malloc	lib/libgc/src/gc.c	/^void	*gc_malloc(t_list **gc_addr, size_t count, size_t size)$/;"	f	typeref:typename:void *
 grep_token	src/ft_tokens.c	/^char	*grep_token(t_list *gc, char op, char *cmd)$/;"	f	typeref:typename:char *
-handle_redir_in	src/ft_pipes.c	/^void handle_redir_in(t_token *tok)$/;"	f	typeref:typename:void
-handle_redir_out	src/ft_pipes.c	/^void handle_redir_out(t_token *tok)$/;"	f	typeref:typename:void
+handle_redir_in	src/ft_pipes.c	/^void handle_redir_in(t_token *tok, int p[2])$/;"	f	typeref:typename:void
+handle_redir_out	src/ft_pipes.c	/^void handle_redir_out(t_token *tok, int p[2])$/;"	f	typeref:typename:void
 handle_sigint	src/ft_signals.c	/^void handle_sigint(int sig)$/;"	f	typeref:typename:void
 heredoc	includes/minishell.h	/^	int		heredoc;$/;"	m	struct:s_token	typeref:typename:int
 ignoreFailures	.vscode/launch.json	/^                    "ignoreFailures": true$/;"	b	object:configurations.0.setupCommands.0
@@ -252,6 +254,7 @@ redir_out	includes/minishell.h	/^	char	*redir_out;$/;"	m	struct:s_token	typeref:
 request	.vscode/launch.json	/^            "request": "launch",$/;"	s	object:configurations.0
 right	lib/libbtree/include/btree.h	/^	struct s_btree		*right;$/;"	m	struct:s_btree	typeref:struct:s_btree *
 s_btree	lib/libbtree/include/btree.h	/^typedef struct s_btree$/;"	s
+s_data	includes/minishell.h	/^typedef struct s_data$/;"	s
 s_env	includes/ft_env.h	/^typedef struct s_env$/;"	s
 s_export	includes/ft_env.h	/^typedef struct s_export$/;"	s
 s_list	lib/libft/include/libft.h	/^typedef struct s_list$/;"	s
@@ -273,6 +276,7 @@ swap_first	src/ft_env/init_export_utils.c	/^void	swap_first(t_export **first)$/;
 swap_next	src/ft_env/init_export_utils.c	/^void	swap_next(t_export *first)$/;"	f	typeref:typename:void
 t_btree	lib/libbtree/include/btree.h	/^}	t_btree;$/;"	t	typeref:struct:s_btree
 t_btree_content	includes/minishell.h	/^}	t_btree_content;$/;"	t	typeref:struct:btree_content
+t_data	includes/minishell.h	/^}	t_data;$/;"	t	typeref:struct:s_data
 t_env	includes/ft_env.h	/^}	t_env;$/;"	t	typeref:struct:s_env
 t_export	includes/ft_env.h	/^}	t_export;$/;"	t	typeref:struct:s_export
 t_list	lib/libft/include/libft.h	/^}	t_list;$/;"	t	typeref:struct:s_list
@@ -281,5 +285,5 @@ text	.vscode/launch.json	/^                    "text": "-enable-pretty-printing"
 text	.vscode/launch.json	/^                    "text": "-gdb-set disassembly-flavor intel",$/;"	s	object:configurations.0.setupCommands.1
 token	includes/minishell.h	/^	t_token	token;$/;"	m	struct:btree_content	typeref:typename:t_token
 tokenize_cmd	src/ft_tokens.c	/^t_token	*tokenize_cmd(t_list *gc, char *cmd)$/;"	f	typeref:typename:t_token *
+tree	includes/minishell.h	/^	t_btree	*tree;$/;"	m	struct:s_data	typeref:typename:t_btree *
 type	.vscode/launch.json	/^            "type": "cppdbg",$/;"	s	object:configurations.0
-wait_child	src/ft_pipes.c	/^void	wait_child(int pipe_fd[2], pid_t pid)$/;"	f	typeref:typename:void
