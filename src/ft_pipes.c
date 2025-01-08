@@ -79,52 +79,78 @@ void    exec_content(t_list *gc, t_btree *node, int p[2], char **envp)
 {
     t_btree_content *content = node->content;
     t_token *tok = &(content->token);
-    tokenize_cmd(gc, content->cmd, tok);
+    //tokenize_cmd(gc, content->cmd, tok);
     exec_cmd(gc, tok, p, envp);
 }
 
-void recursive_parsing(t_list *gc, t_btree *node, char **envp) {
+void    tokenize_content(t_list *gc, t_btree *node, char **envp)
+{
+    (void)envp;
+    t_btree_content *content = node->content;
+    t_token *tok = &(content->token);
+    tokenize_cmd(gc, content->cmd, tok);
+}
+
+void rec_exec(t_list *gc, t_btree *node, char **envp) {
     int pipe_fd[2];
     pid_t pid;
     int status;
 
     if (!check_childs(gc, node) || !node)
         return;
-    if (is_pipe(node)) {
-        if (pipe(pipe_fd) == -1) {
-            perror("[recursive_parsing] pipe failed");
+    if (is_pipe(node))
+    {
+        if (pipe(pipe_fd) == -1)
+        {
+            perror("[rec_exec] pipe failed");
             minishell_exit(gc);
         }
-
         pid = fork();
-        if (pid == -1) {
-            perror("[recursive_parsing] fork failed");
+        if (pid == -1)
+        {
+            perror("[rec_exec] fork failed");
             minishell_exit(gc);
         }
-
-        if (pid == 0) {
-            close(pipe_fd[0]);                     // Ferme la lecture du pipe
-            dup2(pipe_fd[1], STDOUT_FILENO);       // Redirige stdout vers le pipe
-            close(pipe_fd[1]);                     // Ferme après duplication
-            recursive_parsing(gc, node->left, envp);   // Continue le traitement
+        if (pid == 0)
+        {
+            close(pipe_fd[0]);
+            dup2(pipe_fd[1], STDOUT_FILENO);
+            close(pipe_fd[1]);
+            rec_exec(gc, node->left, envp);
             minishell_exit(gc);
         }
-
-        close(pipe_fd[1]);                         // Ferme l'écriture du pipe
-        dup2(pipe_fd[0], STDIN_FILENO);            // Redirige stdin depuis le pipe
-        close(pipe_fd[0]);                         // Ferme après duplication
-        waitpid(pid, &status, 0);                  // Attend la fin du sous-arbre gauche
-        recursive_parsing(gc, node->right, envp);      // Continue le traitement
-    } else {
+        close(pipe_fd[1]);
+        dup2(pipe_fd[0], STDIN_FILENO);
+        close(pipe_fd[0]);
+        waitpid(pid, &status, 0);
+        rec_exec(gc, node->right, envp);
+    }
+    else
+    {
         pid = fork();
-        if (pid == -1) {
-            perror("[recursive_parsing] fork failed");
+        if (pid == -1)
+        {
+            perror("[rec_exec] fork failed");
             minishell_exit(gc);
         }
 
-        if (pid == 0) {
+        if (pid == 0)
+        {
             exec_content(gc, node, pipe_fd, envp);
         }
         waitpid(pid, &status, 0);
     }
+}
+
+void rec_tokenization(t_list *gc, t_btree *node, char **envp)
+{
+    if (!node)
+        return;
+    if (is_pipe(node))
+    {
+        rec_tokenization(gc, node->left, envp);   // Continue le traitement
+        rec_tokenization(gc, node->right, envp);      // Continue le traitement
+    }
+    else
+        tokenize_content(gc, node, envp);
 }

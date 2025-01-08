@@ -64,7 +64,10 @@ void	apply_cmd(t_list *gc, char *line)
 	{
 		ft_strlcpy(sep, "|", 2);
 		btree_split(gc, cmd_tree, sep);
-		recursive_parsing(gc, cmd_tree, NULL);
+		if (!check_childs(gc, cmd_tree)) 
+			return ;
+		rec_tokenization(gc, cmd_tree, NULL);
+		rec_exec(gc, cmd_tree, NULL);
 		gc_free_tree(&gc, &cmd_tree, gc_free_node_content);
 		gc_free_item(&gc, sep);
 	}
@@ -84,7 +87,7 @@ void	minishell(void)
 		line = readline(PS1);
 		if (line == NULL)
 		{
-			printf("exit\n");
+			printf("pouet\n");
 			break ;
 		}
 		if (gc_append(&gc, line))
