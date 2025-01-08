@@ -95,7 +95,6 @@ t_token	*init_token(t_list *gc);
 t_token	*tokenize_cmd(t_list *gc, char *cmd, t_token *token);
 void handle_sigint(int sig);
 void init_sig(t_list *gc);
-void exec_cmd(t_list *gc, t_token *tok, int p[2], char **envp);
 void	process_pipe(t_list *gc, t_token *cmd);
 //void recursive_parsing(t_list *gc, t_btree *node, char **envp);
 void rec_exec(t_list *gc, t_btree *node, char **envp);
@@ -103,5 +102,7 @@ void rec_tokenization(t_list *gc, t_btree *node, char **envp);
 int	is_pipe(t_btree *node);
 void gc_free_node_content(t_list **gc, void *content);
 void gc_free_tree(t_list **gc, t_btree **r, void (*f_free)(t_list **gc, void *content));
+void    exec_cmd(t_list *gc, t_token *tok, char **envp);
+void    exec_tree(t_list *gc, t_btree *root, char **envp);
 
 #endif

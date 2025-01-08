@@ -210,10 +210,8 @@ char	*save_token_cmd(t_list *gc, char *cmd, t_token *token)
 
 t_token	*tokenize_cmd(t_list *gc, char *cmd, t_token *token)
 {
-	//t_token *token;
 	int		op;
 
-	//token = gc_malloc(&gc, sizeof(t_token), 1);
 	if (!token)
 		return (NULL);
 	is_quoted(0, BUFF_TOK_CMD, RESET);

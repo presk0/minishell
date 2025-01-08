@@ -50,7 +50,6 @@ void	apply_cmd(t_list *gc, char *line)
 {
 	t_btree			*cmd_tree;
 	t_btree_content	*content;
-	char			*sep;
 
 	(void)cmd_tree;
 	content = gc_malloc(&gc, 1, sizeof(t_btree_content));
@@ -59,20 +58,7 @@ void	apply_cmd(t_list *gc, char *line)
 	content->cmd = ft_strdup(line);
 	gc_append(&gc, content->cmd);
 	cmd_tree = new_node(gc, content);
-	sep = gc_malloc(&gc, 1, 2);
-	if (sep)
-	{
-		ft_strlcpy(sep, "|", 2);
-		btree_split(gc, cmd_tree, sep);
-		if (!check_childs(gc, cmd_tree)) 
-			return ;
-		rec_tokenization(gc, cmd_tree, NULL);
-		rec_exec(gc, cmd_tree, NULL);
-		gc_free_tree(&gc, &cmd_tree, gc_free_node_content);
-		gc_free_item(&gc, sep);
-	}
-	else
-		minishell_exit(gc);
+	exec_tree(gc, cmd_tree, NULL);
 }
 
 void	minishell(void)
@@ -87,7 +73,7 @@ void	minishell(void)
 		line = readline(PS1);
 		if (line == NULL)
 		{
-			printf("pouet\n");
+			printf("exit\n");
 			break ;
 		}
 		if (gc_append(&gc, line))
