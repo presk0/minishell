@@ -27,36 +27,6 @@ char	*end_of_word(char *str)
 	return (str);
 }
 
-void	minishell(void)
-{
-	char	*line;
-	t_list	*gc;
-
-	gc = NULL;
-	init_sig(gc);
-	while (1)
-	{
-		line = readline(PS1);
-		if (line == NULL)
-		{
-			printf("Error reading input or EOF encountered.\n");
-			return ;
-		}
-		if (gc_append(&gc, line))
-		{
-			//apply_cmd(line, gc);
-			add_history(line);
-			gc_free_item(&gc, line);
-		}
-		else
-		{
-			printf("[minishell] did not append to gc");
-			minishell_exit(gc);
-		}
-	}
-	minishell_exit(gc);
-}
-
 /*
 size_t	substitute_var(char *str, t_list *gc)
 {
@@ -86,13 +56,13 @@ void	apply_cmd(t_list *gc, char *line)
 	content = gc_malloc(&gc, 1, sizeof(t_btree_content));
 	if (!content)
 		minishell_exit(gc);
-	content->cmd = line;
+	content->cmd = ft_strdup(line);
+	gc_append(&gc, content->cmd);
 	cmd_tree = new_node(gc, content);
 	sep = gc_malloc(&gc, 1, 2);
 	if (sep)
 	{
-		sep[0] = '|';
-		sep[1] = '\0';
+		ft_strlcpy(sep, "|", 2);
 		btree_split(gc, cmd_tree, sep);
 		recursive_parsing(gc, cmd_tree, NULL);
 		gc_free_tree(&gc, &cmd_tree, gc_free_node_content);
@@ -102,15 +72,45 @@ void	apply_cmd(t_list *gc, char *line)
 		minishell_exit(gc);
 }
 
+void	minishell(void)
+{
+	char	*line;
+	t_list	*gc;
+
+	gc = NULL;
+	init_sig(gc);
+	while (1)
+	{
+		line = readline(PS1);
+		if (line == NULL)
+		{
+			printf("exit\n");
+			break ;
+		}
+		if (gc_append(&gc, line))
+		{
+			apply_cmd(gc, line);
+			add_history(line);
+		}
+		else
+		{
+			printf("[minishell] did not append to gc");
+			minishell_exit(gc);
+		}
+	}
+	minishell_exit(gc);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	(void)argc;
 	(void)argv;
 	(void)env;
-	t_list	*gc = NULL;
-	char	*line = ft_strdup(argv[1]);
-	gc_append(&gc, line);
-	apply_cmd(gc, line);
-	minishell_exit(gc);
+	//t_list	*gc = NULL;
+	//char	*line = ft_strdup(argv[1]);
+	//gc_append(&gc, line);
+	//apply_cmd(gc, line);
+	//minishell_exit(gc);
+	minishell();
 	return (0);
 }

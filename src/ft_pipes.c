@@ -41,7 +41,7 @@ void handle_redir_in(t_token *tok, int p[2])
 void handle_redir_out(t_token *tok, int p[2])
 {
 	int	redir;
-    int mode = tok->append_flag ? O_CREAT | O_WRONLY | O_APPEND : O_CREAT | O_WRONLY;
+    int mode = tok->append_flag ? O_CREAT | O_WRONLY | O_APPEND : O_CREAT | O_WRONLY | O_TRUNC;
 	(void)p;
 
     if (tok->redir_out)
