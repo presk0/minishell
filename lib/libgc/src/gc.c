@@ -76,25 +76,68 @@ void	*gc_malloc(t_list **gc_addr, size_t count, size_t size)
 	return (ptr);
 }
 
-void	gc_free_item(t_list **gc_addr, void *ptr)
-{
-	t_list	*gc;
-	t_list	*prev;
 
-	gc = *gc_addr;
-	prev = NULL;
-	while (gc)
-	{
-		if (gc->content == ptr)
-		{
-			if (prev)
-				prev->next = gc->next;
-			else
-				*gc_addr = gc->next;
-			ft_lstdelone(gc, free);
-			break ;
-		}
-		prev = gc;
-		gc = gc->next;
-	}
+// void	gc_free_item(t_list **gc_addr, void *ptr)
+// {
+// 	t_list	*gc;
+// 	t_list	*prev;
+
+// 	if (!gc_addr || !*gc_addr)
+// 		return;
+
+// 	gc = *gc_addr;
+// 	prev = NULL;
+// 	while (gc)
+// 	{
+// 		if (gc->content == ptr)
+// 		{
+// 			if (prev)
+// 				prev->next = gc->next;
+// 			else
+// 				*gc_addr = gc->next;
+// 			ft_lstdelone(gc, free);
+// 			break;
+// 		}
+// 		prev = gc;
+// 		gc = gc->next;
+// 	}
+// }
+
+void gc_free_item(t_list **gc_addr, void *ptr)
+{
+    t_list *gc;
+    t_list *prev;
+
+    if (!gc_addr || !*gc_addr)
+        return;
+
+    gc = *gc_addr;
+    prev = NULL;
+
+    while (gc)
+    {
+        if (gc->content == ptr)
+        {
+            if (prev)
+                prev->next = gc->next;
+            else
+                *gc_addr = gc->next;
+
+            ft_lstdelone(gc, free);
+            return ;
+        }
+        prev = gc;
+        gc = gc->next;
+    }
+}
+
+
+void print_gc(t_list *gc)
+{
+    printf("Garbage Collector List:\n");
+    while (gc)
+    {
+        printf("  Node: %p, Content: %p\n", gc, gc->content);
+        gc = gc->next;
+    }
 }

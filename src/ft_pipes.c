@@ -88,18 +88,18 @@ void recursive_parsing(t_list *gc, t_btree *node, char **envp) {
     pid_t pid;
     int status;
 
-    if (!node)
+    if (!check_childs(gc, node) || !node)
         return;
     if (is_pipe(node)) {
         if (pipe(pipe_fd) == -1) {
             perror("[recursive_parsing] pipe failed");
-            exit(EXIT_FAILURE);
+            minishell_exit(gc);
         }
 
         pid = fork();
         if (pid == -1) {
             perror("[recursive_parsing] fork failed");
-            exit(EXIT_FAILURE);
+            minishell_exit(gc);
         }
 
         if (pid == 0) {
@@ -107,7 +107,7 @@ void recursive_parsing(t_list *gc, t_btree *node, char **envp) {
             dup2(pipe_fd[1], STDOUT_FILENO);       // Redirige stdout vers le pipe
             close(pipe_fd[1]);                     // Ferme après duplication
             recursive_parsing(gc, node->left, envp);   // Continue le traitement
-            exit(EXIT_SUCCESS);                    // Terminaison propre
+            minishell_exit(gc);
         }
 
         close(pipe_fd[1]);                         // Ferme l'écriture du pipe
@@ -119,7 +119,7 @@ void recursive_parsing(t_list *gc, t_btree *node, char **envp) {
         pid = fork();
         if (pid == -1) {
             perror("[recursive_parsing] fork failed");
-            exit(EXIT_FAILURE);
+            minishell_exit(gc);
         }
 
         if (pid == 0) {

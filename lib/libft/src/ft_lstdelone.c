@@ -18,9 +18,10 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *))
 	{
 		if (lst->content)
 			del(lst->content);
+		lst->content = NULL;
 		lst->next = NULL;
 		free(lst);
-		lst = NULL;
+		//lst = NULL;
 	}
 	if (!del)
 		ft_errmsg("[ft_lstdelone] missing del function?\n");
