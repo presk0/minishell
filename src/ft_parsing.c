@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_parsing.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/03 19:59:21 by nidionis         ###   ########.fr       */
-/*                                                                            */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   ft_parsing.c									   :+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: nidionis <nidionis@student.42.fr>		  +#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2024/09/04 16:20:59 by nidionis		  #+#	#+#			 */
+/*   Updated: 2025/01/03 19:59:21 by nidionis		 ###   ########.fr	   */
+/*																			*/
 /* ************************************************************************** */
 
 #include "minishell.h"
@@ -60,40 +60,40 @@ char	*substr_right(t_list *gc, char *node_content, char *found)
 
 void   split_node(t_list *gc, t_btree *root, char *sep)
 {
-       char                    *str;
-       char                    *sep_found;
-       t_btree_content *content;
+	   char					*str;
+	   char					*sep_found;
+	   t_btree_content *content;
 
-       if (root->left || root->right)
-               return ;
-       content = root->content;
-       str = content->cmd;
-       sep_found = ft_strnstr_quotes(str, sep, ft_strlen(str));
-       if (sep_found)
-       {
-               content = new_content(gc);
-               content->cmd = substr_left(gc, str, sep_found);
-               if (content->cmd)
-                       root->left = new_node(gc, content);
-               content = new_content(gc);
-               content->cmd = substr_right(gc, str, sep_found);
-               if (content->cmd)
-                       root->right = new_node(gc, content);
-               content = root->content;
-               content->cmd = sep_found;
-       //      content->token.brut = sep;
-               root->content = content;
-       }
+	   if (root->left || root->right)
+			   return ;
+	   content = root->content;
+	   str = content->cmd;
+	   sep_found = ft_strnstr_quotes(str, sep, ft_strlen(str));
+	   if (sep_found)
+	   {
+			   content = new_content(gc);
+			   content->cmd = substr_left(gc, str, sep_found);
+			   if (content->cmd)
+					   root->left = new_node(gc, content);
+			   content = new_content(gc);
+			   content->cmd = substr_right(gc, str, sep_found);
+			   if (content->cmd)
+					   root->right = new_node(gc, content);
+			   content = root->content;
+			   content->cmd = sep_found;
+	   //	  content->token.brut = sep;
+			   root->content = content;
+	   }
 }
 
 
 void   btree_split(t_list *gc, t_btree *root, char *sep)
 {
-       if (!root)
-               return ;
-       split_node(gc, root, sep);
-       if (root->left)
-               btree_split(gc, root->left, sep);
-       if (root->right)
-               btree_split(gc, root->right, sep);
+	   if (!root)
+			   return ;
+	   split_node(gc, root, sep);
+	   if (root->left)
+			   btree_split(gc, root->left, sep);
+	   if (root->right)
+			   btree_split(gc, root->right, sep);
 }

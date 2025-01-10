@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/04 15:50:37 by nidionis         ###   ########.fr       */
-/*                                                                            */
+/*																			*/
+/*														:::	  ::::::::   */
+/*   minishell.h										:+:	  :+:	:+:   */
+/*													+:+ +:+		 +:+	 */
+/*   By: nidionis <nidionis@student.42.fr>		  +#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+		   */
+/*   Created: 2024/12/17 16:26:37 by nkieffer		  #+#	#+#			 */
+/*   Updated: 2025/01/04 15:50:37 by nidionis		 ###   ########.fr	   */
+/*																			*/
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
@@ -102,8 +102,8 @@ void rec_tokenization(t_list *gc, t_btree *node, char **envp);
 int	is_pipe(t_btree *node);
 void gc_free_node_content(t_list **gc, void *content);
 void gc_free_tree(t_list **gc, t_btree **r, void (*f_free)(t_list **gc, void *content));
-void    exec_cmd(t_list *gc, t_token *tok, char **envp);
-void    exec_forking(t_list *gc, t_btree *root, char **envp);
+void	exec_cmd(t_list *gc, t_token *tok, char **envp);
+void	exec_forking(t_list *gc, t_btree *root, char **envp);
 int open_redirect(char *file, int mode);
 void handle_redir_in(t_token *tok);
 void handle_redir_out(t_token *tok);
