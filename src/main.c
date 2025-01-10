@@ -46,20 +46,6 @@ size_t	substitute_var(char *str, t_list *gc)
 }
 */
 
-void	apply_cmd(t_list *gc, char *line)
-{
-	t_btree			*cmd_tree;
-	t_btree_content	*content;
-
-	(void)cmd_tree;
-	content = gc_malloc(&gc, 1, sizeof(t_btree_content));
-	if (!content)
-		minishell_exit(gc);
-	content->cmd = ft_strdup(line);
-	gc_append(&gc, content->cmd);
-	cmd_tree = new_node(gc, content);
-	exec_tree(gc, cmd_tree, NULL);
-}
 
 void	minishell(void)
 {

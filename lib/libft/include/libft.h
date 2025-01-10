@@ -74,6 +74,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
 int		ft_printf(const char *str, ...);
+int		ft_tablen(char **tab);
 
 /* really useless fonction, dusefull for ft_printf only */
 void	loop_norminette(char **str_addr, va_list ap, int *p_itm, int *ret_val);

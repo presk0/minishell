@@ -58,47 +58,42 @@ char	*substr_right(t_list *gc, char *node_content, char *found)
 	return (ret);
 }
 
-int	is_quoted(char c, int buff, int reset)
+void   split_node(t_list *gc, t_btree *root, char *sep)
 {
-	static int	quote[BUFF_QUOTE_MAX];
+       char                    *str;
+       char                    *sep_found;
+       t_btree_content *content;
 
-	if (reset == RESET)
-		quote[buff] = 0;
-	if (c == '\'')
-	{
-		if (quote[buff] == 1 || !quote[buff])
-			quote[buff] = !quote[buff];
-	}
-	if (c == '"')
-	{
-		if (quote[buff] == 2)
-			quote[buff] = 0;
-		if (quote[buff] == 0)
-			quote[buff] = 2;
-	}
-	return (quote[buff]);
+       if (root->left || root->right)
+               return ;
+       content = root->content;
+       str = content->cmd;
+       sep_found = ft_strnstr_quotes(str, sep, ft_strlen(str));
+       if (sep_found)
+       {
+               content = new_content(gc);
+               content->cmd = substr_left(gc, str, sep_found);
+               if (content->cmd)
+                       root->left = new_node(gc, content);
+               content = new_content(gc);
+               content->cmd = substr_right(gc, str, sep_found);
+               if (content->cmd)
+                       root->right = new_node(gc, content);
+               content = root->content;
+               content->cmd = sep_found;
+       //      content->token.brut = sep;
+               root->content = content;
+       }
 }
 
-char	*ft_strnstr_quotes(const char *str, const char *ndl, size_t len)
-{
-	char		*p_str;
-	size_t		ndl_len;
 
-	if (!str || !ndl)
-		return (NULL);
-	p_str = (char *)str;
-	ndl_len = ft_strlen(ndl);
-	is_quoted(0, BUFF_STRNSTR, RESET);
-	if (len >= ndl_len)
-	{
-		while (*p_str && len-- && len + 1 >= ndl_len)
-		{
-			if (!is_quoted(*p_str, BUFF_STRNSTR, SAVE) && !ft_strncmp(p_str, ndl, ndl_len))
-				return (p_str);
-			p_str++;
-		}
-	}
-	if (!*ndl)
-		return (p_str);
-	return (NULL);
+void   btree_split(t_list *gc, t_btree *root, char *sep)
+{
+       if (!root)
+               return ;
+       split_node(gc, root, sep);
+       if (root->left)
+               btree_split(gc, root->left, sep);
+       if (root->right)
+               btree_split(gc, root->right, sep);
 }
