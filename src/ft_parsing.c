@@ -71,28 +71,28 @@ char	*substr_right(t_list *gc, char *node_content, char *found)
 
 void   split_node(t_list *gc, t_btree *root, char *sep)
 {
-	   char					*str;
+	   char					*cmd;
 	   char					*sep_found;
 	   t_btree_content *content;
 
 	   if (root->left || root->right)
 			   return ;
-	   content = root->content;
-	   str = content->cmd;
-	   sep_found = ft_strnstr_quotes(str, sep, ft_strlen(str));
+	   //content = root->content;
+	   cmd = ((t_btree_content *)root->content)->cmd;
+	   sep_found = ft_strnstr_quotes(cmd, sep, ft_strlen(cmd));
 	   if (sep_found)
 	   {
 			   content = gc_malloc_btree_content(gc);
-			   content->cmd = substr_left(gc, str, sep_found);
+			   content->cmd = substr_left(gc, cmd, sep_found);
 			   if (content->cmd)
 					   root->left = new_node(gc, content);
 			   content = gc_malloc_btree_content(gc);
-			   content->cmd = substr_right(gc, str, sep_found);
+			   content->cmd = substr_right(gc, cmd, sep_found);
 			   if (content->cmd)
 					   root->right = new_node(gc, content);
 			   content = root->content;
-			   content->cmd = sep_found;
-			   root->content = content;
+			   gc_free_item(&gc, content->cmd);
+			   content->cmd = gc_strdup(&gc, sep);
 	   }
 }
 

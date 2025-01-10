@@ -76,32 +76,23 @@ void	*gc_malloc(t_list **gc_addr, size_t count, size_t size)
 	return (ptr);
 }
 
+char	*gc_strdup(t_list **gc_addr, char *str)
+{
+	char	*ret;
+	size_t	len;
 
-// void	gc_free_item(t_list **gc_addr, void *ptr)
-// {
-// 	t_list	*gc;
-// 	t_list	*prev;
-
-// 	if (!gc_addr || !*gc_addr)
-// 		return;
-
-// 	gc = *gc_addr;
-// 	prev = NULL;
-// 	while (gc)
-// 	{
-// 		if (gc->content == ptr)
-// 		{
-// 			if (prev)
-// 				prev->next = gc->next;
-// 			else
-// 				*gc_addr = gc->next;
-// 			ft_lstdelone(gc, free);
-// 			break;
-// 		}
-// 		prev = gc;
-// 		gc = gc->next;
-// 	}
-// }
+	ret = NULL;
+	len = ft_strlen(str);
+	if (len)
+	{
+		ret = gc_malloc(gc_addr, ++len, 1);
+		if (!ret)
+			gc_free_all(gc_addr);
+		else
+			ft_strlcpy(ret, str, len);
+	}
+	return (ret);
+}
 
 void gc_free_item(t_list **gc_addr, void *ptr)
 {

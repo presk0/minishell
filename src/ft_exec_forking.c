@@ -27,8 +27,6 @@ void	run_line(t_list *gc, char *line, t_env *env)
 	gc_append(&gc, line_cpy);
 	cmd_tree = new_node(gc, content);
 	exec_forking(gc, cmd_tree, env);
-	gc_free_item(&gc, line_cpy);
-	gc_free_tree(&gc, &cmd_tree, gc_free_node_content);
 }
 
 void	exec_forking(t_list *gc, t_btree *cmd_tree, t_env *env)
@@ -57,5 +55,6 @@ void	exec_forking(t_list *gc, t_btree *cmd_tree, t_env *env)
 //		}
 //		waitpid(pid, &status, 0);
 	}
-	gc_free_item(&gc, sep);
+	gc_free_tree(&gc, &cmd_tree, gc_free_node_content);
+	//gc_free_item(&gc, sep);
 }

@@ -18,5 +18,6 @@ void	*gc_append(t_list **gc_addr, void *ptr);
 void	gc_free_all(t_list **gc_addr);
 void	*gc_malloc(t_list **gc_addr, size_t count, size_t size);
 void	gc_free_item(t_list **gc_addr, void *ptr);
+char	*gc_strdup(t_list **gc_addr, char *str);
 
 #endif
