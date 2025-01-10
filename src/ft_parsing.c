@@ -12,12 +12,23 @@
 
 #include "minishell.h"
 
+int	is_blank(char *str)
+{
+	while (*str)
+	{
+		if (!ft_strchr(WHITE_SPACE, *str))
+			return (0);
+		str++;
+	}
+	return (1);
+}
+
 char	*substr_left(t_list *gc, char *node_content, char *found)
 {
 	char	*ret;
 
 	ret = ft_substr(node_content, 0, found - node_content);
-	if (ret && !*ret)
+	if (ret && is_blank(ret))
 	{
 		free(ret);
 		ret = NULL;
@@ -42,7 +53,7 @@ char	*substr_right(t_list *gc, char *node_content, char *found)
 	//	found++;
 	found++;
 	ret = ft_substr(found, 0, ft_strlen(found));
-	if (ret && !*ret)
+	if (ret && is_blank(ret))
 	{
 		free(ret);
 		ret = NULL;
@@ -71,11 +82,11 @@ void   split_node(t_list *gc, t_btree *root, char *sep)
 	   sep_found = ft_strnstr_quotes(str, sep, ft_strlen(str));
 	   if (sep_found)
 	   {
-			   content = new_content(gc);
+			   content = gc_malloc_btree_content(gc);
 			   content->cmd = substr_left(gc, str, sep_found);
 			   if (content->cmd)
 					   root->left = new_node(gc, content);
-			   content = new_content(gc);
+			   content = gc_malloc_btree_content(gc);
 			   content->cmd = substr_right(gc, str, sep_found);
 			   if (content->cmd)
 					   root->right = new_node(gc, content);

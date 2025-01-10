@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-t_btree_content	*new_content(t_list *gc)
+t_btree_content	*gc_malloc_btree_content(t_list *gc)
 {
 	t_btree_content	*content;
 	void			*gc_ok;

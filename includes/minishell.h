@@ -82,7 +82,7 @@ void	minishell_exit(t_list *gc);
 char	*end_of_word(char *str);
 size_t	substitute_var(char *str, t_list *gc);
 void	run_line(t_list *gc, char *line, t_env *env);
-t_btree_content	*new_content(t_list *gc);
+t_btree_content	*gc_malloc_btree_content(t_list *gc);
 t_btree	*new_node(t_list *gc, t_btree_content *content);
 int	check_childs_rec(t_list *gc, t_btree *root);
 int	check_childs(t_list *gc, t_btree *root);
