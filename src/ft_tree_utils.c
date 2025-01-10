@@ -40,6 +40,18 @@ t_btree	*new_node(t_list *gc, t_btree_content *content)
 	return (node);
 }
 
+void free_token(t_list **gc, t_token token)
+{
+	if (token.cmd)
+		gc_free_item(gc, token.cmd);
+	if (token.args)
+		while (*token.args)
+			gc_free_item(gc, *token.args++);
+	if (token.redir_in)
+		gc_free_item(gc, token.redir_in);
+	if (token.redir_out)
+		gc_free_item(gc, token.redir_out);
+}
 
 void gc_free_node_content(t_list **gc, void *content)
 {
@@ -49,6 +61,7 @@ void gc_free_node_content(t_list **gc, void *content)
 		return;
 	if (node_content->cmd)
 		gc_free_item(gc, node_content->cmd);
+	free_token(gc, node_content->token);
 	gc_free_item(gc, node_content);
 }
 

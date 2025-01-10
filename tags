@@ -134,6 +134,7 @@ fclean	lib/libgc/Makefile	/^fclean: clean$/;"	t
 free_env	src/ft_env/free_env.c	/^void	free_env(t_env *local_env)$/;"	f	typeref:typename:void
 free_export	src/ft_env/free_env.c	/^void	free_export(t_export *first)$/;"	f	typeref:typename:void
 free_export_node	src/ft_env/free_env.c	/^void	free_export_node(t_export *to_free)$/;"	f	typeref:typename:void
+free_token	src/ft_tree_utils.c	/^void free_token(t_list **gc, t_token token)$/;"	f	typeref:typename:void
 free_tree	lib/libbtree/src/ft_btree.c	/^void	free_tree(t_btree *root, void (*f_free)(void *content))$/;"	f	typeref:typename:void
 ft_atoi	lib/libft/src/ft_atoi.c	/^int	ft_atoi(const char *str0)$/;"	f	typeref:typename:int
 ft_bzero	lib/libft/src/ft_bzero.c	/^void	*ft_bzero(void *s, size_t n)$/;"	f	typeref:typename:void *
