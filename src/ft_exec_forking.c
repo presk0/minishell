@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-void	apply_cmd(t_list *gc, char *line)
+void	run_line(t_list *gc, char *line, t_env *env)
 {
 	t_btree			*cmd_tree;
 	t_btree_content	*content;
@@ -24,10 +24,10 @@ void	apply_cmd(t_list *gc, char *line)
 	content->cmd = ft_strdup(line);
 	gc_append(&gc, content->cmd);
 	cmd_tree = new_node(gc, content);
-	exec_forking(gc, cmd_tree, NULL);
+	exec_forking(gc, cmd_tree, env);
 }
 
-void	exec_forking(t_list *gc, t_btree *cmd_tree, char **envp)
+void	exec_forking(t_list *gc, t_btree *cmd_tree, t_env *env)
 {
 	pid_t pid;
 	int status;
@@ -45,8 +45,8 @@ void	exec_forking(t_list *gc, t_btree *cmd_tree, char **envp)
 		btree_split(gc, cmd_tree, sep);
 		if (!check_childs(gc, cmd_tree)) 
 			return ;
-		rec_tokenization(gc, cmd_tree, NULL);
-		rec_exec(gc, cmd_tree, envp);
+		rec_tokenization(gc, cmd_tree, env);
+		rec_exec(gc, cmd_tree, env);
 		gc_free_tree(&gc, &cmd_tree, gc_free_node_content);
 		gc_free_item(&gc, sep);
 		exit(0);

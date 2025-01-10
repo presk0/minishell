@@ -12,25 +12,25 @@
 
 #include <minishell.h>
 
-void	exec_cmd(t_list *gc, t_token *tok, char **envp)
+void	exec_cmd(t_list *gc, t_token *tok, t_env *env)
 {
 	if (!tok)
 		return ;
 	handle_redir_in(tok);
 	handle_redir_out(tok);
-	execve(tok->cmd, tok->args, envp);
+	execve(tok->cmd, tok->args, env->my_env);
 	perror("[exec_cmd] execve failed");
 	minishell_exit(gc);
 }
 
-void	exec_content(t_list *gc, t_btree *node, char **envp)
+void	exec_content(t_list *gc, t_btree *node, t_env *env)
 {
 	t_btree_content *content = node->content;
 	t_token *tok = &(content->token);
-	exec_cmd(gc, tok, envp);
+	exec_cmd(gc, tok, env);
 }
 
-void rec_exec(t_list *gc, t_btree *node, char **envp)
+void rec_exec(t_list *gc, t_btree *node, t_env *envp)
 {
 	int pipe_fd[2];
 	pid_t pid;

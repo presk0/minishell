@@ -81,7 +81,6 @@ void   split_node(t_list *gc, t_btree *root, char *sep)
 					   root->right = new_node(gc, content);
 			   content = root->content;
 			   content->cmd = sep_found;
-	   //	  content->token.brut = sep;
 			   root->content = content;
 	   }
 }

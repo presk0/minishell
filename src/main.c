@@ -19,14 +19,6 @@ void	minishell_exit(t_list *gc)
 	exit(0);
 }
 
-char	*end_of_word(char *str)
-{
-	if (str)
-		while (*str && (ft_isalnum(*str) || *str == '_'))
-			str++;
-	return (str);
-}
-
 /*
 size_t	substitute_var(char *str, t_list *gc)
 {
@@ -47,13 +39,17 @@ size_t	substitute_var(char *str, t_list *gc)
 */
 
 
-void	minishell(void)
+void	minishell(char **envp)
 {
 	char	*line;
 	t_list	*gc;
+	t_env	*env;
 
 	gc = NULL;
 	init_sig(gc);
+	env = init_env(envp);
+	if (!gc_append(&gc, env))
+		minishell_exit(gc);
 	while (1)
 	{
 		line = readline(PS1);
@@ -64,7 +60,7 @@ void	minishell(void)
 		}
 		if (gc_append(&gc, line))
 		{
-			apply_cmd(gc, line);
+			run_line(gc, line, env);
 			add_history(line);
 		}
 		else
@@ -76,16 +72,15 @@ void	minishell(void)
 	minishell_exit(gc);
 }
 
-int	main(int argc, char **argv, char **env)
+int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	(void)env;
 	//t_list	*gc = NULL;
 	//char	*line = ft_strdup(argv[1]);
 	//gc_append(&gc, line);
-	//apply_cmd(gc, line);
+	//run_line(gc, line);
 	//minishell_exit(gc);
-	minishell();
+	minishell(envp);
 	return (0);
 }
