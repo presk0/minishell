@@ -17,7 +17,7 @@ t_btree_content	*gc_malloc_btree_content(t_list *gc)
 	t_btree_content	*content;
 	void			*gc_ok;
 
-	content = malloc(sizeof(t_btree_content));
+	content = ft_calloc(sizeof(t_btree_content), 1);
 	gc_ok = gc_append(&gc, content);
 	if (!gc_ok || !content)
 		minishell_exit(gc);

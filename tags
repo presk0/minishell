@@ -204,6 +204,7 @@ gc_free_node_content	src/ft_tree_utils.c	/^void gc_free_node_content(t_list **gc
 gc_free_tree	src/ft_tree_utils.c	/^void gc_free_tree(t_list **gc, t_btree **r, void (*f_free)(t_list **gc, void *content))$/;"	f	typeref:typename:void
 gc_malloc	lib/libgc/src/gc.c	/^void	*gc_malloc(t_list **gc_addr, size_t count, size_t size)$/;"	f	typeref:typename:void *
 gc_malloc_btree_content	src/ft_tree_utils.c	/^t_btree_content	*gc_malloc_btree_content(t_list *gc)$/;"	f	typeref:typename:t_btree_content *
+gc_strdup	lib/libgc/src/gc.c	/^char	*gc_strdup(t_list **gc_addr, char *str)$/;"	f	typeref:typename:char *
 grep_token	src/ft_op_utils.c	/^char	*grep_token(t_list *gc, char op, char *cmd)$/;"	f	typeref:typename:char *
 handle_redir_in	src/ft_redir.c	/^void handle_redir_in(t_token *tok)$/;"	f	typeref:typename:void
 handle_redir_out	src/ft_redir.c	/^void handle_redir_out(t_token *tok)$/;"	f	typeref:typename:void
