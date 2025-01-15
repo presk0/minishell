@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			*/
-/*														:::	  ::::::::   */
-/*   minishell.h										:+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: nidionis <nidionis@student.42.fr>		  +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2024/12/17 16:26:37 by nkieffer		  #+#	#+#			 */
-/*   Updated: 2025/01/04 15:50:37 by nidionis		 ###   ########.fr	   */
-/*																			*/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
+/*   Updated: 2025/01/15 15:12:40 by nidionis         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
@@ -47,10 +47,27 @@
 # define REDIR_APPEND 4
 # define WHITE_SPACE " \t\n\r\v"
 
+typedef enum e_builtin_id
+{
+	ECHO_ID = 1,
+	CD_ID,
+	PWD_ID,
+	EXPORT_ID,
+	UNSET_ID,
+	ENV_ID,
+	EXIT_ID,
+	MINISHELL_ID,
+}	t_builtin_id;
+
 typedef struct	s_token
 {
 	char	*cmd;
+<<<<<<< HEAD
 	char	**args;
+=======
+	int		cmd_id;
+	char	**arg;
+>>>>>>> origin/builtins_nkieffer
 	char	*redir_in;
 	char	*redir_out;
 	int		append_flag;
@@ -63,11 +80,28 @@ typedef struct btree_content
 	t_token	token;
 }	t_btree_content;
 
+<<<<<<< HEAD
 typedef struct s_data
 {
 	t_list	*gc;
 	t_btree	*tree;
 	t_env	*env;
+=======
+typedef struct	s_token
+{
+	char	*cmd;
+	int		cmd_id;
+	char	**arg;
+	char	*redir_in;
+	char	*redir_out;
+}	t_token;
+
+typedef struct s_data
+{
+	t_env		local_env;
+	t_export	local_export;
+	t_btree		tree_root;
+>>>>>>> origin/builtins_nkieffer
 }	t_data;
 
 char	*substr_left(t_list *gc, char *node_content, char *found);
