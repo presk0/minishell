@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/16 11:46:30 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/16 13:55:59 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int	is_pipe(t_btree *node);
 void gc_free_node_content(t_list **gc, void *content);
 void gc_free_tree(t_list **gc, t_btree **r, void (*f_free)(t_list **gc, void *content));
 void	exec_cmd(t_list *gc, t_token *tok, t_env *env);
-void	exec_forking(t_list *gc, t_btree *root, t_env *env);
+int		exec_forking(t_list *gc, t_btree *root, t_env *env);
 int open_redirect(char *file, int mode);
 void handle_redir_in(t_token *tok);
 void handle_redir_out(t_token *tok);
@@ -128,5 +128,6 @@ char	*grep_token(t_list *gc, char op, char *cmd);
 char	*save_token_op(t_list *gc, char *cmd, int op, t_token *token);
 char	*strdup_wd_quote(t_list *gc, char *cmd);
 void	append_tab(t_list *gc, char ***tab_addr, char *str);
+int	exec_whole_line(t_list *gc, t_btree *cmd_tree, t_env *env);
 
 #endif

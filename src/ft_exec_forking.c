@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*																			*/
 /*														:::	  ::::::::   */
-/*   template.c										 :+:	  :+:	:+:   */
+/*   ft_exec_forking.c                                  :+:      :+:    :+:   */
 /*													+:+ +:+		 +:+	 */
 /*   By: nidionis <marvin@42.fr>					+#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2024/09/04 16:20:59 by nidionis		  #+#	#+#			 */
-/*   Updated: 2024/09/05 14:15:32 by nidionis		 ###   ########.fr	   */
+/*   Updated: 2025/01/16 13:52:59 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ void	run_line(t_list *gc, char *line, t_env *env)
 	content->cmd = line_cpy;
 	gc_append(&gc, line_cpy);
 	cmd_tree = new_node(gc, content);
-	exec_forking(gc, cmd_tree, env);
+	exec_whole_line(gc, cmd_tree, env);
 }
 
-void	exec_forking(t_list *gc, t_btree *cmd_tree, t_env *env)
+int	exec_whole_line(t_list *gc, t_btree *cmd_tree, t_env *env)
 {
 	pid_t pid;
 	int status;
@@ -43,18 +43,9 @@ void	exec_forking(t_list *gc, t_btree *cmd_tree, t_env *env)
 	if (check_childs(gc, cmd_tree)) 
 	{
 		rec_tokenization(gc, cmd_tree, env);
-//		pid = fork();
-//		if (pid == -1) {
-//			perror("[exec_forking] fork failed");
-//			minishell_exit(gc);
-//		}
-//		if (pid == 0) {
-//			init_sig(gc);
-			rec_exec(gc, cmd_tree, env);
-//			exit(-42);
-//		}
-//		waitpid(pid, &status, 0);
+		rec_exec(gc, cmd_tree, env);
 	}
 	gc_free_tree(&gc, &cmd_tree, gc_free_node_content);
 	//gc_free_item(&gc, sep);
+	return (-1);
 }
