@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*																			*/
 /*														:::	  ::::::::   */
-/*   init_export_utils.c								:+:	  :+:	:+:   */
+/*   init_export_utils.c                                :+:      :+:    :+:   */
 /*													+:+ +:+		 +:+	 */
 /*   By: nkieffer <nkieffer@student.42.fr>		  +#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2024/09/23 16:31:47 by nkieffer		  #+#	#+#			 */
-/*   Updated: 2024/09/25 11:55:16 by nkieffer		 ###   ########.fr	   */
+/*   Updated: 2025/01/16 12:14:36 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sort_export(t_export **first)
+void	sort_export(t_list *gc, t_export **first)
 {
 	t_export	*node;
 	int			i;
@@ -28,21 +28,22 @@ void	sort_export(t_export **first)
 	{
 		node = (*first);
 		if (ft_strcmp((*first)->next->line, (*first)->line) < 0)
-			swap_first(first);
+			swap_first(gc, first);
 		node = (*first);
 		while (node->next->next != NULL)
 		{
 			if (ft_strcmp(node->next->next->line, node->next->line) < 0)
-				swap_next(node);
+				swap_next(gc, node);
 			node = node->next;
 		}
 	}
 }
 
-void	swap_first(t_export **first)
+void	swap_first(t_list *gc, t_export **first)
 {
 	t_export	*second;
 
+	(void)gc;
 	second = (*first)->next;
 	(*first)->next = second->next;
 	second->next = (*first);
@@ -50,10 +51,11 @@ void	swap_first(t_export **first)
 	second = (*first)->next;
 }
 
-void	swap_next(t_export *first)
+void	swap_next(t_list *gc, t_export *first)
 {
 	t_export	*second;
 
+	(void)gc;
 	second = first->next;
 	first->next = second->next;
 	second->next = first->next->next;

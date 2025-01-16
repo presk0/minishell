@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 19:04:07 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/03 20:05:30 by nkieffer         ###   ########.fr       */
+/*   Updated: 2025/01/16 11:39:25 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ int	exec_builtin(t_token *c, t_data *data)
 	// 	ft_print_err("%s: %d: err applying redir\n", __FILE__, __LINE__);
 	exit_status = 0;
 	if (c->cmd_id == ECHO_ID)
-		exit_status = ft_echo(c->cmd_args);
+		exit_status = ft_echo(c->args);
 	else if (c->cmd_id == CD_ID)
-		exit_status = ft_cd(m->env, c->cmd_args);
+		exit_status = ft_cd(m->env, c->args);
 	else if (c->cmd_id == PWD_ID)
 		exit_status = ft_pwd(m->env);
 	else if (c->cmd_id == EXPORT_ID)
-		exit_status = ft_export(m->env, c->cmd_args);
+		exit_status = ft_export(m->env, c->args);
 	else if (c->cmd_id == UNSET_ID)
 		exit_status = ft_unset(m->env, c);
 	else if (c->cmd_id == ENV_ID)

@@ -1,50 +1,50 @@
 /* ************************************************************************** */
 /*																			*/
 /*														:::	  ::::::::   */
-/*   init_export.c									  :+:	  :+:	:+:   */
+/*   init_export.c                                      :+:      :+:    :+:   */
 /*													+:+ +:+		 +:+	 */
 /*   By: nkieffer <nkieffer@student.42.fr>		  +#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2024/07/11 12:10:39 by nkieffer		  #+#	#+#			 */
-/*   Updated: 2024/09/25 12:01:43 by nkieffer		 ###   ########.fr	   */
+/*   Updated: 2025/01/16 12:11:17 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_export	*init_export(char *env[])
+t_export	*init_export(t_list *gc, char *env[])
 {
 	t_export	*my_export;
 	t_export	*node;
 	int			i;
 
-	my_export = export_new_node(env[0]);
-	node = export_new_node(env[1]);
+	my_export = export_new_node(gc, env[0]);
+	node = export_new_node(gc, env[1]);
 	my_export->next = node;
 	i = 2;
 	while (env[i] != NULL)
 	{
 		if (env[i][0] != '_')
 		{
-			node->next = export_new_node(env[i]);
+			node->next = export_new_node(gc, env[i]);
 			node = node->next;
 		}
 		i++;
 	}
 	if (i == 3)
-		node->next = export_new_deminode("OLDPWD");
-	sort_export(&my_export);
+		node->next = export_new_deminode(gc, "OLDPWD");
+	sort_export(gc, &my_export);
 	return (my_export);
 }
 
-t_export	*export_new_node(char *content)
+t_export	*export_new_node(t_list *gc, char *content)
 {
 	t_export	*node;
 	int			size;
 	int			i;
 
 	if (ft_strchr(content, '=') == NULL)
-		return (export_new_deminode(content));
+		return (export_new_deminode(gc, content));
 	node = malloc(sizeof(t_export));
 	if (!node)
 		return (NULL);
@@ -64,12 +64,13 @@ t_export	*export_new_node(char *content)
 	return (node);
 }
 
-t_export	*export_new_deminode(char *content)
+t_export	*export_new_deminode(t_list *gc, char *content)
 {
 	t_export	*node;
 	int			size;
 	int			i;
 
+	(void)gc;
 	node = malloc(sizeof(t_export));
 	if (!node)
 		return (NULL);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*																			*/
 /*														:::	  ::::::::   */
-/*   main.c											 :+:	  :+:	:+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*													+:+ +:+		 +:+	 */
 /*   By: nkieffer <nkieffer@student.42.fr>		  +#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2024/09/04 16:20:59 by nidionis		  #+#	#+#			 */
-/*   Updated: 2025/01/03 17:17:06 by nidionis		 ###   ########.fr	   */
+/*   Updated: 2025/01/16 11:54:36 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ size_t	substitute_var(char *str, t_list *gc)
 }
 */
 
-
 void	minishell(char **envp)
 {
 	char	*line;
@@ -47,7 +46,7 @@ void	minishell(char **envp)
 
 	gc = NULL;
 	init_sig(gc);
-	env = init_env(envp);
+	env = init_env(gc, envp);
 	if (!gc_append(&gc, env))
 		minishell_exit(gc);
 	while (1)
