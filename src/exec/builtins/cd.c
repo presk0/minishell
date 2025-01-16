@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 16:29:30 by nkieffer          #+#    #+#             */
-/*   Updated: 2024/12/03 19:14:50 by nkieffer         ###   ########.fr       */
+/*   Updated: 2025/01/16 17:43:24 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*get_new_pwd(t_env *local_env, char *new_path);
+static char	*get_new_pwd(char **local_env, char *new_path);
 static char	*compute_new_pwd(char *new_pwd, char *step);
 
-char	**ini_paths(t_env *local_env, int *error, char **cmd, char **new_path)
+char	**ini_paths(char **local_env, int *error, char **cmd, char **new_path)
 {
 	char	**to_export;
 
@@ -23,7 +23,7 @@ char	**ini_paths(t_env *local_env, int *error, char **cmd, char **new_path)
 		*new_path = ft_strdup(cmd[1]);
 	else
 	{
-		*new_path = ft_strjoin(ft_getenv(local_env, "PWD"), "/");
+		*new_path = ft_strjoin(ft_getenv(gc, local_env, "PWD"), "/");
 		if (!*new_path)
 			return (*error = 2, NULL);
 		*new_path = ft_strjoin_free1(*new_path, cmd[1]);
@@ -48,7 +48,7 @@ char	**ini_paths(t_env *local_env, int *error, char **cmd, char **new_path)
 	return (to_export[3] = NULL, to_export);
 }
 
-int	ft_cd(t_env *local_env, char **cmd)
+int	ft_cd(char **local_env, char **cmd)
 {
 	char	**export;
 	char	*new_path;
@@ -77,7 +77,7 @@ int	ft_cd(t_env *local_env, char **cmd)
 	return (0);
 }
 
-static char	*get_new_pwd(t_env *local_env, char *new_path)
+static char	*get_new_pwd(char **local_env, char *new_path)
 {
 	char	*new_pwd;
 	char	**steps;

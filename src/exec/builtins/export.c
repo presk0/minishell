@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlapique <mlapique@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 12:34:46 by nkieffer          #+#    #+#             */
-/*   Updated: 2024/11/20 18:44:10 by mlapique         ###   ########.fr       */
+/*   Updated: 2025/01/16 17:43:24 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ bool	parse_export(char *arg)
 	return (true);
 }
 
-int	ft_export(t_env *local_env, char **cmd)
+int	ft_export(char **local_env, char **cmd)
 {
 	char	**to_export;
 	int		i;
@@ -63,7 +63,7 @@ int	ft_export(t_env *local_env, char **cmd)
 	return (ret);
 }
 
-void	add_in_export(t_env *local_env, char *content)
+void	add_in_export(char **local_env, char *content)
 {
 	t_export	*new_node;
 	t_export	*export;

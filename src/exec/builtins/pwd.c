@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:18:33 by nkieffer          #+#    #+#             */
-/*   Updated: 2024/11/07 15:29:56 by nkieffer         ###   ########.fr       */
+/*   Updated: 2025/01/16 17:43:24 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	ft_pwd(t_env *local_env)
+int	ft_pwd(char **local_env)
 {
 	char	*path;
 

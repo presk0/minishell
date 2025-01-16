@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/16 14:41:20 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/16 18:54:28 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <sys/wait.h>
-# include "ft_env.h"
 
 # define PS1 "$"
 # define TOKEN_PIPE 0
@@ -34,6 +33,8 @@
 
 # define LEFT 0
 # define RIGHT 1
+# define FALSE 0
+# define TRUE 1
 
 # define BUFF_QUOTE_MAX 10
 # define BUFF_TOK_CMD 0
@@ -47,17 +48,14 @@
 # define REDIR_APPEND 4
 # define WHITE_SPACE " \t\n\r\v"
 
-typedef enum e_builtin_id
-{
-	ECHO_ID = 1,
-	CD_ID,
-	PWD_ID,
-	EXPORT_ID,
-	UNSET_ID,
-	ENV_ID,
-	EXIT_ID,
-	MINISHELL_ID,
-}	t_builtin_id;
+# define ECHO_ID 1
+# define CD_ID 2
+# define PWD_ID 3
+# define EXPORT_ID 4
+# define UNSET_ID 4
+# define ENV_ID 5
+# define EXIT_ID 6
+# define MINISHELL_ID 7
 
 typedef struct	s_token
 {
@@ -88,7 +86,7 @@ void	print_node_content(void *content);
 void	minishell_exit(t_list *gc);
 char	*end_of_word(char *str);
 size_t	substitute_var(char *str, t_list *gc);
-void	run_line(t_list *gc, char *line, t_env *env);
+void	run_line(t_list *gc, char *line, char **env);
 t_btree_content	*gc_malloc_btree_content(t_list *gc);
 t_btree	*new_node(t_list *gc, t_btree_content *content);
 int	check_childs_rec(t_list *gc, t_btree *root);
@@ -102,13 +100,13 @@ t_token	*tokenize_cmd(t_list *gc, char *cmd, t_token *token);
 void handle_sigint(int sig);
 void init_sig(t_list *gc);
 void	process_pipe(t_list *gc, t_token *cmd);
-void rec_exec(t_list *gc, t_btree *node, t_env *env);
-void rec_tokenization(t_list *gc, t_btree *node, t_env *env);
+void rec_exec(t_list *gc, t_btree *node, char **env);
+void rec_tokenization(t_list *gc, t_btree *node, char **env);
 int	is_pipe(t_btree *node);
 void gc_free_node_content(t_list **gc, void *content);
 void gc_free_tree(t_list **gc, t_btree **r, void (*f_free)(t_list **gc, void *content));
-void	exec_cmd(t_list *gc, t_token *tok, t_env *env);
-int		exec_forking(t_list *gc, t_btree *root, t_env *env);
+void	exec_cmd(t_list *gc, t_token *tok, char **env);
+int		exec_forking(t_list *gc, t_btree *root, char **env);
 int open_redirect(char *file, int mode);
 void handle_redir_in(t_token *tok);
 void handle_redir_out(t_token *tok);
@@ -119,6 +117,6 @@ char	*grep_token(t_list *gc, char op, char *cmd);
 char	*save_token_op(t_list *gc, char *cmd, int op, t_token *token);
 char	*strdup_wd_quote(t_list *gc, char *cmd);
 void	append_tab(t_list *gc, char ***tab_addr, char *str);
-int	exec_whole_line(t_list *gc, t_btree *cmd_tree, t_env *env);
+int	exec_whole_line(t_list *gc, t_btree *cmd_tree, char **env);
 
 #endif

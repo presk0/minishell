@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 17:25:07 by nkieffer          #+#    #+#             */
-/*   Updated: 2024/11/20 17:25:09 by nkieffer         ###   ########.fr       */
+/*   Updated: 2025/01/16 15:43:46 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,8 @@ bool	is_error(char **cmd)
 	return (ft_print_err("minishell: exit: %s: numeric argument required\n", cmd[1]), true);
 }
 
-int	ft_exit(t_minishell *m, t_command_exec *cmd)
+int	ft_exit(t_list *gc, t_token *cmd)
 {
-	m->exit = m->exit_status;
 	if (cmd->cmd_args[1])
 	{
 		if (cmd->cmd_args[2])
@@ -55,9 +54,6 @@ int	ft_exit(t_minishell *m, t_command_exec *cmd)
 					return (0);
 		if (is_error(cmd->cmd_args) == true)
 			return (m->exit = 2, 0);
-		m->exit = ft_atoll(cmd->cmd_args[1]) % 256;
-		if (m->exit < 0)
-			m->exit += 256;
 	}
-	return (0);
+	minishell_exit(gc);
 }

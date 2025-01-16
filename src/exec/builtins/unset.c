@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 11:26:50 by nkieffer          #+#    #+#             */
-/*   Updated: 2024/11/27 18:34:16 by nkieffer         ###   ########.fr       */
+/*   Updated: 2025/01/16 17:43:24 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	ft_unset(t_env *local_env, t_command_exec *cmd)
+int	ft_unset(char **local_env, t_token *cmd)
 {
 	char	**to_unset;
 	int		i;
 
-	to_unset = cmd->cmd_args;
+	to_unset = &token->cmd_args[1];
 	i = 1;
 	while (to_unset[i] != NULL)
 	{
@@ -29,7 +29,7 @@ int	ft_unset(t_env *local_env, t_command_exec *cmd)
 	return (0);
 }
 
-void	rm_in_export(t_env *local_env, char *content)
+void	rm_in_export(char **local_env, char *content)
 {
 	t_export	*to_del;
 	t_export	*export;
@@ -53,7 +53,7 @@ void	rm_in_export(t_env *local_env, char *content)
 	}
 }
 
-void	rm_in_env(t_env *local_env, char *content)
+void	rm_in_env(char **local_env, char *content)
 {
 	char	**env;
 	int		i;
@@ -81,7 +81,7 @@ void	rm_in_env(t_env *local_env, char *content)
 	env[i] = NULL;
 }
 
-void	rm_in_vars(t_env *local_env, char *content)
+void	rm_in_vars(char **local_env, char *content)
 {
 	char	**vars;
 	int		i;

@@ -38,17 +38,36 @@ size_t	substitute_var(char *str, t_list *gc)
 }
 */
 
+char	**duplicate_tab(t_list *gc, char **tab_original)
+{
+	char	**tab_copy;
+	size_t	tab_len;
+
+	tab_len = ft_tablen(tab_original);
+	tab_copy = gc_malloc(&gc, (tab_len + 1) , sizeof(char *));
+	tab_copy[tab_len] = NULL;
+	while (tab_len--)
+	{
+		tab_copy[tab_len] = gc_strdup(&gc, tab_original[tab_len]);
+		if (!tab_copy[tab_len])
+		{
+			printf("[duplicate_tab]malloc error\n");
+			minishell_exit(gc);
+		}
+	}
+	return (tab_copy);
+
+}
+
 void	minishell(char **envp)
 {
 	char	*line;
 	t_list	*gc;
-	t_env	*env;
+	char	**env;
 
 	gc = NULL;
 	init_sig(gc);
-	env = init_env(gc, envp);
-	if (!gc_append(&gc, env))
-		minishell_exit(gc);
+	env = duplicate_tab(gc, envp);
 	while (1)
 	{
 		line = readline(PS1);

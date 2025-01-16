@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 19:29:39 by nkieffer          #+#    #+#             */
-/*   Updated: 2024/11/21 19:30:13 by nkieffer         ###   ########.fr       */
+/*   Updated: 2025/01/16 17:43:24 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_cd_tilde(t_env *local_env)
+int	ft_cd_tilde(char **local_env)
 {
 	char	**export;
 	char	*new_path;
@@ -39,7 +39,7 @@ int	ft_cd_tilde(t_env *local_env)
 	return (ft_export(local_env, export));
 }
 
-int	ft_cd_slash(t_env *local_env, char **cmd)
+int	ft_cd_slash(char **local_env, char **cmd)
 {
 	char	**export;
 	char	*new_path;

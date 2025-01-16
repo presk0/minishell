@@ -18,6 +18,8 @@ INCLUDES = $(addprefix -I,$(INCLUDE_DIRS))
 
 SRCS =	$(wildcard ./src/*.c)	\
 		$(wildcard ./src/ft_env/*.c)	\
+#		$(wildcard ./src/exec/*.c)	\
+#		$(wildcard ./src/exec/builtins/*.c)	\
 
 OBJS = $(SRCS:.c=.o)
 

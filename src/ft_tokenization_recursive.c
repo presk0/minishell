@@ -20,7 +20,7 @@ int	is_pipe(t_btree *node)
 	return (!ft_strncmp(c->cmd, "|", 1));
 }
 
-void	tokenize_content(t_list *gc, t_btree *node, t_env *env)
+void	tokenize_content(t_list *gc, t_btree *node, char **env)
 {
 	(void)env;
 	t_btree_content *content = node->content;
@@ -29,7 +29,7 @@ void	tokenize_content(t_list *gc, t_btree *node, t_env *env)
 	//substitute_var_in_token(gc, tok, env);
 }
 
-void rec_tokenization(t_list *gc, t_btree *node, t_env *env)
+void rec_tokenization(t_list *gc, t_btree *node, char **env)
 {
 	if (!node)
 		return;

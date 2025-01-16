@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmaume <lmaume@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 11:31:19 by nkieffer          #+#    #+#             */
-/*   Updated: 2024/11/20 18:30:07 by lmaume           ###   ########.fr       */
+/*   Updated: 2025/01/16 17:43:24 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	ft_env(t_env *local_env)
+int	ft_env(char **local_env)
 {
 	print_env(local_env);
 	return (0);
 }
 
-void	add_in_env(t_env *local_env, char *content)
+void	add_in_env(char **local_env, char *content)
 {
 	char	**env;
 	char	**new_env;
@@ -51,7 +51,7 @@ void	add_in_env(t_env *local_env, char *content)
 	local_env->my_env = new_env;
 }
 
-void	replace_in_env(t_env *local_env, char *content)
+void	replace_in_env(char **local_env, char *content)
 {
 	char	**env;
 	int		i;

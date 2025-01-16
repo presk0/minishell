@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmaume <lmaume@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 15:53:43 by nkieffer          #+#    #+#             */
-/*   Updated: 2024/11/20 18:39:20 by lmaume           ###   ########.fr       */
+/*   Updated: 2025/01/16 17:43:24 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	add_in_vars(t_env *local_env, char *content)
+void	add_in_vars(char **local_env, char *content)
 {
 	char	**vars;
 	char	**new_vars;
@@ -42,7 +42,7 @@ void	add_in_vars(t_env *local_env, char *content)
 	local_env->local_vars = new_vars;
 }
 
-void	replace_in_vars(t_env *local_env, char *content)
+void	replace_in_vars(char **local_env, char *content)
 {
 	char	**vars;
 	int		i;

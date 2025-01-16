@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-void	run_line(t_list *gc, char *line, t_env *env)
+void	run_line(t_list *gc, char *line, char **env)
 {
 	t_btree			*cmd_tree;
 	t_btree_content	*content;
@@ -29,7 +29,7 @@ void	run_line(t_list *gc, char *line, t_env *env)
 	exec_whole_line(gc, cmd_tree, env);
 }
 
-int	exec_whole_line(t_list *gc, t_btree *cmd_tree, t_env *env)
+int	exec_whole_line(t_list *gc, t_btree *cmd_tree, char **env)
 {
 	pid_t pid;
 	int status;
