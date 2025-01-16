@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/16 13:55:59 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/16 14:41:20 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,6 @@ typedef struct btree_content
 	char	*cmd;
 	t_token	token;
 }	t_btree_content;
-
-typedef struct s_data
-{
-	t_list	*gc;
-	t_btree	*tree;
-	t_env		local_env;
-	t_export	local_export;
-	t_btree		tree_root;
-}	t_data;
 
 char	*substr_left(t_list *gc, char *node_content, char *found);
 char	*substr_right(t_list *gc, char *node_content, char *found);

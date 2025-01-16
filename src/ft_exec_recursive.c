@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2024/09/04 16:20:59 by nidionis		  #+#	#+#			 */
-/*   Updated: 2025/01/16 14:04:46 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/16 14:44:23 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -65,17 +65,31 @@ void	reset_stdin(t_list *gc, int stdin_fd)
  */
 int	exec_builtin_scotch(t_list **gc, t_btree *node, t_env **env)
 {
-	t_data data;
-
-	data.gc = *gc;
-	data.tree = node;
+	(void)gc;
+	(void)node;
 	(void)env;
 	return (0);
 }
 
 int	is_builtin(t_btree_content *c)
 {
-	(void)c;
+	t_token	*token;
+
+	token = &c->token;
+	if (ft_strcmp(token->cmd, "echo") == 0)
+		return (1);
+	else if (ft_strcmp(token->cmd, "cd") == 0)
+		return (1);
+	else if (ft_strcmp(token->cmd, "pwd") == 0)
+		return (1);
+	else if (ft_strcmp(token->cmd, "export") == 0)
+		return (1);
+	else if (ft_strcmp(token->cmd, "unset") == 0)
+		return (1);
+	else if (ft_strcmp(token->cmd, "env") == 0)
+		return (1);
+	else if (ft_strcmp(token->cmd, "exit") == 0)
+		return (1);
 	return (0);
 }
 

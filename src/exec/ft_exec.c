@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nkieffer <nkieffer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 19:04:07 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/16 11:39:25 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/16 14:42:17 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 static void	set_cmd_id(t_token *token)
 {
@@ -31,7 +30,7 @@ static void	set_cmd_id(t_token *token)
 		token->cmd_id = 0;
 }
 
-int	exec_builtin(t_token *c, t_data *data)
+int	exec_builtin(t_token *c)
 {
 	int	exit_status;
 
