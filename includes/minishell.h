@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/17 17:51:02 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/17 19:19:56 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,12 @@ char	*strdup_wd_quote(t_list *gc, char *cmd);
 void	append_tab(t_list *gc, char ***tab_addr, char *str);
 int	exec_whole_line(t_list *gc, t_btree *cmd_tree, char **env);
 void    *gc_realloc(t_list *gc, void *ptr, size_t old_size, size_t new_size);
+char	*substitute_variables(t_list *gc, char *input, char **env);
+int	strlen_char_quoted(char *cmd, char c);
+void	append_until_dollar(t_list *gc, char *input, size_t *i, char *result);
+char	*process_dollar(t_list *gc, char *input, size_t *i, char **env, char *result);
+size_t	gc_str_append(t_list *gc, char **result, char *str);
+char	*ft_getenv(char **env, const char *var);
+int	ft_varlen(const char *var);
 
 #endif

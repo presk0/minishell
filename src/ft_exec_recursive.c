@@ -21,7 +21,7 @@ void	*gc_realloc(t_list *gc, void *ptr, size_t old_size, size_t new_size)
 		free(ptr);
 		return (NULL);
 	}
-	new_ptr = gc_malloc(gc, 1, new_size);
+	new_ptr = gc_malloc(&gc, 1, new_size);
 	if (!new_ptr)
 	{
 		perror("minishell: ft_realloc: malloc failed");
@@ -76,8 +76,7 @@ int	unset_var_in_env(t_list *gc, char ***env, char *var)
 	i = 0;
 	while ((*env)[i] != NULL)
 	{
-		if (ft_strncmp((*env)[i], var, var_len) == 0
-			&& (*env)[i][var_len] == '=')
+		if (ft_strncmp((*env)[i], var, var_len) == 0 && (*env)[i][var_len] == '=')
 		{
 			gc_free_item(&gc, (*env)[i]);
 			j = 0;

@@ -1,21 +1,13 @@
 #include <minishell.h>
 
-// Prototypes des fonctions utilitaires
-static size_t	find_next_dollar(const char *input, size_t start);
-static void		gc_str_append(t_list *gc, char **result, const char *src);
-static char		*process_dollar(t_list *gc, char *input, size_t *i, char **env,
-					char *result, size_t *result_len);
-static void		append_until_dollar(t_list *gc, char *input, size_t *i,
-					char *result, size_t *result_len);
-
 char	*substitute_variables(t_list *gc, char *input, char **env)
 {
 	char	*result;
-	size_t	result_len;
+	//size_t	result_len;
 	size_t	i;
 
-	result = gc_malloc(gc, 1, strlen(input) + 1);
-	result_len = 0;
+	result = gc_malloc(&gc, 1, strlen(input) + 1);
+	//result_len = 0;
 	i = 0;
 	if (!result)
 	{
@@ -24,17 +16,14 @@ char	*substitute_variables(t_list *gc, char *input, char **env)
 	}
 	while (input[i] != '\0')
 	{
-		if (input[i] == '$' && input[i + 1] && !is_quoted(input[i], 0,
-				BUFF_SUBVAR))
+		if (input[i] == '$' && input[i + 1] && !is_quoted(input[i], 0, BUFF_SUBVAR))
 		{
-			result = process_dollar(gc, input, &i, env, result, &result_len);
-			if (!result)
-				return (NULL);
+			result = process_dollar(gc, input, &i, env, result);
 		}
 		else
-			append_until_dollar(gc, input, &i, result, &result_len);
+			append_until_dollar(gc, input, &i, result);
 	}
-	result[result_len] = '\0';
+	result[i] = '\0';
 	return (result);
 }
 
@@ -55,8 +44,8 @@ int	strlen_char_quoted(char *cmd, char c)
 	return (len);
 }
 
-static void	append_until_dollar(t_list *gc, char *input, size_t *i,
-		char *result, size_t *result_len)
+void	append_until_dollar(t_list *gc, char *input, size_t *i,
+		char *result)//, size_t *result_len)
 {
 	size_t	start;
 	size_t	next_dollar;
@@ -72,8 +61,7 @@ static void	append_until_dollar(t_list *gc, char *input, size_t *i,
 	}
 }
 
-static char	*process_dollar(t_list *gc, char *input, size_t *i, char **env,
-		char *result, size_t *result_len)
+char	*process_dollar(t_list *gc, char *input, size_t *i, char **env, char *result)
 {
 	size_t	var_start;
 	size_t	var_len;

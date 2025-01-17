@@ -34,6 +34,9 @@ char	*save_token_cmd(t_list *gc, char *cmd, t_token *token)
 
 int	substitute_var_in_token(t_list *gc, t_token *token)
 {
+	(void)gc;
+	(void)token;
+	return (0);
 }
 
 t_token	*tokenize_cmd(t_list *gc, char *cmd, t_token *token)
