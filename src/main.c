@@ -98,6 +98,7 @@ int	main(int argc, char **argv, char **envp)
 	// gc_append(&gc, line);
 	// run_line(gc, line);
 	// minishell_exit(gc);
-	minishell(envp);
+	//minishell(envp);
+	printf("%s\n", substitute_variables(NULL, argv[1], envp));
 	return (0);
 }
