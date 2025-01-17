@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2024/09/04 16:20:59 by nidionis		  #+#	#+#			 */
-/*   Updated: 2025/01/16 17:27:12 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/17 14:31:00 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -40,43 +40,6 @@ void print_export(char **tab)
 	}
 }
 
-int ft_setenv(char ***env, const char *var, const char *value)
-{
-    size_t var_len = strlen(var);
-    size_t value_len = strlen(value);
-    char *new_entry = malloc(var_len + value_len + 2); // +2 pour '=' et '\0'
-    if (!new_entry)
-    {
-        perror("minishell: ft_setenv: malloc failed");
-        return 1;
-    }
-    sprintf(new_entry, "%s=%s", var, value);
-    for (int i = 0; (*env)[i] != NULL; i++)
-    {
-        if (strncmp((*env)[i], var, var_len) == 0 && (*env)[i][var_len] == '=')
-        {
-            free((*env)[i]);
-            (*env)[i] = new_entry;
-            return 0;
-        }
-    }
-    // Si la variable n'existe pas encore, l'ajouter
-    int env_size;
-    for (env_size = 0; (*env)[env_size] != NULL; env_size++);
-    char **new_env = ft_realloc(*env, env_size * sizeof(char *), (env_size + 2) * sizeof(char *)); // +2 pour la nouvelle entrée et NULL
-    if (!new_env)
-    {
-        perror("minishell: ft_setenv: realloc failed");
-        free(new_entry);
-        return 1;
-    }
-    new_env[env_size] = new_entry;
-    new_env[env_size + 1] = NULL;
-    *env = new_env;
-    return 0;
-}
-
-
 char *ft_getenv(char **env, const char *var)
 {
     size_t var_len = strlen(var);
@@ -96,52 +59,106 @@ int ft_exit(t_list *gc)
 	return (0);
 }
 
-int ft_unset(char ***env, t_token *token)
+int	unset_var_in_env(t_list *gc, char *** env, char *var)
+{
+	int		i;
+	int		j;
+    size_t var_len;
+	
+	var_len	= strlen(var);
+	i = 0;
+    while ((*env)[i] != NULL)
+    {
+        if (ft_strncmp((*env)[i], var, var_len) == 0 && (*env)[i][var_len] == '=')
+        {
+            gc_free_item(&gc, (*env)[i]);
+			j = 0;
+            while ((*env)[j] != NULL)
+            {
+                (*env)[j] = (*env)[j + 1];
+				j++;
+            }
+            return (0);
+        }
+		i++;
+    }
+    return (1);
+}
+
+int ft_unset(t_list *gc, char ***env, t_token *token)
 {
 	char *var = token->args[1];
 
-    size_t var_len = strlen(var);
-    for (int i = 0; (*env)[i] != NULL; i++)
-    {
-        if (strncmp((*env)[i], var, var_len) == 0 && (*env)[i][var_len] == '=')
-        {
-            free((*env)[i]);
-            for (int j = i; (*env)[j] != NULL; j++)
-            {
-                (*env)[j] = (*env)[j + 1];
-            }
-            return 0;
-        }
-    }
-    return 1; // Variable non trouvée
+	return (unset_var_in_env(gc, env, var));
 }
 
-int ft_export(char ***env, t_token *token)
+int is_valid_var_name(const char *var)
 {
+	int	i;
+
+	i = 1;
+    if (!var || !isalpha(var[0]))
+        return (FALSE);
+    while (var[i] != '\0')
+    {
+        if (!isalnum(var[i]) && var[i] != '_')
+            return (FALSE);
+		if (var[i] == '=')
+			break ;
+        i++;
+    }
+    return (TRUE);
+}
+
+int is_var_in_env(char **env, const char *var)
+{
+    size_t	var_len;
+	int		i;
+
+	i = 0;	
+	var_len	= strlen(var);
+    while (env[i] != NULL)
+    {
+        if (strncmp(env[i], var, var_len) == 0 && env[i][var_len] == '=')
+            return (TRUE);
+    }
+    return (FALSE);
+}
+
+int ft_setenv(t_list *gc, char ***env, char *var)
+{
+	char		*delimiter;
+
+    if (var != NULL)
+    {
+        delimiter = ft_strchr(var, '=');
+        if (!delimiter)
+            return (FALSE);
+		if (is_valid_var_name(var))
+		{
+		   	if (is_var_in_env(*env, var))
+				unset_var_in_env(gc, env, var);
+			append_tab(gc, env, var);
+		}
+    }
+	return (TRUE);
+}
+
+int ft_export(t_list *gc, char ***env, t_token *token)
+{
+	int			i;
+
     if (!token->args[1])
     {
         print_export(*env);
         return (0);
     }
-    for (int i = 1; token->args[i] != NULL; i++)
+	i = 1;
+    while (token->args[i] != NULL)
     {
-        char *delimiter = strchr(token->args[i], '=');
-        if (!delimiter)
-        {
-            fprintf(stderr, "minishell: export: `%s`: not a valid identifier\n", token->args[i]);
-            continue;
-        }
-        size_t var_len = delimiter - token->args[i];
-        char var[var_len + 1];
-        strncpy(var, token->args[i], var_len);
-        var[var_len] = '\0';
-        const char *value = delimiter + 1;
-        if (ft_setenv(env, var, value) != 0)
-        {
-            fprintf(stderr, "minishell: export: failed to set variable\n");
-			return (1);
-        }
-    }
+		if (!ft_setenv(gc, env, token->args[i]))
+			continue ;
+	}
 	return (0);
 }
 
@@ -154,14 +171,24 @@ int ft_env(char **env)
 	return (0);
 }
 
-int ft_cd(char **env, t_token *token)
+char	*gc_strjoin(t_list *gc, const char *s1, const char *s2)
+{
+	char	*ret;
+
+	//ret = gc_malloc(gc, sizeof(char *), ft_strlen(s1) + ft_strlen(s2) + 1)
+	ret = ft_strjoin(s1, s2);
+	if (!gc_append(&gc, ret))
+		minishell_exit(gc);
+	return (ret);
+}
+
+int ft_cd(t_list *gc, char **env, t_token *token)
 {
     char *path;
+    char cwd[1024];
 
-    // Vérifier si un argument est fourni
     if (token->args[1] == NULL)
     {
-        // Si aucun argument, utiliser la variable d'environnement HOME
         path = ft_getenv(env, "HOME");
         if (path == NULL)
         {
@@ -170,21 +197,19 @@ int ft_cd(char **env, t_token *token)
         }
     }
     else
-    {
-        // Utiliser le premier argument comme chemin
         path = token->args[1];
-    }
-    // Tenter de changer de répertoire
     if (chdir(path) != 0)
     {
         perror("minishell: cd");
         return 1;
     }
-    // Mettre à jour la variable d'environnement PWD
-    char cwd[1024];
     if (getcwd(cwd, sizeof(cwd)) != NULL)
     {
-        if (ft_setenv(&env, "PWD", cwd) != 0)
+		char	*env_line;
+
+		env_line = gc_strjoin(gc, "PWD=", cwd);
+		printf("%s\n", env_line);
+        if (!ft_setenv(gc, &env, env_line))
         {
             fprintf(stderr, "minishell: cd: failed to update PWD\n");
             return 1;
@@ -201,18 +226,18 @@ int ft_cd(char **env, t_token *token)
 int	ft_echo(char **env,t_token *token)
 {
 	(void)env;
-    int newline = TRUE; // Par défaut, on ajoute une nouvelle ligne
-    int i = 1; // Commencer à 1 pour ignorer le premier argument (la commande elle-même)
+    int newline = TRUE;
+    int i = 1;
     if (token->args[1] != NULL && strcmp(token->args[1], "-n") == 0)
     {
-        newline = FALSE; // Ne pas ajouter de nouvelle ligne
-        i++; // Passer à l'argument suivant
+        newline = FALSE;
+        i++;
     }
     while (token->args[i] != NULL)
     {
         write(STDOUT_FILENO, token->args[i], strlen(token->args[i]));
-        if (token->args[i + 1] != NULL) // Si ce n'est pas le dernier argument
-            write(STDOUT_FILENO, " ", 1); // Ajouter un espace
+        if (token->args[i + 1] != NULL)
+            write(STDOUT_FILENO, " ", 1);
         i++;
     }
     if (newline)
@@ -221,7 +246,6 @@ int	ft_echo(char **env,t_token *token)
 	}
 	return (0);
 }
-
 
 void	exec_cmd(t_list *gc, t_token *tok, char **env)
 {
@@ -311,13 +335,13 @@ int	exec_builtin(t_list *gc, t_token *token, char ***env_in)
 	if (token->cmd_id == (int)ECHO_ID)
 		exit_status = ft_echo(env, token);
 	else if (token->cmd_id == (int)CD_ID)
-		exit_status = ft_cd(env, token);
+		exit_status = ft_cd(gc, env, token);
 	else if (token->cmd_id == (int)PWD_ID)
 		exit_status = ft_pwd(env, token);
 	else if (token->cmd_id == (int)EXPORT_ID)
-		exit_status = ft_export(&env, token);
+		exit_status = ft_export(gc, &env, token);
 	else if (token->cmd_id == (int)UNSET_ID)
-		exit_status = ft_unset(&env, token);
+		exit_status = ft_unset(gc, &env, token);
 	else if (token->cmd_id == (int)ENV_ID)
 		exit_status = ft_env(env);
 	else if (token->cmd_id == (int)EXIT_ID)
@@ -365,51 +389,132 @@ int	is_builtin(t_btree_content *c)
 	return (0);
 }
 
+//void rec_exec(t_list *gc, t_btree *node, char **env)
+//{
+//    int pipe_fd[2];
+//    pid_t pid;
+//    int status;
+//    int stdin_fd;
+//
+//    stdin_fd = dup(STDIN_FILENO);
+//    if (stdin_fd == -1)
+//	{
+//        perror("[rec_exec] dup failed");
+//        minishell_exit(gc);
+//    }
+//    if (is_pipe(node))
+//    {
+//        if (pipe(pipe_fd) == -1) {
+//            perror("[rec_exec] pipe failed");
+//            minishell_exit(gc);
+//        }
+//        pid = fork();
+//        if (pid == -1) {
+//            perror("[rec_exec] fork failed");
+//            minishell_exit(gc);
+//        }
+//        if (pid == 0) {
+//            close(pipe_fd[0]);
+//            dup2(pipe_fd[1], STDOUT_FILENO);
+//            close(pipe_fd[1]);
+//            rec_exec(gc, node->left, env);
+//            minishell_exit(gc);
+//        }
+//        close(pipe_fd[1]);
+//        dup2(pipe_fd[0], STDIN_FILENO);
+//        close(pipe_fd[0]);
+//        rec_exec(gc, node->right, env);
+//        waitpid(pid, &status, 0);
+//    }
+//    else
+//    {
+//		if (is_builtin(node->content))
+//			status = exec_builtin_scotch(&gc, node, &env);
+//		else
+//			status = exec_forking(gc, node, env);
+//		reset_stdin(gc, stdin_fd);
+//    }
+//    close(stdin_fd);
+//}
+
+void handle_dup_failure(t_list *gc, int fd, const char *msg)
+{
+    if (fd == -1)
+    {
+        perror(msg);
+        minishell_exit(gc);
+    }
+}
+
+void handle_fork_failure(t_list *gc, pid_t pid, const char *msg)
+{
+    if (pid == -1)
+    {
+        perror(msg);
+        minishell_exit(gc);
+    }
+}
+
+void handle_pipe_failure(t_list *gc, int result, const char *msg)
+{
+    if (result == -1)
+    {
+        perror(msg);
+        minishell_exit(gc);
+    }
+}
+
+void execute_pipe_child(t_list *gc, t_btree *node, char **env, int pipe_fd[])
+{
+    close(pipe_fd[0]);
+    dup2(pipe_fd[1], STDOUT_FILENO);
+    close(pipe_fd[1]);
+    rec_exec(gc, node->left, env);
+    minishell_exit(gc);
+}
+
+void execute_pipe_parent(t_list *gc, t_btree *node, char **env, int pipe_fd[], pid_t pid)
+{
+    int status;
+
+    close(pipe_fd[1]);
+    dup2(pipe_fd[0], STDIN_FILENO);
+    close(pipe_fd[0]);
+    rec_exec(gc, node->right, env);
+    waitpid(pid, &status, 0);
+}
+
+void execute_command(t_list *gc, t_btree *node, char **env, int stdin_fd)
+{
+    int status;
+
+    if (is_builtin(node->content))
+        status = exec_builtin_scotch(&gc, node, &env);
+    else
+        status = exec_forking(gc, node, env);
+    reset_stdin(gc, stdin_fd);
+}
+
 void rec_exec(t_list *gc, t_btree *node, char **env)
 {
     int pipe_fd[2];
     pid_t pid;
-    int status;
-    int stdin_fd;
+    int stdin_fd = dup(STDIN_FILENO);
 
-    stdin_fd = dup(STDIN_FILENO);
-    if (stdin_fd == -1)
-	{
-        perror("[rec_exec] dup failed");
-        minishell_exit(gc);
-    }
+    handle_dup_failure(gc, stdin_fd, "[rec_exec] dup failed");
     if (is_pipe(node))
     {
-        if (pipe(pipe_fd) == -1) {
-            perror("[rec_exec] pipe failed");
-            minishell_exit(gc);
-        }
+        handle_pipe_failure(gc, pipe(pipe_fd), "[rec_exec] pipe failed");
         pid = fork();
-        if (pid == -1) {
-            perror("[rec_exec] fork failed");
-            minishell_exit(gc);
-        }
-        if (pid == 0) {
-            close(pipe_fd[0]);
-            dup2(pipe_fd[1], STDOUT_FILENO);
-            close(pipe_fd[1]);
-            rec_exec(gc, node->left, env);
-            minishell_exit(gc);
-        }
-        close(pipe_fd[1]);
-        dup2(pipe_fd[0], STDIN_FILENO);
-        close(pipe_fd[0]);
-        rec_exec(gc, node->right, env);
-        waitpid(pid, &status, 0);
+        handle_fork_failure(gc, pid, "[rec_exec] fork failed");
+        if (pid == 0)
+            execute_pipe_child(gc, node, env, pipe_fd);
+        else
+            execute_pipe_parent(gc, node, env, pipe_fd, pid);
     }
     else
     {
-		if (is_builtin(node->content))
-			status = exec_builtin_scotch(&gc, node, &env);
-		else
-			status = exec_forking(gc, node, env);
-		reset_stdin(gc, stdin_fd);
+        execute_command(gc, node, env, stdin_fd);
     }
     close(stdin_fd);
 }
-
