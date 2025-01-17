@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*																			*/
-/*														:::	  ::::::::   */
-/*   ft_tree_utils.c									:+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: nidionis <marvin@42.fr>					+#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2024/09/04 16:20:59 by nidionis		  #+#	#+#			 */
-/*   Updated: 2025/01/02 20:00:18 by nidionis		 ###   ########.fr	   */
+/*														:::		::::::::   */
+/*   ft_tree_utils.c									:+:		:+:	:+:   */
+/*													+:+ +:+			+:+	 */
+/*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
+/*												+#+#+#+#+#+   +#+			*/
+/*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#			 */
+/*   Updated: 2025/01/02 20:00:18 by nidionis			###   ########.fr	   */
 /*																			*/
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_btree	*new_node(t_list *gc, t_btree_content *content)
 	return (node);
 }
 
-void free_token(t_list **gc, t_token token)
+void	free_token(t_list **gc, t_token token)
 {
 	if (token.cmd)
 		gc_free_item(gc, token.cmd);
@@ -53,23 +53,27 @@ void free_token(t_list **gc, t_token token)
 		gc_free_item(gc, token.redir_out);
 }
 
-void gc_free_node_content(t_list **gc, void *content)
+void	gc_free_node_content(t_list **gc, void *content)
 {
-	t_btree_content *node_content = (t_btree_content *)content;
+	t_btree_content	*node_content;
 
+	node_content = (t_btree_content *)content;
 	if (!node_content)
-		return;
+		return ;
 	if (node_content->cmd)
 		gc_free_item(gc, node_content->cmd);
 	free_token(gc, node_content->token);
 	gc_free_item(gc, node_content);
 }
 
-void gc_free_tree(t_list **gc, t_btree **r, void (*f_free)(t_list **gc, void *content))
+void	gc_free_tree(t_list **gc, t_btree **r, void (*f_free)(t_list **gc,
+			void *content))
 {
+	t_btree	*node;
+
 	if (!r || !*r)
-		return;
-	t_btree *node = *r;
+		return ;
+	node = *r;
 	gc_free_tree(gc, &node->left, f_free);
 	gc_free_tree(gc, &node->right, f_free);
 	if (f_free)
@@ -80,7 +84,7 @@ void gc_free_tree(t_list **gc, t_btree **r, void (*f_free)(t_list **gc, void *co
 
 void	print_node_content(void *content)
 {
-	t_btree_content	*stuff;
+	t_btree_content *stuff;
 
 	stuff = content;
 	if (stuff)

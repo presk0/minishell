@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*																			*/
-/*														:::	  ::::::::   */
-/*   ft_tokens.c										:+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: nidionis <nidionis@student.42.fr>		  +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2024/09/04 16:20:59 by nidionis		  #+#	#+#			 */
-/*   Updated: 2025/01/04 16:35:12 by nidionis		 ###   ########.fr	   */
+/*														:::		::::::::   */
+/*   ft_tokens.c                                        :+:      :+:    :+:   */
+/*													+:+ +:+			+:+	 */
+/*   By: nidionis <nidionis@student.42.fr>			+#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+			*/
+/*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#			 */
+/*   Updated: 2025/01/17 15:19:11 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -32,9 +32,13 @@ char	*save_token_cmd(t_list *gc, char *cmd, t_token *token)
 	return (cmd + strlen_wd_quoted(cmd));
 }
 
+int	substitute_var_in_token(t_list *gc, t_token *token)
+{
+}
+
 t_token	*tokenize_cmd(t_list *gc, char *cmd, t_token *token)
 {
-	int		op;
+	int	op;
 
 	if (!token)
 		return (NULL);
@@ -46,15 +50,17 @@ t_token	*tokenize_cmd(t_list *gc, char *cmd, t_token *token)
 			return (gc_free_item(&gc, token), NULL);
 		if (op && !is_quoted(*cmd, BUFF_TOK_CMD, SAVE))
 			cmd = save_token_op(gc, cmd, op, token);
-		else if (!op && !is_quoted(*cmd, BUFF_TOK_CMD, SAVE) && !ft_strchr(WHITE_SPACE, *cmd))
+		else if (!op && !is_quoted(*cmd, BUFF_TOK_CMD, SAVE)
+			&& !ft_strchr(WHITE_SPACE, *cmd))
 			cmd = save_token_cmd(gc, cmd, token);
 		else
 			cmd++;
 	}
-	return (token);	
+	substitute_var_in_token(gc, token);
+	return (token);
 }
 
-void	print_token(t_token	*token)
+void	print_token(t_token *token)
 {
 	if (!token)
 		return ;

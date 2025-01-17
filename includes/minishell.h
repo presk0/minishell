@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/16 18:54:28 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/17 17:51:02 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 # define BUFF_TOK_CMD 0
 # define BUFF_STRLEN 1
 # define BUFF_STRNSTR 2
+# define BUFF_SUBVAR 3
 # define RESET 99
 # define SAVE 0
 # define REDIR_IN 1
@@ -118,5 +119,6 @@ char	*save_token_op(t_list *gc, char *cmd, int op, t_token *token);
 char	*strdup_wd_quote(t_list *gc, char *cmd);
 void	append_tab(t_list *gc, char ***tab_addr, char *str);
 int	exec_whole_line(t_list *gc, t_btree *cmd_tree, char **env);
+void    *gc_realloc(t_list *gc, void *ptr, size_t old_size, size_t new_size);
 
 #endif

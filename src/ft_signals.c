@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*																			*/
-/*														:::	  ::::::::   */
-/*   template.c										 :+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: nidionis <marvin@42.fr>					+#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2024/09/04 16:20:59 by nidionis		  #+#	#+#			 */
-/*   Updated: 2024/09/05 14:15:32 by nidionis		 ###   ########.fr	   */
+/*														:::		::::::::   */
+/*   template.c											:+:	  :+:	:+:   */
+/*													+:+ +:+			+:+	 */
+/*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
+/*												+#+#+#+#+#+   +#+			*/
+/*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#			 */
+/*   Updated: 2024/09/05 14:15:32 by nidionis			###   ########.fr	   */
 /*																			*/
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void handle_sigint(int sig)
+void	handle_sigint(int sig)
 {
 	(void)sig;
 	write(STDOUT_FILENO, "\n", 2);
@@ -21,10 +21,10 @@ void handle_sigint(int sig)
 	rl_redisplay();
 }
 
-void init_sig(t_list *gc)
+void	init_sig(t_list *gc)
 {
-	struct sigaction sa_int;
-	struct sigaction sa_quit;
+	struct sigaction	sa_int;
+	struct sigaction	sa_quit;
 
 	sa_int.sa_handler = handle_sigint;
 	sigemptyset(&sa_int.sa_mask);

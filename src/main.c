@@ -1,11 +1,11 @@
 /* ************************************************************************** */
 /*																			*/
-/*														:::	  ::::::::   */
+/*														:::		::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: nkieffer <nkieffer@student.42.fr>		  +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2024/09/04 16:20:59 by nidionis		  #+#	#+#			 */
+/*													+:+ +:+			+:+	 */
+/*   By: nkieffer <nkieffer@student.42.fr>			+#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+			*/
+/*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#			 */
 /*   Updated: 2025/01/16 11:54:36 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
@@ -44,7 +44,7 @@ char	**duplicate_tab(t_list *gc, char **tab_original)
 	size_t	tab_len;
 
 	tab_len = ft_tablen(tab_original);
-	tab_copy = gc_malloc(&gc, (tab_len + 1) , sizeof(char *));
+	tab_copy = gc_malloc(&gc, (tab_len + 1), sizeof(char *));
 	tab_copy[tab_len] = NULL;
 	while (tab_len--)
 	{
@@ -56,7 +56,6 @@ char	**duplicate_tab(t_list *gc, char **tab_original)
 		}
 	}
 	return (tab_copy);
-
 }
 
 void	minishell(char **envp)
@@ -94,11 +93,11 @@ int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	//t_list	*gc = NULL;
-	//char	*line = ft_strdup(argv[1]);
-	//gc_append(&gc, line);
-	//run_line(gc, line);
-	//minishell_exit(gc);
+	// t_list	*gc = NULL;
+	// char	*line = ft_strdup(argv[1]);
+	// gc_append(&gc, line);
+	// run_line(gc, line);
+	// minishell_exit(gc);
 	minishell(envp);
 	return (0);
 }

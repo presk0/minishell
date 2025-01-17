@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*																			*/
-/*														:::	  ::::::::   */
-/*   template.c										 :+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: nidionis <marvin@42.fr>					+#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2024/09/04 16:20:59 by nidionis		  #+#	#+#			 */
-/*   Updated: 2024/09/05 14:15:32 by nidionis		 ###   ########.fr	   */
+/*														:::		::::::::   */
+/*   template.c											:+:	  :+:	:+:   */
+/*													+:+ +:+			+:+	 */
+/*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
+/*												+#+#+#+#+#+   +#+			*/
+/*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#			 */
+/*   Updated: 2024/09/05 14:15:32 by nidionis			###   ########.fr	   */
 /*																			*/
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ int	is_quoted(char c, int buff, int reset)
 
 char	*ft_strnstr_quotes(const char *str, const char *ndl, size_t len)
 {
-	char		*p_str;
-	size_t		ndl_len;
+	char	*p_str;
+	size_t	ndl_len;
 
 	if (!str || !ndl)
 		return (NULL);
@@ -81,7 +81,8 @@ char	*ft_strnstr_quotes(const char *str, const char *ndl, size_t len)
 	{
 		while (*p_str && len-- && len + 1 >= ndl_len)
 		{
-			if (!is_quoted(*p_str, BUFF_STRNSTR, SAVE) && !ft_strncmp(p_str, ndl, ndl_len))
+			if (!is_quoted(*p_str, BUFF_STRNSTR, SAVE) && !ft_strncmp(p_str,
+					ndl, ndl_len))
 				return (p_str);
 			p_str++;
 		}

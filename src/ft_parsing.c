@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*																			*/
-/*														:::	  ::::::::   */
-/*   ft_parsing.c									   :+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: nidionis <nidionis@student.42.fr>		  +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2024/09/04 16:20:59 by nidionis		  #+#	#+#			 */
-/*   Updated: 2025/01/03 19:59:21 by nidionis		 ###   ########.fr	   */
+/*														:::		::::::::   */
+/*   ft_parsing.c										:+:	  :+:	:+:   */
+/*													+:+ +:+			+:+	 */
+/*   By: nidionis <nidionis@student.42.fr>			+#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+			*/
+/*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#			 */
+/*   Updated: 2025/01/03 19:59:21 by nidionis			###   ########.fr	   */
 /*																			*/
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*substr_right(t_list *gc, char *node_content, char *found)
 	char	*ret;
 
 	(void)node_content;
-	//while (found[0] == found[1])
+	// while (found[0] == found[1])
 	//	found++;
 	found++;
 	ret = ft_substr(found, 0, ft_strlen(found));
@@ -69,41 +69,40 @@ char	*substr_right(t_list *gc, char *node_content, char *found)
 	return (ret);
 }
 
-void   split_node(t_list *gc, t_btree *root, char *sep)
+void	split_node(t_list *gc, t_btree *root, char *sep)
 {
-	   char					*cmd;
-	   char					*sep_found;
-	   t_btree_content *content;
+	char			*cmd;
+	char			*sep_found;
+	t_btree_content	*content;
 
-	   if (root->left || root->right)
-			   return ;
-	   //content = root->content;
-	   cmd = ((t_btree_content *)root->content)->cmd;
-	   sep_found = ft_strnstr_quotes(cmd, sep, ft_strlen(cmd));
-	   if (sep_found)
-	   {
-			   content = gc_malloc_btree_content(gc);
-			   content->cmd = substr_left(gc, cmd, sep_found);
-			   if (content->cmd)
-					   root->left = new_node(gc, content);
-			   content = gc_malloc_btree_content(gc);
-			   content->cmd = substr_right(gc, cmd, sep_found);
-			   if (content->cmd)
-					   root->right = new_node(gc, content);
-			   content = root->content;
-			   gc_free_item(&gc, content->cmd);
-			   content->cmd = gc_strdup(&gc, sep);
-	   }
+	if (root->left || root->right)
+		return ;
+	// content = root->content;
+	cmd = ((t_btree_content *)root->content)->cmd;
+	sep_found = ft_strnstr_quotes(cmd, sep, ft_strlen(cmd));
+	if (sep_found)
+	{
+		content = gc_malloc_btree_content(gc);
+		content->cmd = substr_left(gc, cmd, sep_found);
+		if (content->cmd)
+			root->left = new_node(gc, content);
+		content = gc_malloc_btree_content(gc);
+		content->cmd = substr_right(gc, cmd, sep_found);
+		if (content->cmd)
+			root->right = new_node(gc, content);
+		content = root->content;
+		gc_free_item(&gc, content->cmd);
+		content->cmd = gc_strdup(&gc, sep);
+	}
 }
 
-
-void   btree_split(t_list *gc, t_btree *root, char *sep)
+void	btree_split(t_list *gc, t_btree *root, char *sep)
 {
-	   if (!root)
-			   return ;
-	   split_node(gc, root, sep);
-	   if (root->left)
-			   btree_split(gc, root->left, sep);
-	   if (root->right)
-			   btree_split(gc, root->right, sep);
+	if (!root)
+		return ;
+	split_node(gc, root, sep);
+	if (root->left)
+		btree_split(gc, root->left, sep);
+	if (root->right)
+		btree_split(gc, root->right, sep);
 }
