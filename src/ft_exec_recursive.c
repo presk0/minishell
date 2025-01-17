@@ -2,10 +2,10 @@
 /*																			*/
 /*														:::		::::::::   */
 /*   ft_exec_recursive.c                                :+:      :+:    :+:   */
-/*													+:+ +:+			+:+	 */
+/*													+:+ +:+			+:+		*/
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
-/*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#			 */
+/*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
 /*   Updated: 2025/01/17 14:37:55 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
@@ -211,7 +211,7 @@ int	ft_cd(t_list *gc, char **env, t_token *token)
 {
 	char	*path;
 	char	cwd[1024];
-		char *env_line;
+	char	*env_line;
 
 	if (token->args[1] == NULL)
 	{
