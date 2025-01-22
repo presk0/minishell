@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/18 13:29:22 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/22 11:35:16 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	is_quoted(char c, int buff, int action)
 	{
 		if (quote[buff] == 2)
 			quote[buff] = 0;
-		if (quote[buff] == 0)
+		else if (quote[buff] == 0)
 			quote[buff] = 2;
 	}
 	return (quote[buff]);

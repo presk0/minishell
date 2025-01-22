@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/22 08:23:47 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/22 11:13:49 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@
 # define BUFF_STRLEN 1
 # define BUFF_STRNSTR 2
 # define BUFF_SUBVAR 3
-# define BUFF_QUOTE_MAX 10
+# define BUFF_RMQUOTES 4
+# define BUFF_QUOTE_MAX 5
 # define SAVE 0
 # define READ 1
 # define RESET 2
@@ -67,6 +68,7 @@
 # define CLEAN_EXIT 0
 # define ERR_GC_STRDUP -99
 # define ERR_GC_APPEND -98
+
 typedef struct	s_data
 {
 	char 	*line;
@@ -147,5 +149,7 @@ size_t	append_until_dollar(char *input, size_t *i_input, size_t *i_result, char 
 //size_t	gc_strlcat(char **result, char *str);
 char	*ft_getenv(const char *var);
 int	ft_varlen(const char *var);
+char	*rm_quotes(char *str);
+char	*del_char(char *str);
 
 #endif
