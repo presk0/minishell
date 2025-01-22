@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/22 06:27:06 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/22 08:23:47 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,9 +142,9 @@ void    *gc_realloc(void *ptr, size_t old_size, size_t new_size);
 char	*substitute_variables(char *input);
 int	strlen_char_quoted(char *cmd, char c);
 //void	append_until_dollar(char *input, size_t *i, char *result);
-size_t	append_until_dollar(char *input, size_t *start, char **result);
-char	*process_dollar(char *input, size_t *i, char **result);
-size_t	gc_strlcat(char **result, char *str);
+char	*process_dollar(char *input, size_t *i_input, size_t *i_result, char **result);
+size_t	append_until_dollar(char *input, size_t *i_input, size_t *i_result, char **result);
+//size_t	gc_strlcat(char **result, char *str);
 char	*ft_getenv(const char *var);
 int	ft_varlen(const char *var);
 

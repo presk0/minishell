@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>		  +#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2024/09/04 16:20:59 by nidionis		  #+#	#+#			 */
-/*   Updated: 2025/01/22 00:37:48 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/22 09:24:38 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -84,14 +84,11 @@ char	*gc_strdup(t_list **gc_addr, char *str)
 
 	ret = NULL;
 	len = ft_strlen(str);
-	if (len)
-	{
-		ret = gc_malloc(gc_addr, ++len, 1);
-		if (!ret)
-			gc_free_all(gc_addr);
-		else
-			ft_strlcpy(ret, str, len);
-	}
+	ret = gc_malloc(gc_addr, ++len, 1);
+	if (!ret)
+		gc_free_all(gc_addr);
+	else
+		ft_strlcpy(ret, str, len);
 	return (ret);
 }
 
@@ -145,10 +142,25 @@ size_t	gc_strcat(t_list **gc, char **result, char *str)
 	gc_free_item(gc, original_result);
 	if (!*result || !gc_append(gc, *result))
 	{
-		perror("realloc");
+		perror("[gc_strlcat]");
 		return (-1);
 	}
 	return (ft_strlcat(*result, str, result_new_len + 1));
+}
+
+size_t	gc_strlcat(t_list **gc, char **result, char *str, size_t l)
+{
+	char	*original_result;
+
+	original_result = *result;
+	*result = gc_strldup(gc, *result, l + 1);
+	gc_free_item(gc, original_result);
+	if (!*result || !gc_append(gc, *result))
+	{
+		perror("[gc_strlcat]");
+		return (-1);
+	}
+	return (ft_strlcat(*result, str, l + 1));
 }
 
 
