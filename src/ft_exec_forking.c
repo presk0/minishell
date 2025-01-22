@@ -12,24 +12,25 @@
 
 #include <minishell.h>
 
-void	run_line(t_list *gc, char *line, char **env)
+void	run_line(char *line)
 {
 	t_btree			*cmd_tree;
 	t_btree_content	*content;
 	char			*line_cpy;
 
 	(void)cmd_tree;
-	content = gc_malloc(&gc, 1, sizeof(t_btree_content));
+	content = gc_malloc(&d.gc, 1, sizeof(t_btree_content));
 	if (!content)
-		minishell_exit(gc);
+		minishell_exit();
 	line_cpy = ft_strdup(line);
 	content->cmd = line_cpy;
-	gc_append(&gc, line_cpy);
-	cmd_tree = new_node(gc, content);
-	exec_whole_line(gc, cmd_tree, env);
+	gc_append(&d.gc, line_cpy);
+	cmd_tree = new_node(content);
+	exec_whole_line(cmd_tree);
 }
 
-int	exec_whole_line(t_list *gc, t_btree *cmd_tree, char **env)
+
+int	exec_whole_line(t_btree *cmd_tree)
 {
 	pid_t	pid;
 	int		status;
@@ -38,14 +39,14 @@ int	exec_whole_line(t_list *gc, t_btree *cmd_tree, char **env)
 	(void)pid;
 	(void)status;
 	sep = ft_strdup("|");
-	gc_append(&gc, sep);
-	btree_split(gc, cmd_tree, sep);
-	if (check_childs(gc, cmd_tree))
+	gc_append(&d.gc, sep);
+	btree_split(cmd_tree, sep);
+	if (check_childs(cmd_tree))
 	{
-		rec_tokenization(gc, cmd_tree, env);
-		rec_exec(gc, cmd_tree, env);
+		rec_tokenization(cmd_tree);
+		rec_exec(cmd_tree);
 	}
-	gc_free_tree(&gc, &cmd_tree, gc_free_node_content);
-	// gc_free_item(&gc, sep);
+	gc_free_tree(d.gc, &cmd_tree, gc_free_node_content);
+	// gc_free_item(&d.gc, sep);
 	return (-1);
 }

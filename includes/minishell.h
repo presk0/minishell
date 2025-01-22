@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/17 22:40:51 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/22 06:13:36 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,15 @@
 # define FALSE 0
 # define TRUE 1
 
-# define BUFF_QUOTE_MAX 10
 # define BUFF_TOK_CMD 0
 # define BUFF_STRLEN 1
 # define BUFF_STRNSTR 2
 # define BUFF_SUBVAR 3
-# define RESET 99
+# define BUFF_QUOTE_MAX 10
 # define SAVE 0
+# define READ 1
+# define RESET 2
+
 # define REDIR_IN 1
 # define REDIR_OUT 2
 # define HERE_DOC 3
@@ -57,6 +59,21 @@
 # define ENV_ID 5
 # define EXIT_ID 6
 # define MINISHELL_ID 7
+
+# define NO_QUOTE 0
+# define SIMPLE_QUOTE 1
+# define DOUBLE_QUOTE 2
+
+# define CLEAN_EXIT 0
+# define ERR_GC_STRDUP -99
+# define ERR_GC_APPEND -98
+typedef struct	s_data
+{
+	char 	*line;
+	char	**env;
+	t_list	*gc;
+	t_btree	*cmd_tree;
+} t_data;
 
 typedef struct	s_token
 {
@@ -76,57 +93,60 @@ typedef struct btree_content
 	t_token	token;
 }	t_btree_content;
 
-char	*substr_left(t_list *gc, char *node_content, char *found);
-char	*substr_right(t_list *gc, char *node_content, char *found);
+extern t_data d;
+
+char	*substr_left(char *node_content, char *found);
+char	*substr_right(char *node_content, char *found);
 int		is_quoted(char c, int buff, int reset);
 char	*ft_strnstr_quotes(const char *str, const char *ndl, size_t len);
-void	split_node(t_list *gc, t_btree *root, char *sep);
-void	btree_split(t_list *gc, t_btree *root, char *sep);
+void	split_node(t_btree *root, char *sep);
+void	btree_split(t_btree *root, char *sep);
 void	free_node_content(void *stuff);
 void	print_node_content(void *content);
-void	minishell_exit(t_list *gc);
+void	minishell_exit();
 char	*end_of_word(char *str);
-size_t	substitute_var(char *str, t_list *gc);
-void	run_line(t_list *gc, char *line, char **env);
-t_btree_content	*gc_malloc_btree_content(t_list *gc);
-t_btree	*new_node(t_list *gc, t_btree_content *content);
-int	check_childs_rec(t_list *gc, t_btree *root);
-int	check_childs(t_list *gc, t_btree *root);
+size_t	substitute_var(char *str);
+void	run_line(char *line);
+t_btree_content	*gc_malloc_btree_content();
+t_btree	*new_node(t_btree_content *content);
+int	check_childs_rec(t_btree *root);
+int	check_childs(t_btree *root);
 int	is_operand(char *cmd);
 int	strlen_wd_quoted(char *cmd);
-char	*save_token_op(t_list *gc, char *cmd, int op, t_token *token);
+char	*save_token_op(char *cmd, int op, t_token *token);
 void	print_token(t_token	*token);
-t_token	*init_token(t_list *gc);
-t_token	*tokenize_cmd(t_list *gc, char *cmd, t_token *token);
+t_token	*init_token();
+t_token	*tokenize_cmd(char *cmd, t_token *token);
 void handle_sigint(int sig);
-void init_sig(t_list *gc);
-void	process_pipe(t_list *gc, t_token *cmd);
-void rec_exec(t_list *gc, t_btree *node, char **env);
-void rec_tokenization(t_list *gc, t_btree *node, char **env);
+void init_sig();
+void	process_pipe(t_token *cmd);
+void rec_exec(t_btree *node);
+void rec_tokenization(t_btree *node);
 int	is_pipe(t_btree *node);
-void gc_free_node_content(t_list **gc, void *content);
-void gc_free_tree(t_list **gc, t_btree **r, void (*f_free)(t_list **gc, void *content));
-void	exec_cmd(t_list *gc, t_token *tok, char **env);
-int		exec_forking(t_list *gc, t_btree *root, char **env);
+void gc_free_node_content(t_list *gc, void *content);
+void gc_free_tree(t_list *gc, t_btree **cmd_tree, void (*f_free)(t_list *gc, void *content));
+void	exec_cmd(t_token *tok);
+int		exec_forking(t_btree *root);
 int open_redirect(char *file, int mode);
 void handle_redir_in(t_token *tok);
 void handle_redir_out(t_token *tok);
 int	is_operand(char *cmd);
 char	*skip_operand(char *cmd, char op);
 char	*skip_op_and_arg(char *str, char op);
-char	*grep_token(t_list *gc, char op, char *cmd);
-char	*save_token_op(t_list *gc, char *cmd, int op, t_token *token);
-char	*strdup_wd_quote(t_list *gc, char *cmd);
-void	append_tab(t_list *gc, char ***tab_addr, char *str);
-int	exec_whole_line(t_list *gc, t_btree *cmd_tree, char **env);
-void    *gc_realloc(t_list *gc, void *ptr, size_t old_size, size_t new_size);
-char	*substitute_variables(t_list *gc, char *input, char **env);
+char	*grep_token(char op, char *cmd);
+char	*save_token_op(char *cmd, int op, t_token *token);
+char	*strdup_wd_quote(char *cmd);
+void	append_tab(char ***tab_addr, char *str);
+int	exec_whole_line(t_btree *cmd_tree);
+void    *gc_realloc(void *ptr, size_t old_size, size_t new_size);
+char	*substitute_variables(char *input);
 int	strlen_char_quoted(char *cmd, char c);
-//void	append_until_dollar(t_list *gc, char *input, size_t *i, char *result);
-size_t	append_until_dollar(t_list *gc, char *input, size_t start, char **result);
-char	*process_dollar(t_list *gc, char *input, size_t *i, char **env, char **result);
-size_t	gc_str_append(t_list *gc, char **result, char *str);
-char	*ft_getenv(char **env, const char *var);
+//void	append_until_dollar(char *input, size_t *i, char *result);
+size_t	append_until_dollar(char *input, size_t *start, char **result);
+char	*process_dollar(char *input, size_t *i, char **result);
+size_t	gc_strlcat(char **result, char *str);
+char	*ft_getenv(const char *var);
 int	ft_varlen(const char *var);
+char *gc_strldup(char *str, size_t len);
 
 #endif

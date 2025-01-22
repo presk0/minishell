@@ -1,39 +1,51 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_var_substitution.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
+/*   Updated: 2025/01/22 04:55:43 by nidionis         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 
-char	*substitute_variables(t_list *gc, char *input, char **env)
+int	is_to_substitute(char *var)
+{
+	return (*var == '$' && *(var + 1) && is_quoted(*var, BUFF_SUBVAR, SAVE) != SIMPLE_QUOTE);
+}
+
+char	*substitute_variables(char *input)
 {
 	char	*result;
-	//size_t	result_len;
-	size_t	i;
+	size_t	i_input;
+	size_t	i_result;
 
-	result = gc_malloc(&gc, 1, ft_strlen(input) + 1);
-	//result_len = 0;
-	i = 0;
-	if (!result)
+	result = NULL;
+	i_input = 0;
+	i_result = 0;
+	is_quoted(0, BUFF_SUBVAR, RESET);
+	while (input[i_input] != '\0')
 	{
-		perror("malloc");
-		return (NULL);
+		//if (is_to_substitute(input + i_input))
+		//	result = process_dollar(input, &i_input, &i_result, &result);
+		//else
+		//	append_until_dollar(input, &i_input, &result);
 	}
-	while (input[i] != '\0')
-	{
-		if (input[i] == '$' && input[i + 1] && !is_quoted(input[i], 0, BUFF_SUBVAR))
-			result = process_dollar(gc, input, &i, env, &result);
-		else
-			i += append_until_dollar(gc, input, i, &result);
-	}
-	result[i] = '\0';
 	return (result);
 }
 
-int	strlen_char_quoted(char *cmd, char c)
+int	strlen_char_simple_quoted(char *cmd, char c, int buff)
 {
 	int	len;
 
-	is_quoted(0, BUFF_STRLEN, RESET);
+	//is_quoted(0, buff, RESET);
 	len = 0;
 	while (*cmd)
 	{
-		if (!is_quoted(*cmd, BUFF_STRLEN, SAVE))
+		if (is_quoted(*cmd, buff, SAVE) != SIMPLE_QUOTE)
 			if (*cmd == c)
 				break ;
 		cmd++;
@@ -42,24 +54,23 @@ int	strlen_char_quoted(char *cmd, char c)
 	return (len);
 }
 
-size_t	append_until_dollar(t_list *gc, char *input, size_t start, char **result)
+
+size_t	append_until_dollar(char *input, size_t *start, char **result)
 {
-	//size_t	start;
 	size_t	next_dollar;
 	size_t	chunk_len;
 
-	//start = *i;
-	next_dollar = strlen_char_quoted(input + start, '$');
-	if (next_dollar > start)
+	next_dollar = strlen_char_simple_quoted(input + *start, '$', BUFF_SUBVAR);
+	if (next_dollar > *start)
 	{
-		chunk_len = next_dollar - start;
-		gc_str_append(gc, result, input + start);
-		//*i += next_dollar;
+		chunk_len = next_dollar - *start;
+		gc_strcat(result, input + *start);
 	}
+	*start += next_dollar;
 	return (next_dollar);
 }
 
-char	*process_dollar(t_list *gc, char *input, size_t *i, char **env, char **result)
+char	*process_dollar(char *input, size_t *i, char **result)
 {
 	size_t	var_start;
 	size_t	var_len;
@@ -68,38 +79,22 @@ char	*process_dollar(t_list *gc, char *input, size_t *i, char **env, char **resu
 
 	var_start = *i + 1;
 	var_len = ft_varlen(input + var_start);
-	if (var_len > 0)
+	if (var_len > 0 && input[var_start])
 	{
 		var_name = ft_strndup(input + var_start, var_len);
-		var_value = ft_getenv(env, var_name);
-		free(var_name);
+		var_value = ft_getenv(var_name);
 		if (var_value)
+			gc_strcat(result, var_value);
+		else if (var_name && *var_name)
 		{
-			gc_str_append(gc, result, var_value);
+			gc_strcat(result, "$");
+			gc_strcat(result, var_name);
 		}
 		*i += var_len;
+		free(var_name);
 	}
 	else
-	{
-		gc_str_append(gc, result, "$");
-	}
-	(*i)++;
+		gc_strcat(result, "$");
+	*i += var_len;
 	return (*result);
-}
-
-size_t	gc_str_append(t_list *gc, char **result, char *str)
-{
-	size_t src_len;
-	size_t result_len;
-
-	result_len = ft_strlen(*result);
-	src_len = ft_strlen(str);
-	*result = gc_realloc(gc, *result, result_len, result_len + src_len + 1);
-	if (!*result)
-	{
-		perror("realloc");
-		minishell_exit(gc);
-	}
-	ft_memcpy(*result + result_len, str, src_len);
-	return (result_len + src_len);
 }

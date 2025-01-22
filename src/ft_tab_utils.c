@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-void	append_tab(t_list *gc, char ***tab_addr, char *str)
+void	append_tab(char ***tab_addr, char *str)
 {
 	size_t	len;
 	char	**tab;
@@ -21,13 +21,13 @@ void	append_tab(t_list *gc, char ***tab_addr, char *str)
 	tab = *tab_addr;
 	len = ft_tablen(tab) + 1;
 	if (!tab)
-		new_tab = gc_malloc(&gc, sizeof(char *), 2);
+		new_tab = gc_malloc(&d.gc, sizeof(char *), 2);
 	else
-		new_tab = gc_malloc(&gc, sizeof(char *), len);
+		new_tab = gc_malloc(&d.gc, sizeof(char *), len);
 	if (!new_tab)
 	{
 		printf("[append_tab]malloc error\n");
-		minishell_exit(gc);
+		minishell_exit();
 	}
 	new_tab[len--] = NULL;
 	new_tab[len] = str;
@@ -35,7 +35,7 @@ void	append_tab(t_list *gc, char ***tab_addr, char *str)
 	{
 		while (len--)
 			new_tab[len] = tab[len];
-		gc_free_item(&gc, tab);
+		gc_free_item(&d.gc, tab);
 	}
 	*tab_addr = new_tab;
 }

@@ -23,7 +23,7 @@ int	is_blank(char *str)
 	return (1);
 }
 
-char	*substr_left(t_list *gc, char *node_content, char *found)
+char	*substr_left(char *node_content, char *found)
 {
 	char	*ret;
 
@@ -35,16 +35,16 @@ char	*substr_left(t_list *gc, char *node_content, char *found)
 	}
 	if (ret)
 	{
-		if (!gc_append(&gc, ret))
+		if (!gc_append(&d.gc, ret))
 		{
 			write(2, "[substr_left]\n", 14);
-			minishell_exit(gc);
+			minishell_exit();
 		}
 	}
 	return (ret);
 }
 
-char	*substr_right(t_list *gc, char *node_content, char *found)
+char	*substr_right(char *node_content, char *found)
 {
 	char	*ret;
 
@@ -60,16 +60,16 @@ char	*substr_right(t_list *gc, char *node_content, char *found)
 	}
 	if (ret)
 	{
-		if (!gc_append(&gc, ret))
+		if (!gc_append(&d.gc, ret))
 		{
 			write(2, "[substr_right]\n", 14);
-			minishell_exit(gc);
+			minishell_exit();
 		}
 	}
 	return (ret);
 }
 
-void	split_node(t_list *gc, t_btree *root, char *sep)
+void	split_node(t_btree *root, char *sep)
 {
 	char			*cmd;
 	char			*sep_found;
@@ -77,32 +77,31 @@ void	split_node(t_list *gc, t_btree *root, char *sep)
 
 	if (root->left || root->right)
 		return ;
-	// content = root->content;
 	cmd = ((t_btree_content *)root->content)->cmd;
 	sep_found = ft_strnstr_quotes(cmd, sep, ft_strlen(cmd));
 	if (sep_found)
 	{
-		content = gc_malloc_btree_content(gc);
-		content->cmd = substr_left(gc, cmd, sep_found);
+		content = gc_malloc_btree_content();
+		content->cmd = substr_left(cmd, sep_found);
 		if (content->cmd)
-			root->left = new_node(gc, content);
-		content = gc_malloc_btree_content(gc);
-		content->cmd = substr_right(gc, cmd, sep_found);
+			root->left = new_node(content);
+		content = gc_malloc_btree_content();
+		content->cmd = substr_right(cmd, sep_found);
 		if (content->cmd)
-			root->right = new_node(gc, content);
+			root->right = new_node(content);
 		content = root->content;
-		gc_free_item(&gc, content->cmd);
-		content->cmd = gc_strdup(&gc, sep);
+		gc_free_item(&d.gc, content->cmd);
+		content->cmd = gc_strdup(&d.gc, sep);
 	}
 }
 
-void	btree_split(t_list *gc, t_btree *root, char *sep)
+void	btree_split(t_btree *root, char *sep)
 {
 	if (!root)
 		return ;
-	split_node(gc, root, sep);
+	split_node(root, sep);
 	if (root->left)
-		btree_split(gc, root->left, sep);
+		btree_split(root->left, sep);
 	if (root->right)
-		btree_split(gc, root->right, sep);
+		btree_split(root->right, sep);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*																			*/
 /*														:::		::::::::   */
-/*   template.c											:+:		:+:	:+:   */
+/*   ft_quotes_utils.c                                  :+:      :+:    :+:   */
 /*													+:+ +:+			+:+		*/
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2024/09/05 14:15:32 by nidionis			###   ########.fr		*/
+/*   Updated: 2025/01/18 13:29:22 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ int	strlen_wd_quoted(char *cmd)
 	return (len);
 }
 
-char	*strdup_wd_quote(t_list *gc, char *cmd)
+char	*strdup_wd_quote(char *cmd)
 {
 	int		wd_len_quoted;
 	char	*duplicated;
 	char	*out;
 
 	wd_len_quoted = strlen_wd_quoted(cmd);
-	duplicated = gc_malloc(&gc, 1, wd_len_quoted + 1);
+	duplicated = gc_malloc(&d.gc, 1, wd_len_quoted + 1);
 	if (!duplicated)
 		return (NULL);
 	out = duplicated;
@@ -46,11 +46,13 @@ char	*strdup_wd_quote(t_list *gc, char *cmd)
 	return (out);
 }
 
-int	is_quoted(char c, int buff, int reset)
+int	is_quoted(char c, int buff, int action)
 {
 	static int	quote[BUFF_QUOTE_MAX];
 
-	if (reset == RESET)
+	if (action == READ)
+		return (quote[buff]);
+	if (action == RESET)
 		quote[buff] = 0;
 	if (c == '\'')
 	{

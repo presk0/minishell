@@ -6,13 +6,13 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/17 14:37:55 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/18 13:58:42 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	*gc_realloc(t_list *gc, void *ptr, size_t old_size, size_t new_size)
+void	*gc_realloc(void *ptr, size_t old_size, size_t new_size)
 {
 	void	*new_ptr;
 
@@ -21,7 +21,7 @@ void	*gc_realloc(t_list *gc, void *ptr, size_t old_size, size_t new_size)
 		free(ptr);
 		return (NULL);
 	}
-	new_ptr = gc_malloc(&gc, 1, new_size);
+	new_ptr = gc_malloc(&d.gc, 1, new_size);
 	if (!new_ptr)
 	{
 		perror("minishell: ft_realloc: malloc failed");
@@ -32,7 +32,7 @@ void	*gc_realloc(t_list *gc, void *ptr, size_t old_size, size_t new_size)
 		if (new_size < old_size)
 			new_size = old_size;
 		ft_memcpy(new_ptr, ptr, new_size);
-		gc_free_item(&gc, ptr);
+		gc_free_item(&d.gc, ptr);
 	}
 	return (new_ptr);
 }
@@ -45,28 +45,28 @@ void	print_export(char **tab)
 	}
 }
 
-char	*ft_getenv(char **env, const char *var)
+char	*ft_getenv(const char *var)
 {
 	size_t	var_len;
 
 	var_len = strlen(var);
-	for (int i = 0; env[i] != NULL; i++)
+	for (int i = 0; d.env[i] != NULL; i++)
 	{
-		if (strncmp(env[i], var, var_len) == 0 && env[i][var_len] == '=')
+		if (strncmp(d.env[i], var, var_len) == 0 && d.env[i][var_len] == '=')
 		{
-			return (env[i] + var_len + 1);
+			return (d.env[i] + var_len + 1);
 		}
 	}
 	return (NULL);
 }
 
-int	ft_exit(t_list *gc)
+int	ft_exit()
 {
-	minishell_exit(gc);
+	minishell_exit();
 	return (0);
 }
 
-int	unset_var_in_env(t_list *gc, char ***env, char *var)
+int	unset_var_in_env(char *var)
 {
 	int		i;
 	int		j;
@@ -74,15 +74,15 @@ int	unset_var_in_env(t_list *gc, char ***env, char *var)
 
 	var_len = strlen(var);
 	i = 0;
-	while ((*env)[i] != NULL)
+	while (d.env[i] != NULL)
 	{
-		if (ft_strncmp((*env)[i], var, var_len) == 0 && (*env)[i][var_len] == '=')
+		if (ft_strncmp(d.env[i], var, var_len) == 0 && d.env[i][var_len] == '=')
 		{
-			gc_free_item(&gc, (*env)[i]);
+			gc_free_item(&d.gc, d.env[i]);
 			j = 0;
-			while ((*env)[j] != NULL)
+			while (d.env[j] != NULL)
 			{
-				(*env)[j] = (*env)[j + 1];
+				d.env[j] = d.env[j + 1];
 				j++;
 			}
 			return (0);
@@ -92,12 +92,12 @@ int	unset_var_in_env(t_list *gc, char ***env, char *var)
 	return (1);
 }
 
-int	ft_unset(t_list *gc, char ***env, t_token *token)
+int	ft_unset(t_token *token)
 {
 	char	*var;
 
 	var = token->args[1];
-	return (unset_var_in_env(gc, env, var));
+	return (unset_var_in_env(var));
 }
 
 int	ft_varlen(const char *var)
@@ -109,7 +109,7 @@ int	ft_varlen(const char *var)
 	len = 1;
 	while (var[len] != '\0')
 	{
-		if (!isalnum(var[len]) || var[len] != '_')
+		if (!isalnum(var[len]) || var[len] == '_')
 			break ;
 		len++;
 	}
@@ -134,22 +134,22 @@ int	is_valid_var_name(const char *var)
 	return (TRUE);
 }
 
-int	is_var_in_env(char **env, const char *var)
+int	is_var_in_env(const char *var)
 {
 	size_t	var_len;
 	int		i;
 
 	i = 0;
 	var_len = strlen(var);
-	while (env[i] != NULL)
+	while (d.env[i] != NULL)
 	{
-		if (strncmp(env[i], var, var_len) == 0 && env[i][var_len] == '=')
+		if (strncmp(d.env[i], var, var_len) == 0 && d.env[i][var_len] == '=')
 			return (TRUE);
 	}
 	return (FALSE);
 }
 
-int	ft_setenv(t_list *gc, char ***env, char *var)
+int	ft_setenv(char *var)
 {
 	char	*delimiter;
 
@@ -160,53 +160,53 @@ int	ft_setenv(t_list *gc, char ***env, char *var)
 			return (FALSE);
 		if (ft_varlen(var))
 		{
-			if (is_var_in_env(*env, var))
-				unset_var_in_env(gc, env, var);
-			append_tab(gc, env, var);
+			if (is_var_in_env(var))
+				unset_var_in_env(var);
+			append_tab(&d.env, var);
 		}
 	}
 	return (TRUE);
 }
 
-int	ft_export(t_list *gc, char ***env, t_token *token)
+int	ft_export(t_token *token)
 {
 	int	i;
 
 	if (!token->args[1])
 	{
-		print_export(*env);
+		print_export(d.env);
 		return (0);
 	}
 	i = 1;
 	while (token->args[i] != NULL)
 	{
-		if (!ft_setenv(gc, env, token->args[i]))
+		if (!ft_setenv(token->args[i]))
 			continue ;
 	}
 	return (0);
 }
 
-int	ft_env(char **env)
+int	ft_env()
 {
-	for (int i = 0; env[i] != NULL; i++)
+	for (int i = 0; d.env[i] != NULL; i++)
 	{
-		printf("%s\n", env[i]);
+		printf("%s\n", d.env[i]);
 	}
 	return (0);
 }
 
-char	*gc_strjoin(t_list *gc, const char *s1, const char *s2)
+char	*gc_strjoin(const char *s1, const char *s2)
 {
 	char	*ret;
 
-	// ret = gc_malloc(gc, sizeof(char *), ft_strlen(s1) + ft_strlen(s2) + 1)
+	// ret = gc_malloc(sizeof(char *), ft_strlen(s1) + ft_strlen(s2) + 1)
 	ret = ft_strjoin(s1, s2);
-	if (!gc_append(&gc, ret))
-		minishell_exit(gc);
+	if (!gc_append(&d.gc, ret))
+		minishell_exit();
 	return (ret);
 }
 
-int	ft_cd(t_list *gc, char **env, t_token *token)
+int	ft_cd(t_token *token)
 {
 	char	*path;
 	char	cwd[1024];
@@ -214,7 +214,7 @@ int	ft_cd(t_list *gc, char **env, t_token *token)
 
 	if (token->args[1] == NULL)
 	{
-		path = ft_getenv(env, "HOME");
+		path = ft_getenv("HOME");
 		if (path == NULL)
 		{
 			fprintf(stderr, "minishell: cd: HOME not set\n");
@@ -230,9 +230,9 @@ int	ft_cd(t_list *gc, char **env, t_token *token)
 	}
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		env_line = gc_strjoin(gc, "PWD=", cwd);
+		env_line = gc_strjoin("PWD=", cwd);
 		printf("%s\n", env_line);
-		if (!ft_setenv(gc, &env, env_line))
+		if (!ft_setenv(env_line))
 		{
 			fprintf(stderr, "minishell: cd: failed to update PWD\n");
 			return (1);
@@ -246,12 +246,11 @@ int	ft_cd(t_list *gc, char **env, t_token *token)
 	return (0);
 }
 
-int	ft_echo(char **env, t_token *token)
+int	ft_echo(t_token *token)
 {
 	int	newline;
 	int	i;
 
-	(void)env;
 	newline = TRUE;
 	i = 1;
 	if (token->args[1] != NULL && strcmp(token->args[1], "-n") == 0)
@@ -273,29 +272,28 @@ int	ft_echo(char **env, t_token *token)
 	return (0);
 }
 
-void	exec_cmd(t_list *gc, t_token *tok, char **env)
+void	exec_cmd(t_token *tok)
 {
-	(void)gc;
 	if (!tok)
 		return ;
 	handle_redir_in(tok);
 	handle_redir_out(tok);
-	execve(tok->cmd, tok->args, env);
+	execve(tok->cmd, tok->args, d.env);
 	perror("[exec_cmd] execve failed");
-	// minishell_exit(gc);
+	// minishell_exit();
 }
 
-void	exec_content(t_list *gc, t_btree *node, char **env)
+void	exec_content(t_btree *node)
 {
 	t_btree_content	*content;
 	t_token			*tok;
 
 	content = node->content;
 	tok = &(content->token);
-	exec_cmd(gc, tok, env);
+	exec_cmd(tok);
 }
 
-int	exec_forking(t_list *gc, t_btree *node, char **env)
+int	exec_forking(t_btree *node)
 {
 	pid_t	pid;
 	int		status;
@@ -305,23 +303,23 @@ int	exec_forking(t_list *gc, t_btree *node, char **env)
 	if (pid == -1)
 	{
 		perror("[rec_exec] fork failed");
-		minishell_exit(gc);
+		minishell_exit();
 	}
 	if (pid == 0)
 	{
-		exec_content(gc, node, env);
-		minishell_exit(gc);
+		exec_content(node);
+		minishell_exit();
 	}
 	waitpid(pid, &status, 0);
 	return (status);
 }
 
-void	reset_stdin(t_list *gc, int stdin_fd)
+void	reset_stdin(int stdin_fd)
 {
 	if (dup2(stdin_fd, STDIN_FILENO) == -1)
 	{
 		perror("[rec_exec] dup2 failed");
-		minishell_exit(gc);
+		minishell_exit();
 	}
 }
 
@@ -345,37 +343,35 @@ void	set_cmd_id(t_token *token)
 		token->cmd_id = 0;
 }
 
-int	ft_pwd(char **env, t_token *token)
+int	ft_pwd(t_token *token)
 {
 	(void)token;
-	printf("%s\n", ft_getenv(env, "PWD"));
+	printf("%s\n", ft_getenv("PWD"));
 	return (0);
 }
 
-int	exec_builtin(t_list *gc, t_token *token, char ***env_in)
+int	exec_builtin(t_token *token)
 {
 	int		exit_status;
-	char	**env;
 
 	// if (apply_redirections(token, i))
 	// 	ft_print_err("%s: %d: err applying redir\n", __FILE__, __LINE__);
 	set_cmd_id(token);
-	env = *env_in;
 	exit_status = 0;
 	if (token->cmd_id == (int)ECHO_ID)
-		exit_status = ft_echo(env, token);
+		exit_status = ft_echo(token);
 	else if (token->cmd_id == (int)CD_ID)
-		exit_status = ft_cd(gc, env, token);
+		exit_status = ft_cd(token);
 	else if (token->cmd_id == (int)PWD_ID)
-		exit_status = ft_pwd(env, token);
+		exit_status = ft_pwd(token);
 	else if (token->cmd_id == (int)EXPORT_ID)
-		exit_status = ft_export(gc, &env, token);
+		exit_status = ft_export(token);
 	else if (token->cmd_id == (int)UNSET_ID)
-		exit_status = ft_unset(gc, &env, token);
+		exit_status = ft_unset(token);
 	else if (token->cmd_id == (int)ENV_ID)
-		exit_status = ft_env(env);
+		exit_status = ft_env();
 	else if (token->cmd_id == (int)EXIT_ID)
-		exit_status = ft_exit(gc);
+		exit_status = ft_exit();
 	// if (restore_std_fds(m->std_fds) == -1)
 	// 	ft_print_err("%s: %d: err restore std fds", __FILE__, __LINE__);
 	return (exit_status);
@@ -384,16 +380,14 @@ int	exec_builtin(t_list *gc, t_token *token, char ***env_in)
 /* remarque du type *gc non protege assez abusive
  * Car passe par adresse
  */
-int	exec_builtin_scotch(t_list **gc, t_btree *node, char ***env)
+int	exec_builtin_scotch(t_btree *node)
 {
 	t_btree_content	*c;
 	int				ret;
 
-	(void)gc;
 	(void)node;
-	(void)env;
 	c = node->content;
-	ret = exec_builtin(*gc, &c->token, env);
+	ret = exec_builtin(&c->token);
 	return (ret);
 }
 
@@ -419,43 +413,43 @@ int	is_builtin(t_btree_content *c)
 	return (0);
 }
 
-void	handle_dup_failure(t_list *gc, int fd, const char *msg)
+void	handle_dup_failure(int fd, const char *msg)
 {
 	if (fd == -1)
 	{
 		perror(msg);
-		minishell_exit(gc);
+		minishell_exit();
 	}
 }
 
-void	handle_fork_failure(t_list *gc, pid_t pid, const char *msg)
+void	handle_fork_failure(pid_t pid, const char *msg)
 {
 	if (pid == -1)
 	{
 		perror(msg);
-		minishell_exit(gc);
+		minishell_exit();
 	}
 }
 
-void	handle_pipe_failure(t_list *gc, int result, const char *msg)
+void	handle_pipe_failure(int result, const char *msg)
 {
 	if (result == -1)
 	{
 		perror(msg);
-		minishell_exit(gc);
+		minishell_exit();
 	}
 }
 
-void	execute_pipe_child(t_list *gc, t_btree *node, char **env, int pipe_fd[])
+void	execute_pipe_child(t_btree *node, int pipe_fd[])
 {
 	close(pipe_fd[0]);
 	dup2(pipe_fd[1], STDOUT_FILENO);
 	close(pipe_fd[1]);
-	rec_exec(gc, node->left, env);
-	minishell_exit(gc);
+	rec_exec(node->left);
+	minishell_exit();
 }
 
-void	execute_pipe_parent(t_list *gc, t_btree *node, char **env,
+void	execute_pipe_parent(t_btree *node,
 		int pipe_fd[], pid_t pid)
 {
 	int	status;
@@ -463,19 +457,19 @@ void	execute_pipe_parent(t_list *gc, t_btree *node, char **env,
 	close(pipe_fd[1]);
 	dup2(pipe_fd[0], STDIN_FILENO);
 	close(pipe_fd[0]);
-	rec_exec(gc, node->right, env);
+	rec_exec(node->right);
 	waitpid(pid, &status, 0);
 }
 
-void	execute_command(t_list *gc, t_btree *node, char **env, int stdin_fd)
+void	execute_command(t_btree *node, int stdin_fd)
 {
 	int	status;
 
 	if (is_builtin(node->content))
-		status = exec_builtin_scotch(&gc, node, &env);
+		status = exec_builtin_scotch(node);
 	else
-		status = exec_forking(gc, node, env);
-	reset_stdin(gc, stdin_fd);
+		status = exec_forking(node);
+	reset_stdin(stdin_fd);
 }
 
 size_t	var_len(char *var)
@@ -490,25 +484,25 @@ size_t	var_len(char *var)
 	return (len);
 }
 
-void	rec_exec(t_list *gc, t_btree *node, char **env)
+void	rec_exec(t_btree *node)
 {
 	int		pipe_fd[2];
 	pid_t	pid;
 	int		stdin_fd;
 
 	stdin_fd = dup(STDIN_FILENO);
-	handle_dup_failure(gc, stdin_fd, "[rec_exec] dup failed");
+	handle_dup_failure(stdin_fd, "[rec_exec] dup failed");
 	if (is_pipe(node))
 	{
-		handle_pipe_failure(gc, pipe(pipe_fd), "[rec_exec] pipe failed");
+		handle_pipe_failure(pipe(pipe_fd), "[rec_exec] pipe failed");
 		pid = fork();
-		handle_fork_failure(gc, pid, "[rec_exec] fork failed");
+		handle_fork_failure(pid, "[rec_exec] fork failed");
 		if (pid == 0)
-			execute_pipe_child(gc, node, env, pipe_fd);
+			execute_pipe_child(node,  pipe_fd);
 		else
-			execute_pipe_parent(gc, node, env, pipe_fd, pid);
+			execute_pipe_parent(node,  pipe_fd, pid);
 	}
 	else
-		execute_command(gc, node, env, stdin_fd);
+		execute_command(node,  stdin_fd);
 	close(stdin_fd);
 }
