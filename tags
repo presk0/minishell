@@ -17,6 +17,10 @@ $(OBJ_DIR)	lib/libft/Makefile	/^$(OBJ_DIR):$/;"	t
 $(OBJ_DIR)/%.o	lib/libbtree/Makefile	/^$(OBJ_DIR)\/%.o: $(SRC_DIR)\/%.c$/;"	t
 $(OBJ_DIR)/%.o	lib/libft/Makefile	/^$(OBJ_DIR)\/%.o: $(SRC_DIR)\/%.c | $(OBJ_DIR)$/;"	t
 $(OBJ_DIR)/%.o	lib/libgc/Makefile	/^$(OBJ_DIR)\/%.o: $(SRC_DIR)\/%.c$/;"	t
+0	.vscode/launch.json	/^				{$/;"	o	array:configurations.0.setupCommands
+0	.vscode/launch.json	/^			"args": ['|'],$/;"	z	array:configurations.0.args
+0	.vscode/launch.json	/^		{$/;"	o	array:configurations
+1	.vscode/launch.json	/^				{$/;"	o	array:configurations.0.setupCommands
 BTREE_H	lib/libbtree/include/btree.h	/^# define BTREE_H$/;"	d
 BUFF_QUOTE_MAX	includes/minishell.h	/^# define BUFF_QUOTE_MAX /;"	d
 BUFF_RMQUOTES	includes/minishell.h	/^# define BUFF_RMQUOTES /;"	d
@@ -64,6 +68,7 @@ LIBRARIES	Makefile	/^LIBRARIES = btree gc ft$/;"	m
 LIBS	Makefile	/^LIBS = $(addprefix $(LIB_DIR)\/,$(LIBRARIES))$/;"	m
 LIB_DIR	Makefile	/^LIB_DIR = .\/lib$/;"	m
 LIB_NAMES	Makefile	/^LIB_NAMES = $(addprefix lib, $(LIBRARIES))$/;"	m
+MIMode	.vscode/launch.json	/^			"MIMode": "gdb",$/;"	s	object:configurations.0
 MINISHELL_H	includes/minishell.h	/^# define MINISHELL_H$/;"	d
 MINISHELL_ID	includes/minishell.h	/^# define MINISHELL_ID /;"	d
 NAME	Makefile	/^NAME = minishell$/;"	m
@@ -109,6 +114,7 @@ append_flag	includes/minishell.h	/^	int		append_flag;$/;"	m	struct:s_token	typer
 append_line	lib/libft/src/ft_split.c	/^static size_t	append_line(char *str, char sep, char **ret, size_t i_wd)$/;"	f	typeref:typename:size_t	file:
 append_tab	src/ft_tab_utils.c	/^void	append_tab(char ***tab_addr, char *str)$/;"	f	typeref:typename:void
 append_until_dollar	src/ft_var_substitution.c	/^size_t	append_until_dollar(char *input, size_t *i_input, size_t *i_result, char **result)$/;"	f	typeref:typename:size_t
+args	.vscode/launch.json	/^			"args": ['|'],$/;"	a	object:configurations.0
 args	includes/minishell.h	/^	char	**args;$/;"	m	struct:s_token	typeref:typename:char **
 btree_apply_infix	lib/libbtree/src/ft_btree.c	/^void	btree_apply_infix(\\$/;"	f	typeref:typename:void
 btree_apply_postfix	lib/libbtree/src/ft_btree.c	/^void	btree_apply_postfix(\\$/;"	f	typeref:typename:void
@@ -126,13 +132,18 @@ cmd	includes/minishell.h	/^	char	*cmd;$/;"	m	struct:btree_content	typeref:typena
 cmd	includes/minishell.h	/^	char	*cmd;$/;"	m	struct:s_token	typeref:typename:char *
 cmd_id	includes/minishell.h	/^	int		cmd_id;$/;"	m	struct:s_token	typeref:typename:int
 cmd_tree	includes/minishell.h	/^	t_btree	*cmd_tree;$/;"	m	struct:s_data	typeref:typename:t_btree *
+configurations	.vscode/launch.json	/^	"configurations": [$/;"	a
 content	lib/libbtree/include/btree.h	/^	void				*content;$/;"	m	struct:s_btree	typeref:typename:void *
 content	lib/libft/include/libft.h	/^	void			*content;$/;"	m	struct:s_list	typeref:typename:void *
+cwd	.vscode/launch.json	/^			"cwd": "${fileDirname}",$/;"	s	object:configurations.0
 d	src/main.c	/^t_data d;$/;"	v	typeref:typename:t_data
 del_char	src/ft_var_substitution.c	/^char	*del_char(char *str)$/;"	f	typeref:typename:char *
+description	.vscode/launch.json	/^					"description": "Enable pretty-printing for gdb",$/;"	s	object:configurations.0.setupCommands.0
+description	.vscode/launch.json	/^					"description": "Set Disassembly Flavor to Intel",$/;"	s	object:configurations.0.setupCommands.1
 display_tree	lib/libbtree/src/display_tree.c	/^void	display_tree(t_btree *root, void (*print)(void *content))$/;"	f	typeref:typename:void
 duplicate_tab	src/main.c	/^char	**duplicate_tab(char **tab_original)$/;"	f	typeref:typename:char **
 env	includes/minishell.h	/^	char	**env;$/;"	m	struct:s_data	typeref:typename:char **
+environment	.vscode/launch.json	/^			"environment": [],$/;"	a	object:configurations.0
 exec_builtin	src/ft_exec_recursive.c	/^int	exec_builtin(t_token *token)$/;"	f	typeref:typename:int
 exec_builtin_scotch	src/ft_exec_recursive.c	/^int	exec_builtin_scotch(t_btree *node)$/;"	f	typeref:typename:int
 exec_cmd	src/ft_exec_recursive.c	/^void	exec_cmd(t_token *tok)$/;"	f	typeref:typename:void
@@ -142,10 +153,12 @@ exec_whole_line	src/ft_exec_forking.c	/^int	exec_whole_line(t_btree *cmd_tree)$/
 execute_command	src/ft_exec_recursive.c	/^void	execute_command(t_btree *node, int stdin_fd)$/;"	f	typeref:typename:void
 execute_pipe_child	src/ft_exec_recursive.c	/^void	execute_pipe_child(t_btree *node, int pipe_fd[])$/;"	f	typeref:typename:void
 execute_pipe_parent	src/ft_exec_recursive.c	/^void	execute_pipe_parent(t_btree *node,$/;"	f	typeref:typename:void
+externalConsole	.vscode/launch.json	/^			"externalConsole": false,$/;"	b	object:configurations.0
 fclean	Makefile	/^fclean: clean$/;"	t
 fclean	lib/libbtree/Makefile	/^fclean: clean$/;"	t
 fclean	lib/libft/Makefile	/^fclean: clean$/;"	t
 fclean	lib/libgc/Makefile	/^fclean: clean$/;"	t
+find_path	src/ft_tokens.c	/^static char	*find_path(char *cmd, char **envp)$/;"	f	typeref:typename:char *	file:
 free_token	src/ft_tree_utils.c	/^void	free_token(t_token token)$/;"	f	typeref:typename:void
 free_tree	lib/libbtree/src/ft_btree.c	/^void	free_tree(t_btree *root, void (*f_free)(void *content))$/;"	f	typeref:typename:void
 ft_atoi	lib/libft/src/ft_atoi.c	/^int	ft_atoi(const char *str0)$/;"	f	typeref:typename:int
@@ -242,7 +255,10 @@ handle_redir_in	src/ft_redir.c	/^void	handle_redir_in(t_token *tok)$/;"	f	typere
 handle_redir_out	src/ft_redir.c	/^void	handle_redir_out(t_token *tok)$/;"	f	typeref:typename:void
 handle_sigint	src/ft_signals.c	/^void	handle_sigint(int sig)$/;"	f	typeref:typename:void
 heredoc	includes/minishell.h	/^	int		heredoc;$/;"	m	struct:s_token	typeref:typename:int
+ignoreFailures	.vscode/launch.json	/^					"ignoreFailures": true$/;"	b	object:configurations.0.setupCommands.0
+ignoreFailures	.vscode/launch.json	/^					"ignoreFailures": true$/;"	b	object:configurations.0.setupCommands.1
 init_sig	src/ft_signals.c	/^void	init_sig()$/;"	f	typeref:typename:void
+is_available_path	src/ft_tokens.c	/^static char	*is_available_path(char *path_i, char *cmd)$/;"	f	typeref:typename:char *	file:
 is_blank	src/ft_parsing.c	/^int	is_blank(char *str)$/;"	f	typeref:typename:int
 is_builtin	src/ft_exec_recursive.c	/^int	is_builtin(t_btree_content *c)$/;"	f	typeref:typename:int
 is_operand	src/ft_op_utils.c	/^int	is_operand(char *cmd)$/;"	f	typeref:typename:int
@@ -261,9 +277,11 @@ make_tab	lib/libft/src/ft_split.c	/^static char	**make_tab(char **ret, char cons
 malloc_len	lib/libft/src/ft_substr.c	/^size_t	malloc_len(char const *s, unsigned int start, size_t len)$/;"	f	typeref:typename:size_t
 minishell	src/main.c	/^void	minishell(char **envp)$/;"	f	typeref:typename:void
 minishell_exit	src/main.c	/^void	minishell_exit(char *errmsg, int status)$/;"	f	typeref:typename:void
+name	.vscode/launch.json	/^			"name": "(gdb) Launch",$/;"	s	object:configurations.0
 new_node	src/ft_tree_utils.c	/^t_btree	*new_node(t_btree_content *content)$/;"	f	typeref:typename:t_btree *
 next	lib/libft/include/libft.h	/^	struct s_list	*next;$/;"	m	struct:s_list	typeref:struct:s_list *
 open_redirect	src/ft_redir.c	/^int	open_redirect(char *file, int mode)$/;"	f	typeref:typename:int
+prepend_path	src/ft_tokens.c	/^void	prepend_path(t_token *token)$/;"	f	typeref:typename:void
 print_export	src/ft_exec_recursive.c	/^void	print_export(char **tab)$/;"	f	typeref:typename:void
 print_gc	lib/libgc/src/gc.c	/^void print_gc(t_list *gc)$/;"	f	typeref:typename:void
 print_item	lib/libft/src/ft_printf.c	/^static int	print_item(va_list ap, char c)$/;"	f	typeref:typename:int	file:
@@ -271,6 +289,7 @@ print_node_content	src/ft_tree_utils.c	/^void	print_node_content(void *content)$
 print_token	src/ft_tokens.c	/^void	print_token(t_token *token)$/;"	f	typeref:typename:void
 print_tree	lib/libbtree/src/display_tree.c	/^void	print_tree(t_btree *root, int space, void (*print)(void *content))$/;"	f	typeref:typename:void
 process_dollar	src/ft_var_substitution.c	/^char	*process_dollar(char *input, size_t *i_input, size_t *i_result, char **result)$/;"	f	typeref:typename:char *
+program	.vscode/launch.json	/^			"program": "${workspaceFolder}\/minishell",$/;"	s	object:configurations.0
 putubase	lib/libft/src/ft_printf.c	/^static size_t	putubase(\\$/;"	f	typeref:typename:size_t	file:
 re	Makefile	/^re: fclean all$/;"	t
 re	lib/libbtree/Makefile	/^re: fclean $(NAME)$/;"	t
@@ -280,6 +299,7 @@ rec_exec	src/ft_exec_recursive.c	/^void	rec_exec(t_btree *node)$/;"	f	typeref:ty
 rec_tokenization	src/ft_tokenization_recursive.c	/^void	rec_tokenization(t_btree *node)$/;"	f	typeref:typename:void
 redir_in	includes/minishell.h	/^	char	*redir_in;$/;"	m	struct:s_token	typeref:typename:char *
 redir_out	includes/minishell.h	/^	char	*redir_out;$/;"	m	struct:s_token	typeref:typename:char *
+request	.vscode/launch.json	/^			"request": "launch",$/;"	s	object:configurations.0
 reset_stdin	src/ft_exec_recursive.c	/^void	reset_stdin(int stdin_fd)$/;"	f	typeref:typename:void
 right	lib/libbtree/include/btree.h	/^	struct s_btree		*right;$/;"	m	struct:s_btree	typeref:struct:s_btree *
 rm_quotes	src/ft_var_substitution.c	/^char	*rm_quotes(char *str)$/;"	f	typeref:typename:char *
@@ -291,14 +311,16 @@ s_token	includes/minishell.h	/^typedef struct	s_token$/;"	s
 save_token_cmd	src/ft_tokens.c	/^char	*save_token_cmd(char *cmd, t_token *token)$/;"	f	typeref:typename:char *
 save_token_op	src/ft_op_utils.c	/^char	*save_token_op(char *cmd, int op, t_token *token)$/;"	f	typeref:typename:char *
 set_cmd_id	src/ft_exec_recursive.c	/^void	set_cmd_id(t_token *token)$/;"	f	typeref:typename:void
+setupCommands	.vscode/launch.json	/^			"setupCommands": [$/;"	a	object:configurations.0
 skip_op_and_arg	src/ft_op_utils.c	/^char	*skip_op_and_arg(char *str, char op)$/;"	f	typeref:typename:char *
 skip_operand	src/ft_op_utils.c	/^char	*skip_operand(char *cmd, char op)$/;"	f	typeref:typename:char *
 split_node	src/ft_parsing.c	/^void	split_node(t_btree *root, char *sep)$/;"	f	typeref:typename:void
+stopAtEntry	.vscode/launch.json	/^			"stopAtEntry": false,$/;"	b	object:configurations.0
 strdup_wd_quote	src/ft_quotes_utils.c	/^char	*strdup_wd_quote(char *cmd)$/;"	f	typeref:typename:char *
 strlen_char_simple_quoted	src/ft_var_substitution.c	/^int	strlen_char_simple_quoted(char *cmd, char c, int buff)$/;"	f	typeref:typename:int
 strlen_wd_quoted	src/ft_quotes_utils.c	/^int	strlen_wd_quoted(char *cmd)$/;"	f	typeref:typename:int
 subst_var_and_quotes	src/ft_var_substitution.c	/^char	*subst_var_and_quotes(char *str)$/;"	f	typeref:typename:char *
-substitute_var_in_token	src/ft_tokens.c	/^int	substitute_var_in_token(t_token *token)$/;"	f	typeref:typename:int
+substitute_var_in_token	src/ft_tokenization_recursive.c	/^void	substitute_var_in_token(t_token *token)$/;"	f	typeref:typename:void
 substitute_variables	src/ft_var_substitution.c	/^char	*substitute_variables(char *input)$/;"	f	typeref:typename:char *
 substr_left	src/ft_parsing.c	/^char	*substr_left(char *node_content, char *found)$/;"	f	typeref:typename:char *
 substr_right	src/ft_parsing.c	/^char	*substr_right(char *node_content, char *found)$/;"	f	typeref:typename:char *
@@ -307,8 +329,11 @@ t_btree_content	includes/minishell.h	/^}	t_btree_content;$/;"	t	typeref:struct:b
 t_data	includes/minishell.h	/^} t_data;$/;"	t	typeref:struct:s_data
 t_list	lib/libft/include/libft.h	/^}	t_list;$/;"	t	typeref:struct:s_list
 t_token	includes/minishell.h	/^}	t_token;$/;"	t	typeref:struct:s_token
+text	.vscode/launch.json	/^					"text": "-enable-pretty-printing",$/;"	s	object:configurations.0.setupCommands.0
+text	.vscode/launch.json	/^					"text": "-gdb-set disassembly-flavor intel",$/;"	s	object:configurations.0.setupCommands.1
 token	includes/minishell.h	/^	t_token	token;$/;"	m	struct:btree_content	typeref:typename:t_token
 tokenize_cmd	src/ft_tokens.c	/^t_token	*tokenize_cmd(char *cmd, t_token *token)$/;"	f	typeref:typename:t_token *
 tokenize_content	src/ft_tokenization_recursive.c	/^void	tokenize_content(t_btree *node)$/;"	f	typeref:typename:void
+type	.vscode/launch.json	/^			"type": "cppdbg",$/;"	s	object:configurations.0
 unset_var_in_env	src/ft_exec_recursive.c	/^int	unset_var_in_env(char *var)$/;"	f	typeref:typename:int
 var_len	src/ft_exec_recursive.c	/^size_t	var_len(char *var)$/;"	f	typeref:typename:size_t

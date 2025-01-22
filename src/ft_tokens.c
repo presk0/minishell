@@ -6,11 +6,64 @@
 /*   By: nidionis <nidionis@student.42.fr>			+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/18 13:04:53 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/22 12:58:34 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+static char	*is_available_path(char *path_i, char *cmd)
+{
+	char	*tryed_path;
+	char	*path;
+
+	tryed_path = ft_strjoin(path_i, "/");
+	path = NULL;
+	if (tryed_path)
+	{
+		path = ft_strjoin(tryed_path, cmd);
+		free(tryed_path);
+	}
+	if (access(path, F_OK) == 0)
+		return (path);
+	if (path)
+		free(path);
+	return (NULL);
+}
+
+static char	*find_path(char *cmd, char **envp)
+{
+	char	**paths;
+	char	*path;
+	int		i;
+
+	i = 0;
+	while (ft_strnstr(envp[i], "PATH", 4) == 0)
+		i++;
+	paths = ft_split(envp[i] + 5, ':');
+	i = 0;
+	path = NULL;
+	while (paths[i] && !path)
+		path = is_available_path(paths[i++], cmd);
+	ft_free_split(&paths);
+	if (access(path, F_OK) == 0)
+		return (gc_append(&d.gc, path));
+	return (0);
+}
+
+void	prepend_path(char **cmd)
+{
+	char	*path_available;
+
+	if (!cmd)
+		return ;
+	path_available = find_path(*cmd, d.env);
+	if (path_available)
+	{
+		gc_free_item(&d.gc, *cmd);
+		*cmd = path_available;
+	}
+}
 
 char	*save_token_cmd(char *cmd, t_token *token)
 {
@@ -30,12 +83,6 @@ char	*save_token_cmd(char *cmd, t_token *token)
 			append_tab(&(token->args), itm);
 	}
 	return (cmd + strlen_wd_quoted(cmd));
-}
-
-int	substitute_var_in_token(t_token *token)
-{
-	(void)token;
-	return (0);
 }
 
 t_token	*tokenize_cmd(char *cmd, t_token *token)
@@ -58,6 +105,7 @@ t_token	*tokenize_cmd(char *cmd, t_token *token)
 			cmd++;
 	}
 	substitute_var_in_token(token);
+	prepend_path(&token->cmd);
 	return (token);
 }
 

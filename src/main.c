@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>			+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/22 11:44:17 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/22 13:07:39 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -71,12 +71,13 @@ void	minishell(char **envp)
 
 t_data d;
 
-
 int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	d.env = envp;
-	printf("%s\n", subst_var_and_quotes(argv[1]));
+	char	*cmd = strdup(argv[1]);
+	d.env = duplicate_tab(envp);
+	prepend_path(&cmd);
+	printf("%s\n", cmd);
 	return (0);
 }

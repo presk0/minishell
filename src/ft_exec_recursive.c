@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/18 13:58:42 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/22 12:49:13 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -350,6 +350,8 @@ int	ft_pwd(t_token *token)
 	return (0);
 }
 
+/*
+*/
 int	exec_builtin(t_token *token)
 {
 	int		exit_status;

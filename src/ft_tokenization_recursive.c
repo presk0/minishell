@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*																			*/
 /*														:::		::::::::   */
-/*   template.c											:+:		:+:	:+:   */
+/*   ft_tokenization_recursive.c                        :+:      :+:    :+:   */
 /*													+:+ +:+			+:+		*/
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2024/09/05 14:15:32 by nidionis			###   ########.fr		*/
+/*   Updated: 2025/01/22 12:32:37 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -20,15 +20,29 @@ int	is_pipe(t_btree *node)
 	return (!ft_strncmp(c->cmd, "|", 1));
 }
 
+void	substitute_var_in_token(t_token *token)
+{
+	int	i;
+
+	token->cmd = subst_var_and_quotes(token->cmd);
+	i = 0;
+	while (token->args[i])
+	{
+		token->args[i] = subst_var_and_quotes(token->args[i]);
+		i++;
+	}
+	token->redir_in = subst_var_and_quotes(token->redir_in);
+	token->redir_out = subst_var_and_quotes(token->redir_out);
+}
+
 void	tokenize_content(t_btree *node)
 {
 	t_btree_content	*content;
-	t_token			*tok;
+	t_token			*token;
 
 	content = node->content;
-	tok = &(content->token);
-	tokenize_cmd(content->cmd, tok);
-	// substitute_var_in_token(tok);
+	token = &(content->token);
+	tokenize_cmd(content->cmd, token);
 }
 
 void	rec_tokenization(t_btree *node)
