@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/22 06:13:36 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/22 06:27:06 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,5 @@ char	*process_dollar(char *input, size_t *i, char **result);
 size_t	gc_strlcat(char **result, char *str);
 char	*ft_getenv(const char *var);
 int	ft_varlen(const char *var);
-char *gc_strldup(char *str, size_t len);
 
 #endif

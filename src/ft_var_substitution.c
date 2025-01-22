@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/22 04:55:43 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/22 07:20:22 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ size_t	append_until_dollar(char *input, size_t *start, char **result)
 	if (next_dollar > *start)
 	{
 		chunk_len = next_dollar - *start;
-		gc_strcat(result, input + *start);
+		gc_strcat(&d.gc, result, input + *start);
 	}
 	*start += next_dollar;
 	return (next_dollar);
@@ -84,17 +84,17 @@ char	*process_dollar(char *input, size_t *i, char **result)
 		var_name = ft_strndup(input + var_start, var_len);
 		var_value = ft_getenv(var_name);
 		if (var_value)
-			gc_strcat(result, var_value);
+			gc_strcat(&d.gc, result, var_value);
 		else if (var_name && *var_name)
 		{
-			gc_strcat(result, "$");
-			gc_strcat(result, var_name);
+			gc_strcat(&d.gc, result, "$");
+			gc_strcat(&d.gc, result, var_name);
 		}
 		*i += var_len;
 		free(var_name);
 	}
 	else
-		gc_strcat(result, "$");
+		gc_strcat(&d.gc, result, "$");
 	*i += var_len;
 	return (*result);
 }

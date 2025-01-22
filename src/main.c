@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>			+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/22 04:00:44 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/22 07:24:16 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -68,6 +68,9 @@ void	minishell(char **envp)
 	}
 	minishell_exit("TADAAAAM!", CLEAN_EXIT);
 }
+
+t_data d;
+
 
 int	main(int argc, char **argv, char **envp)
 {
