@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>			+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/22 13:07:39 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/22 13:27:50 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -75,9 +75,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	char	*cmd = strdup(argv[1]);
-	d.env = duplicate_tab(envp);
-	prepend_path(&cmd);
-	printf("%s\n", cmd);
+	minishell(envp);
 	return (0);
 }
