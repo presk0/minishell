@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/22 11:13:49 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/22 11:42:39 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,5 +151,6 @@ char	*ft_getenv(const char *var);
 int	ft_varlen(const char *var);
 char	*rm_quotes(char *str);
 char	*del_char(char *str);
+char	*subst_var_and_quotes(char *str);
 
 #endif

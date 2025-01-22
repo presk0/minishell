@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>			+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/22 11:14:44 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/22 11:44:17 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -77,6 +77,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	d.env = envp;
-	printf("%s\n", rm_quotes(argv[1]));
+	printf("%s\n", subst_var_and_quotes(argv[1]));
 	return (0);
 }

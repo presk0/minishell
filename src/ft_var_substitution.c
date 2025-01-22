@@ -6,11 +6,20 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/22 11:28:46 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/22 11:47:09 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+char	*subst_var_and_quotes(char *str)
+{
+	char *ret;
+
+	ret = substitute_variables(str);
+	ret = rm_quotes(ret);
+	return (ret);
+}
 
 int	is_to_substitute(char *var)
 {
