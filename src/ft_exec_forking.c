@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/23 16:26:30 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:53:12 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	run_line(char *line)
 {
-	t_btree			*cmd_tree;
 	t_btree_content	*content;
 	char			*line_cpy;
 
-	(void)cmd_tree;
+	if (!line || !*line)
+		return ;
 	content = gc_malloc(&d.gc, 1, sizeof(t_btree_content));
 	if (!content)
 		minishell_exit();
@@ -30,7 +30,7 @@ void	run_line(char *line)
 }
 
 
-int	exec_whole_line(t_btree *cmd_tree)
+int	exec_whole_line()
 {
 	pid_t	pid;
 	int		status;
@@ -40,13 +40,14 @@ int	exec_whole_line(t_btree *cmd_tree)
 	(void)status;
 	sep = ft_strdup("|");
 	gc_append(&d.gc, sep);
-	btree_split(cmd_tree, sep);
-	if (check_childs(cmd_tree))
+	btree_split(d.cmd_tree, sep);
+	if (check_childs(d.cmd_tree))
 	{
-		rec_tokenization(cmd_tree);
-		rec_exec(cmd_tree);
+		rec_tokenization(d.cmd_tree);
+		if (d.cmd_tree)
+			rec_exec(d.cmd_tree);
 	}
-	gc_free_tree(d.gc, &cmd_tree, gc_free_node_content);
+	gc_free_tree(d.gc, &d.cmd_tree, gc_free_node_content);
 	// gc_free_item(&d.gc, sep);
 	return (-1);
 }

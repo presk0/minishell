@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>		  +#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2022/02/24 15:51:11 by supersko		  #+#	#+#			 */
-/*   Updated: 2025/01/23 16:36:03 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:45:17 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -32,12 +32,10 @@ int	ft_strcmp(const char *s1, const char *s2)
 {
 	size_t	i;
 
-	if (!s1)
-		return (-1);
-	if (!s2)
-		return (1);
+	if (!s1 || !s2)
+		return (INT_MIN);
 	i = 0;
-	while (s1[i] == s2[i] && s1[i])
+	while (s1 && s2 && s1[i] == s2[i] && s1[i])
 		i++;
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
