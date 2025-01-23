@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/22 12:32:37 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:38:36 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	substitute_var_in_token(t_token *token)
 
 	token->cmd = subst_var_and_quotes(token->cmd);
 	i = 0;
-	while (token->args[i])
+	while (token->args && token->args[i])
 	{
 		token->args[i] = subst_var_and_quotes(token->args[i]);
 		i++;

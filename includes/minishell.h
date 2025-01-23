@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/23 14:02:16 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:26:19 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct	s_data
 {
 	char	**env;
 	t_list	*gc;
+	t_btree	*cmd_tree;
 } t_data;
 
 extern t_data d;

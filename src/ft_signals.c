@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/23 14:02:06 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:18:01 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	init_sig()
 	}
 }
 
+/*
 void handle_child_sigint(int sig)
 {
 	(void)sig;
@@ -64,19 +65,13 @@ void init_child_sig()
         exit(EXIT_FAILURE);
     }
 }
+*/
 
 void wait_for_child(pid_t pid)
 {
-    sigset_t mask, oldmask;
     int status;
 
-    sigemptyset(&mask);
-    sigaddset(&mask, SIGINT);
-    sigprocmask(SIG_BLOCK, &mask, &oldmask);
     if (waitpid(pid, &status, 0) == -1)
-	{
         perror("waitpid");
-    }
-    sigprocmask(SIG_SETMASK, &oldmask, NULL);
 }
 

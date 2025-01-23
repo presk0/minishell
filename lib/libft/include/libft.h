@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>		  +#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2022/03/02 18:03:26 by supersko		  #+#	#+#			 */
-/*   Updated: 2025/01/22 12:50:48 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:37:22 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <unistd.h>
 # include <stdarg.h>
 # include <stdio.h>
+# define INT_MIN -2147483648
+# define INT_MAX 2147483647
 
 typedef struct s_list
 {

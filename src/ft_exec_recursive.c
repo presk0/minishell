@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/23 14:03:46 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:19:24 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -272,12 +272,21 @@ int	ft_echo(t_token *token)
 	return (0);
 }
 
+void reset_signals()
+{
+    if (signal(SIGINT, SIG_DFL) == SIG_ERR)
+        perror("Erreur lors de la réinitialisation de SIGINT");
+    if (signal(SIGTERM, SIG_DFL) == SIG_ERR)
+        perror("Erreur lors de la réinitialisation de SIGTERM");
+}
+
 void	exec_cmd(t_token *tok)
 {
 	if (!tok)
 		return ;
 	handle_redir_in(tok);
 	handle_redir_out(tok);
+	reset_signals();
 	execve(tok->cmd, tok->args, d.env);
 	perror("[exec_cmd] execve failed");
 	// minishell_exit();
@@ -444,7 +453,7 @@ void	handle_pipe_failure(int result, const char *msg)
 
 void	execute_pipe_child(t_btree *node, int pipe_fd[])
 {
-	init_child_sig();
+	//init_child_sig();
 	close(pipe_fd[0]);
 	dup2(pipe_fd[1], STDOUT_FILENO);
 	close(pipe_fd[1]);

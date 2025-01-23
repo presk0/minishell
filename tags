@@ -301,6 +301,7 @@ rec_tokenization	src/ft_tokenization_recursive.c	/^void	rec_tokenization(t_btree
 redir_in	includes/minishell.h	/^	char	*redir_in;$/;"	m	struct:s_token	typeref:typename:char *
 redir_out	includes/minishell.h	/^	char	*redir_out;$/;"	m	struct:s_token	typeref:typename:char *
 request	.vscode/launch.json	/^			"request": "launch",$/;"	s	object:configurations.0
+reset_signals	src/ft_exec_recursive.c	/^void reset_signals()$/;"	f	typeref:typename:void
 reset_stdin	src/ft_exec_recursive.c	/^void	reset_stdin(int stdin_fd)$/;"	f	typeref:typename:void
 right	lib/libbtree/include/btree.h	/^	struct s_btree		*right;$/;"	m	struct:s_btree	typeref:struct:s_btree *
 rm_quotes	src/ft_var_substitution.c	/^char	*rm_quotes(char *str)$/;"	f	typeref:typename:char *
@@ -338,3 +339,4 @@ tokenize_content	src/ft_tokenization_recursive.c	/^void	tokenize_content(t_btree
 type	.vscode/launch.json	/^			"type": "cppdbg",$/;"	s	object:configurations.0
 unset_var_in_env	src/ft_exec_recursive.c	/^int	unset_var_in_env(char *var)$/;"	f	typeref:typename:int
 var_len	src/ft_exec_recursive.c	/^size_t	var_len(char *var)$/;"	f	typeref:typename:size_t
+wait_for_child	src/ft_signals.c	/^void wait_for_child(pid_t pid)$/;"	f	typeref:typename:void
