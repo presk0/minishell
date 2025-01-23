@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/23 22:36:57 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/23 23:14:58 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -506,5 +506,6 @@ void	rec_exec(t_btree *node)
 	}
 	else
 		execute_command(node,  stdin_fd);
+	dup2(stdin_fd, STDIN_FILENO);
 	close(stdin_fd);
 }
