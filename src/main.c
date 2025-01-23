@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>			+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/22 13:27:50 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/23 13:50:03 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	**duplicate_tab(char **tab_original)
 		tab_copy[tab_len] = gc_strdup(&d.gc, tab_original[tab_len]);
 		if (!tab_copy[tab_len])
 		{
-			printf("[duplicate_tab]malloc error\n");
+			ft_errmsg("[duplicate_tab]malloc error\n");
 			minishell_exit("", ERR_GC_STRDUP);
 		}
 	}
@@ -62,7 +62,7 @@ void	minishell(char **envp)
 		}
 		else
 		{
-			printf("[minishell] did not append to gc");
+			ft_errmsg("[minishell] did not append to gc");
 			minishell_exit("", ERR_GC_APPEND);
 		}
 	}

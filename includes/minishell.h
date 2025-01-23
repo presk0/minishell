@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/22 12:56:18 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/23 14:02:16 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <sys/wait.h>
 # include <sys/wait.h>
 
-# define PS1 "$"
+# define PS1 "$ "
 # define TOKEN_PIPE 0
 # define TOKEN_REDIR_IN 1
 # define TOKEN_REDIR_OUT 2
@@ -68,21 +68,21 @@
 # define CLEAN_EXIT 0
 # define ERR_GC_STRDUP -99
 # define ERR_GC_APPEND -98
+# define CHILD_INTERRUPT -97
 
 typedef struct	s_data
 {
-	char 	*line;
 	char	**env;
 	t_list	*gc;
-	t_btree	*cmd_tree;
 } t_data;
+
+extern t_data d;
 
 typedef struct	s_token
 {
 	char	*cmd;
 	char	**args;
 	int		cmd_id;
-	//char	**arg;
 	char	*redir_in;
 	char	*redir_out;
 	int		append_flag;
@@ -94,8 +94,6 @@ typedef struct btree_content
 	char	*cmd;
 	t_token	token;
 }	t_btree_content;
-
-extern t_data d;
 
 char	*substr_left(char *node_content, char *found);
 char	*substr_right(char *node_content, char *found);
@@ -155,4 +153,6 @@ char	*subst_var_and_quotes(char *str);
 void	prepend_path(char **cmd);
 void	substitute_var_in_token(t_token *token);
 
+void init_child_sig();
+void wait_for_child(pid_t pid);
 #endif

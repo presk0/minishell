@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/22 12:49:13 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/23 14:03:46 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -444,6 +444,7 @@ void	handle_pipe_failure(int result, const char *msg)
 
 void	execute_pipe_child(t_btree *node, int pipe_fd[])
 {
+	init_child_sig();
 	close(pipe_fd[0]);
 	dup2(pipe_fd[1], STDOUT_FILENO);
 	close(pipe_fd[1]);
@@ -451,16 +452,16 @@ void	execute_pipe_child(t_btree *node, int pipe_fd[])
 	minishell_exit();
 }
 
-void	execute_pipe_parent(t_btree *node,
-		int pipe_fd[], pid_t pid)
+void	execute_pipe_parent(t_btree *node, int pipe_fd[], pid_t pid)
 {
-	int	status;
+	//int	status;
 
 	close(pipe_fd[1]);
 	dup2(pipe_fd[0], STDIN_FILENO);
 	close(pipe_fd[0]);
 	rec_exec(node->right);
-	waitpid(pid, &status, 0);
+	wait_for_child(pid);
+	//waitpid(pid, &status, 0);
 }
 
 void	execute_command(t_btree *node, int stdin_fd)

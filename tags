@@ -37,6 +37,7 @@ CFLAGS	Makefile	/^CFLAGS = -Wall -Wextra -Werror -I includes -g3$/;"	m
 CFLAGS	lib/libbtree/Makefile	/^CFLAGS = -Wall -Wextra -Werror -Iinclude -g$/;"	m
 CFLAGS	lib/libft/Makefile	/^CFLAGS = -Wall -Wextra -Werror -Iinclude -g$/;"	m
 CFLAGS	lib/libgc/Makefile	/^CFLAGS = -Wall -Wextra -Werror -Iinclude -g$/;"	m
+CHILD_INTERRUPT	includes/minishell.h	/^# define CHILD_INTERRUPT /;"	d
 CLEAN_EXIT	includes/minishell.h	/^# define CLEAN_EXIT /;"	d
 DOUBLE_QUOTE	includes/minishell.h	/^# define DOUBLE_QUOTE /;"	d
 ECHO_ID	includes/minishell.h	/^# define ECHO_ID /;"	d
@@ -131,7 +132,6 @@ clean	lib/libgc/Makefile	/^clean:$/;"	t
 cmd	includes/minishell.h	/^	char	*cmd;$/;"	m	struct:btree_content	typeref:typename:char *
 cmd	includes/minishell.h	/^	char	*cmd;$/;"	m	struct:s_token	typeref:typename:char *
 cmd_id	includes/minishell.h	/^	int		cmd_id;$/;"	m	struct:s_token	typeref:typename:int
-cmd_tree	includes/minishell.h	/^	t_btree	*cmd_tree;$/;"	m	struct:s_data	typeref:typename:t_btree *
 configurations	.vscode/launch.json	/^	"configurations": [$/;"	a
 content	lib/libbtree/include/btree.h	/^	void				*content;$/;"	m	struct:s_btree	typeref:typename:void *
 content	lib/libft/include/libft.h	/^	void			*content;$/;"	m	struct:s_list	typeref:typename:void *
@@ -152,7 +152,7 @@ exec_forking	src/ft_exec_recursive.c	/^int	exec_forking(t_btree *node)$/;"	f	typ
 exec_whole_line	src/ft_exec_forking.c	/^int	exec_whole_line(t_btree *cmd_tree)$/;"	f	typeref:typename:int
 execute_command	src/ft_exec_recursive.c	/^void	execute_command(t_btree *node, int stdin_fd)$/;"	f	typeref:typename:void
 execute_pipe_child	src/ft_exec_recursive.c	/^void	execute_pipe_child(t_btree *node, int pipe_fd[])$/;"	f	typeref:typename:void
-execute_pipe_parent	src/ft_exec_recursive.c	/^void	execute_pipe_parent(t_btree *node,$/;"	f	typeref:typename:void
+execute_pipe_parent	src/ft_exec_recursive.c	/^void	execute_pipe_parent(t_btree *node, int pipe_fd[], pid_t pid)$/;"	f	typeref:typename:void
 externalConsole	.vscode/launch.json	/^			"externalConsole": false,$/;"	b	object:configurations.0
 fclean	Makefile	/^fclean: clean$/;"	t
 fclean	lib/libbtree/Makefile	/^fclean: clean$/;"	t
@@ -248,6 +248,7 @@ gc_strjoin	src/ft_exec_recursive.c	/^char	*gc_strjoin(const char *s1, const char
 gc_strlcat	lib/libgc/src/gc.c	/^size_t	gc_strlcat(t_list **gc, char **result, char *str, size_t l)$/;"	f	typeref:typename:size_t
 gc_strldup	lib/libgc/src/gc.c	/^char *gc_strldup(t_list **gc, char *str, size_t len)$/;"	f	typeref:typename:char *
 grep_token	src/ft_op_utils.c	/^char	*grep_token(char op, char *cmd)$/;"	f	typeref:typename:char *
+handle_child_sigint	src/ft_signals.c	/^void handle_child_sigint(int sig)$/;"	f	typeref:typename:void
 handle_dup_failure	src/ft_exec_recursive.c	/^void	handle_dup_failure(int fd, const char *msg)$/;"	f	typeref:typename:void
 handle_fork_failure	src/ft_exec_recursive.c	/^void	handle_fork_failure(pid_t pid, const char *msg)$/;"	f	typeref:typename:void
 handle_pipe_failure	src/ft_exec_recursive.c	/^void	handle_pipe_failure(int result, const char *msg)$/;"	f	typeref:typename:void
@@ -257,6 +258,7 @@ handle_sigint	src/ft_signals.c	/^void	handle_sigint(int sig)$/;"	f	typeref:typen
 heredoc	includes/minishell.h	/^	int		heredoc;$/;"	m	struct:s_token	typeref:typename:int
 ignoreFailures	.vscode/launch.json	/^					"ignoreFailures": true$/;"	b	object:configurations.0.setupCommands.0
 ignoreFailures	.vscode/launch.json	/^					"ignoreFailures": true$/;"	b	object:configurations.0.setupCommands.1
+init_child_sig	src/ft_signals.c	/^void init_child_sig()$/;"	f	typeref:typename:void
 init_sig	src/ft_signals.c	/^void	init_sig()$/;"	f	typeref:typename:void
 is_available_path	src/ft_tokens.c	/^static char	*is_available_path(char *path_i, char *cmd)$/;"	f	typeref:typename:char *	file:
 is_blank	src/ft_parsing.c	/^int	is_blank(char *str)$/;"	f	typeref:typename:int
@@ -268,7 +270,6 @@ is_to_substitute	src/ft_var_substitution.c	/^int	is_to_substitute(char *var)$/;"
 is_valid_var_name	src/ft_exec_recursive.c	/^int	is_valid_var_name(const char *var)$/;"	f	typeref:typename:int
 is_var_in_env	src/ft_exec_recursive.c	/^int	is_var_in_env(const char *var)$/;"	f	typeref:typename:int
 left	lib/libbtree/include/btree.h	/^	struct s_btree		*left;$/;"	m	struct:s_btree	typeref:struct:s_btree *
-line	includes/minishell.h	/^	char 	*line;$/;"	m	struct:s_data	typeref:typename:char *
 loop_norminette	lib/libft/src/ft_printf_utils.c	/^void	loop_norminette(char **str_addr, va_list ap, int *p_itm, int *ret_val)$/;"	f	typeref:typename:void
 main	src/main.c	/^int	main(int argc, char **argv, char **envp)$/;"	f	typeref:typename:int
 make_libs	Makefile	/^make_libs:$/;"	t
@@ -281,7 +282,7 @@ name	.vscode/launch.json	/^			"name": "(gdb) Launch",$/;"	s	object:configuration
 new_node	src/ft_tree_utils.c	/^t_btree	*new_node(t_btree_content *content)$/;"	f	typeref:typename:t_btree *
 next	lib/libft/include/libft.h	/^	struct s_list	*next;$/;"	m	struct:s_list	typeref:struct:s_list *
 open_redirect	src/ft_redir.c	/^int	open_redirect(char *file, int mode)$/;"	f	typeref:typename:int
-prepend_path	src/ft_tokens.c	/^void	prepend_path(t_token *token)$/;"	f	typeref:typename:void
+prepend_path	src/ft_tokens.c	/^void	prepend_path(char **cmd)$/;"	f	typeref:typename:void
 print_export	src/ft_exec_recursive.c	/^void	print_export(char **tab)$/;"	f	typeref:typename:void
 print_gc	lib/libgc/src/gc.c	/^void print_gc(t_list *gc)$/;"	f	typeref:typename:void
 print_item	lib/libft/src/ft_printf.c	/^static int	print_item(va_list ap, char c)$/;"	f	typeref:typename:int	file:
