@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>		  +#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2024/09/04 16:20:59 by nidionis		  #+#	#+#			 */
-/*   Updated: 2025/01/22 09:24:38 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:53:23 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	gc_free_all(t_list **gc_addr)
 	while (gc)
 	{
 		tmp = gc->next;
-		ft_lstdelone(gc, free);
+		ft_lstdelone(&gc, free);
 		gc = tmp;
 	}
 	*gc_addr = NULL;
@@ -48,7 +48,9 @@ void	*gc_append(t_list **gc_addr, void *ptr)
 		gc_free_all(gc_addr);
 	}
 	else
+	{
 		ft_lstadd_back(gc_addr, new_garbage);
+	}
 	return (ptr);
 }
 
@@ -99,10 +101,8 @@ void gc_free_item(t_list **gc_addr, void *ptr)
 
 	if (!gc_addr || !*gc_addr)
 		return;
-
 	gc = *gc_addr;
 	prev = NULL;
-
 	while (gc)
 	{
 		if (gc->content == ptr)
@@ -111,8 +111,8 @@ void gc_free_item(t_list **gc_addr, void *ptr)
 				prev->next = gc->next;
 			else
 				*gc_addr = gc->next;
-
-			ft_lstdelone(gc, free);
+			if (gc->content)
+				ft_lstdelone(&gc, free);
 			return ;
 		}
 		prev = gc;
@@ -127,6 +127,7 @@ void print_gc(t_list *gc)
 	while (gc)
 	{
 		printf("  Node: %p, Content: %p\n", gc, gc->content);
+		printf("  	Content: %s\n", (char *)gc->content);
 		gc = gc->next;
 	}
 }

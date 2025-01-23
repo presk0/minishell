@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/23 16:53:12 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:06:44 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ int	exec_whole_line()
 
 	(void)pid;
 	(void)status;
-	sep = ft_strdup("|");
-	gc_append(&d.gc, sep);
+	sep = gc_strdup(&d.gc, "|");
 	btree_split(d.cmd_tree, sep);
 	if (check_childs(d.cmd_tree))
 	{
@@ -48,6 +47,6 @@ int	exec_whole_line()
 			rec_exec(d.cmd_tree);
 	}
 	gc_free_tree(d.gc, &d.cmd_tree, gc_free_node_content);
-	// gc_free_item(&d.gc, sep);
+	gc_free_item(&d.gc, sep);
 	return (-1);
 }

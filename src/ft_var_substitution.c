@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/22 13:35:07 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/23 18:04:11 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ char	*substitute_variables(char *input)
 		else
 			append_until_dollar(input, &i_input, &i_result, &result);
 	}
+	//gc_free_item(&d.gc, input);
 	return (result);
 }
 

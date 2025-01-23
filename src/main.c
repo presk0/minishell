@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>			+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/23 13:50:03 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/23 17:48:46 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	minishell_exit(char *errmsg, int status)
 	if (errmsg)
 		ft_errmsg(errmsg);
 	rl_clear_history();
+	//print_gc(d.gc);
 	gc_free_all(&d.gc);
 	exit(status);
 }

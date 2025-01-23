@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*																			*/
 /*														:::	  ::::::::   */
-/*   ft_lstclear.c									  :+:	  :+:	:+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*													+:+ +:+		 +:+	 */
 /*   By: nidionis <nidionis@student.42.fr>		  +#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2022/03/09 19:31:49 by supersko		  #+#	#+#			 */
-/*   Updated: 2024/10/31 13:38:27 by nidionis		 ###   ########.fr	   */
+/*   Updated: 2025/01/23 17:03:21 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 		while (*lst)
 		{
 			next_item = (*lst)->next;
-			ft_lstdelone(*lst, del);
+			ft_lstdelone(lst, del);
 			*lst = next_item;
 		}
 	}
