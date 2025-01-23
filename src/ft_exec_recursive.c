@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/23 16:19:24 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/23 21:30:34 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*ft_getenv(const char *var)
 
 int	ft_exit()
 {
-	minishell_exit();
+	minishell_exit("exit\n", 0);
 	return (0);
 }
 
@@ -319,7 +319,7 @@ int	exec_forking(t_btree *node)
 		exec_content(node);
 		minishell_exit();
 	}
-	waitpid(pid, &status, 0);
+	waitpid(pid, &d.status, 0);
 	return (status);
 }
 

@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>			+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/23 19:31:55 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/23 21:28:06 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	prepend_path(char **cmd)
 		if (*cmd)
 			printf("%s: command not found\n", *cmd);
 		gc_free_tree(d.gc, &d.cmd_tree, gc_free_node_content);
+		d.status = CMD_NOT_FOUND;
 	}
 }
 

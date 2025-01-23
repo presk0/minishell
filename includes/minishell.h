@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/23 16:26:19 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/23 21:25:17 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,14 @@
 # define ERR_GC_STRDUP -99
 # define ERR_GC_APPEND -98
 # define CHILD_INTERRUPT -97
+# define CMD_NOT_FOUND 127
 
 typedef struct	s_data
 {
 	char	**env;
 	t_list	*gc;
 	t_btree	*cmd_tree;
+	int		status;
 } t_data;
 
 extern t_data d;
