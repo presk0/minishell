@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>			+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/23 17:47:13 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/23 19:31:55 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ static char	*is_available_path(char *path_i, char *cmd)
 		free(tryed_path);
 		if (access(path, F_OK) == 0)
 			return (path);
+		else
+			free(path);
 	}
-	if (path)
-		free(path);
 	return (NULL);
 }
 
@@ -43,8 +43,9 @@ static char	*find_path(char *cmd, char **envp)
 	paths = ft_split(envp[i] + 5, ':');
 	i = 0;
 	path = NULL;
-	while (paths[i] && !path)
-		path = is_available_path(paths[i++], cmd);
+	if (paths[i])
+		while (paths[i] && !path)
+			path = is_available_path(paths[i++], cmd);
 	ft_free_split(&paths);
 	return (gc_append(&d.gc, path));
 }

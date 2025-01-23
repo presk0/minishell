@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>			+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/23 17:48:46 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/23 19:46:53 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -48,18 +48,17 @@ void	minishell(char **envp)
 
 	init_sig();
 	d.env = duplicate_tab(envp);
+	d.gc = NULL;
 	while (1)
 	{
 		line = readline(PS1);
 		if (line == NULL)
-		{
-			printf("exit\n");
 			break ;
-		}
 		if (gc_append(&d.gc, line))
 		{
 			run_line(line);
 			add_history(line);
+			gc_free_item(&d.gc, line);
 		}
 		else
 		{
@@ -67,7 +66,7 @@ void	minishell(char **envp)
 			minishell_exit("", ERR_GC_APPEND);
 		}
 	}
-	minishell_exit("TADAAAAM!", CLEAN_EXIT);
+	minishell_exit("exit", CLEAN_EXIT);
 }
 
 t_data d;
@@ -76,6 +75,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
+	(void)envp;
 	minishell(envp);
 	return (0);
 }

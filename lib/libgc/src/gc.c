@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>		  +#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2024/09/04 16:20:59 by nidionis		  #+#	#+#			 */
-/*   Updated: 2025/01/23 17:53:23 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/23 19:05:23 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ size_t	gc_strcat(t_list **gc, char **result, char *str)
 	result_new_len = ft_strlen(*result) + ft_strlen(str);
 	*result = gc_strldup(gc, *result, result_new_len + 1);
 	gc_free_item(gc, original_result);
-	if (!*result || !gc_append(gc, *result))
+	if (!*result)
 	{
 		perror("[gc_strlcat]");
 		return (-1);
@@ -156,7 +156,7 @@ size_t	gc_strlcat(t_list **gc, char **result, char *str, size_t l)
 	original_result = *result;
 	*result = gc_strldup(gc, *result, l + 1);
 	gc_free_item(gc, original_result);
-	if (!*result || !gc_append(gc, *result))
+	if (!*result)
 	{
 		perror("[gc_strlcat]");
 		return (-1);
