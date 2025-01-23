@@ -6,19 +6,28 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/23 22:35:10 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/24 00:34:14 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+void reset_signals()
+{
+    if (signal(SIGINT, SIG_DFL) == SIG_ERR)
+        perror("Erreur lors de la réinitialisation de SIGINT");
+    if (signal(SIGTERM, SIG_DFL) == SIG_ERR)
+        perror("Erreur lors de la réinitialisation de SIGTERM");
+}
+
 void	handle_sigint(int sig)
 {
 	(void)sig;
-	write(STDOUT_FILENO, "\n", 2);
+	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+	d.sigint_received = 1;
 }
 
 void	init_sig()
@@ -32,7 +41,7 @@ void	init_sig()
 	if (sigaction(SIGINT, &sa_int, NULL) == -1)
 	{
 		perror("sigaction SIGINT");
-		minishell_exit();
+		minishell_exit("error", -1);
 	}
 	sa_quit.sa_handler = SIG_IGN;
 	sigemptyset(&sa_quit.sa_mask);
@@ -40,9 +49,8 @@ void	init_sig()
 	if (sigaction(SIGQUIT, &sa_quit, NULL) == -1)
 	{
 		perror("sigaction SIGQUIT");
-		minishell_exit();
+		minishell_exit("error", -1);
 	}
-	//signal(SIGPIPE, SIG_IGN);
 }
 
 /*
