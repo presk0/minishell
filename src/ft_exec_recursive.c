@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/23 21:30:34 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/23 22:36:57 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -305,9 +305,7 @@ void	exec_content(t_btree *node)
 int	exec_forking(t_btree *node)
 {
 	pid_t	pid;
-	int		status;
 
-	status = -1;
 	pid = fork();
 	if (pid == -1)
 	{
@@ -320,7 +318,7 @@ int	exec_forking(t_btree *node)
 		minishell_exit();
 	}
 	waitpid(pid, &d.status, 0);
-	return (status);
+	return (d.status);
 }
 
 void	reset_stdin(int stdin_fd)
@@ -388,9 +386,7 @@ int	exec_builtin(t_token *token)
 	return (exit_status);
 }
 
-/* remarque du type *gc non protege assez abusive
- * Car passe par adresse
- */
+
 int	exec_builtin_scotch(t_btree *node)
 {
 	t_btree_content	*c;
@@ -453,7 +449,6 @@ void	handle_pipe_failure(int result, const char *msg)
 
 void	execute_pipe_child(t_btree *node, int pipe_fd[])
 {
-	//init_child_sig();
 	close(pipe_fd[0]);
 	dup2(pipe_fd[1], STDOUT_FILENO);
 	close(pipe_fd[1]);
@@ -463,24 +458,19 @@ void	execute_pipe_child(t_btree *node, int pipe_fd[])
 
 void	execute_pipe_parent(t_btree *node, int pipe_fd[], pid_t pid)
 {
-	//int	status;
-
 	close(pipe_fd[1]);
 	dup2(pipe_fd[0], STDIN_FILENO);
 	close(pipe_fd[0]);
 	rec_exec(node->right);
 	wait_for_child(pid);
-	//waitpid(pid, &status, 0);
 }
 
 void	execute_command(t_btree *node, int stdin_fd)
 {
-	int	status;
-
 	if (is_builtin(node->content))
-		status = exec_builtin_scotch(node);
+		exec_builtin_scotch(node);
 	else
-		status = exec_forking(node);
+		exec_forking(node);
 	reset_stdin(stdin_fd);
 }
 

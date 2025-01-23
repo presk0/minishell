@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/23 16:18:01 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/23 22:35:10 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	init_sig()
 		perror("sigaction SIGQUIT");
 		minishell_exit();
 	}
+	//signal(SIGPIPE, SIG_IGN);
 }
 
 /*
@@ -69,9 +70,7 @@ void init_child_sig()
 
 void wait_for_child(pid_t pid)
 {
-    int status;
-
-    if (waitpid(pid, &status, 0) == -1)
+    if (waitpid(pid, &d.status, 0) == -1)
         perror("waitpid");
 }
 
