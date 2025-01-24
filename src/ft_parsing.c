@@ -37,8 +37,7 @@ char	*substr_left(char *node_content, char *found)
 	{
 		if (!gc_append(&d.gc, ret))
 		{
-			write(2, "[substr_left]\n", 14);
-			minishell_exit();
+			minishell_exit("substr_left", -1);
 		}
 	}
 	return (ret);
@@ -62,8 +61,7 @@ char	*substr_right(char *node_content, char *found)
 	{
 		if (!gc_append(&d.gc, ret))
 		{
-			write(2, "[substr_right]\n", 14);
-			minishell_exit();
+			minishell_exit("substr_right", -1);
 		}
 	}
 	return (ret);

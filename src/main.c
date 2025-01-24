@@ -15,7 +15,7 @@
 void	minishell_exit(char *errmsg, int status)
 {
 	if (errmsg)
-		ft_errmsg(errmsg);
+		perror(errmsg);
 	rl_clear_history();
 	//print_gc(d.gc);
 	gc_free_all(&d.gc);

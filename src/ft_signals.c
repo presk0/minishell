@@ -32,16 +32,13 @@ void	init_sig()
 	if (sigaction(SIGINT, &sa_int, NULL) == -1)
 	{
 		perror("sigaction SIGINT");
-		minishell_exit();
+		minishell_exit("[init_sig]", -1);
 	}
 	sa_quit.sa_handler = SIG_IGN;
 	sigemptyset(&sa_quit.sa_mask);
 	sa_quit.sa_flags = SA_RESTART;
 	if (sigaction(SIGQUIT, &sa_quit, NULL) == -1)
-	{
-		perror("sigaction SIGQUIT");
-		minishell_exit();
-	}
+		minishell_exit("init_sig", -1);
 	//signal(SIGPIPE, SIG_IGN);
 }
 

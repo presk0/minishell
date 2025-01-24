@@ -20,7 +20,7 @@ t_btree_content	*gc_malloc_btree_content()
 	content = ft_calloc(sizeof(t_btree_content), 1);
 	gc_ok = gc_append(&d.gc, content);
 	if (!gc_ok || !content)
-		minishell_exit();
+		minishell_exit("gc_malloc_btree_content", -1);
 	return (content);
 }
 
@@ -35,7 +35,7 @@ t_btree	*new_node(t_btree_content *content)
 		node = btree_create_node(content);
 		gc_ok = gc_append(&d.gc, node);
 		if (!gc_ok || !node)
-			minishell_exit();
+			minishell_exit("new_node", -1);
 	}
 	return (node);
 }

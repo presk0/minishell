@@ -26,8 +26,7 @@ void	append_tab(char ***tab_addr, char *str)
 		new_tab = gc_malloc(&d.gc, sizeof(char *), len);
 	if (!new_tab)
 	{
-		printf("[append_tab]malloc error\n");
-		minishell_exit();
+		minishell_exit("append_tab", -1);
 	}
 	new_tab[len--] = NULL;
 	new_tab[len] = str;
