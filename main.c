@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>			+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/23 21:23:43 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/24 13:34:45 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	minishell(char **envp)
 	d.gc = NULL;
 	d.status = 0;
 	d.env = duplicate_tab(envp);
+	d.sigint_received = 0;
 	while (1)
 	{
 		line = readline(PS1);
@@ -81,5 +82,12 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)envp;
 	minishell(envp);
+	//d.gc = NULL;
+	//d.status = 0;
+	//d.env = duplicate_tab(envp);
+	//d.sigint_received = 0;
+	//static t_token token;
+	//char *line = gc_strdup(&d.gc, argv[1]);
+	//tokenize_cmd(line, &token);
 	return (0);
 }
