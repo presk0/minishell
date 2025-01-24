@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/24 00:30:33 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/24 13:17:19 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	set_cmd_id(t_token *token);
 int		ft_pwd(t_token *token);
 int		exec_builtin(t_token *token);
 int		exec_builtin_scotch(t_btree *node);
-int		is_builtin(t_btree_content *c);
+int	is_builtin(t_token *token);
 int		ft_cd(t_token *token);
 int		ft_echo(t_token *token);
 void	print_export(char **tab);

@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>			+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/23 23:43:03 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/24 13:34:45 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	minishell_exit(char *errmsg, int status)
 {
 	if (errmsg)
-		ft_errmsg(errmsg);
+		perror(errmsg);
 	rl_clear_history();
 	//print_gc(d.gc);
 	gc_free_all(&d.gc);
@@ -82,5 +82,12 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)envp;
 	minishell(envp);
+	//d.gc = NULL;
+	//d.status = 0;
+	//d.env = duplicate_tab(envp);
+	//d.sigint_received = 0;
+	//static t_token token;
+	//char *line = gc_strdup(&d.gc, argv[1]);
+	//tokenize_cmd(line, &token);
 	return (0);
 }

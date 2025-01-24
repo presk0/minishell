@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/24 00:23:19 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:04:04 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ int	ft_pwd(t_token *token)
 	return (0);
 }
 
-/*
-*/
 int	exec_builtin(t_token *token)
 {
 	int		exit_status;
@@ -80,11 +78,8 @@ int	exec_builtin_scotch(t_btree *node)
 	return (ret);
 }
 
-int	is_builtin(t_btree_content *c)
+int	is_builtin(t_token *token)
 {
-	t_token	*token;
-
-	token = &c->token;
 	if (ft_strcmp(token->cmd, "echo") == 0)
 		return (ECHO_ID);
 	else if (ft_strcmp(token->cmd, "cd") == 0)
@@ -101,7 +96,6 @@ int	is_builtin(t_btree_content *c)
 		return (EXIT_ID);
 	return (0);
 }
-
 
 int	ft_cd(t_token *token)
 {

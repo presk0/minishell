@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/23 17:06:44 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/24 12:50:16 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	run_line(char *line)
 		return ;
 	content = gc_malloc(&d.gc, 1, sizeof(t_btree_content));
 	if (!content)
-		minishell_exit();
+		minishell_exit("[run_line]", -1);
 	line_cpy = ft_strdup(line);
 	content->cmd = line_cpy;
 	gc_append(&d.gc, line_cpy);

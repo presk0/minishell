@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>			+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/23 21:28:06 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/24 13:17:57 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ t_token	*tokenize_cmd(char *cmd, t_token *token)
 			cmd++;
 	}
 	substitute_var_in_token(token);
-	prepend_path(&token->cmd);
+	if (!is_builtin(token))
+		prepend_path(&token->cmd);
 	return (token);
 }
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*																			*/
 /*														:::		::::::::   */
-/*   template.c											:+:		:+:	:+:   */
+/*   ft_tab_utils.c                                     :+:      :+:    :+:   */
 /*													+:+ +:+			+:+		*/
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2024/09/05 14:15:32 by nidionis			###   ########.fr		*/
+/*   Updated: 2025/01/24 12:52:21 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ void	append_tab(char ***tab_addr, char *str)
 	else
 		new_tab = gc_malloc(&d.gc, sizeof(char *), len);
 	if (!new_tab)
-	{
-		printf("[append_tab]malloc error\n");
-		minishell_exit();
-	}
+		minishell_exit("[append_tab]", -1);
 	new_tab[len--] = NULL;
 	new_tab[len] = str;
 	if (tab)
