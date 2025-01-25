@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/25 16:53:36 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/25 17:17:14 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ void	execute_command(t_btree *node)
 	save_stds(saved_std);
 	handle_redir_in(tok);
 	handle_redir_out(tok);
-	if (is_builtin(node->content))
+	if (is_builtin(tok))
 		exec_builtin_scotch(node);
 	else
 		exec_forking(node);
