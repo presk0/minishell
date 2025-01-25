@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>			+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/24 13:34:45 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/25 21:35:05 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -76,18 +76,30 @@ void	minishell(char **envp)
 
 t_data d;
 
+void	print_tab(char **tab)
+{
+	if (tab)
+		while (*tab)
+			printf("%s\n", *tab++);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
 	(void)envp;
-	minishell(envp);
-	//d.gc = NULL;
-	//d.status = 0;
-	//d.env = duplicate_tab(envp);
+	//minishell(envp);
+	d.gc = NULL;
+	d.status = 0;
+	d.env = duplicate_tab(envp);
 	//d.sigint_received = 0;
 	//static t_token token;
-	//char *line = gc_strdup(&d.gc, argv[1]);
+	char *line = gc_strdup(&d.gc, argv[1]);
 	//tokenize_cmd(line, &token);
+
+	//printf("[set_env]: %i\n", ft_setenv(line));
+	printf("[set_env]: %i\n", unset_var_in_env(line));
+
+	print_tab(d.env);
 	return (0);
 }

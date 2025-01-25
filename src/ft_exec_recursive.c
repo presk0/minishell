@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/25 17:17:14 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/25 17:22:21 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -78,12 +78,6 @@ int	exec_builtin(t_token *token)
 {
 	int		exit_status;
 
-	// if (apply_redirections(token, i))
-	// 	ft_print_err("%s: %d: err applying redir\n", __FILE__, __LINE__);
-	//if (!token)
-	//	return ;
-	//handle_redir_in(token);
-	//handle_redir_out(token);
 	set_cmd_id(token);
 	exit_status = 0;
 	if (token->cmd_id == (int)ECHO_ID)
@@ -100,8 +94,6 @@ int	exec_builtin(t_token *token)
 		exit_status = ft_env();
 	else if (token->cmd_id == (int)EXIT_ID)
 		exit_status = ft_exit();
-	// if (restore_std_fds(m->std_fds) == -1)
-	// 	ft_print_err("%s: %d: err restore std fds", __FILE__, __LINE__);
 	return (exit_status);
 }
 

@@ -1,11 +1,55 @@
 #include <minishell.h>
 
+char	*shift_char(char *str, size_t shift_len)
+{
+	int	i;
+
+	if (ft_strlen(str) < shift_len)
+		return (NULL);
+	i = shift_len;
+	if (str)
+	{
+		while (str[i])
+		{
+			str[i - shift_len] = str[i];
+			i++;
+		}
+	}
+	return (str);
+}
+
+char	*shift_left(char *str, size_t shift_len)
+{
+	char	*ret;
+
+	ret = str;
+	if (str)
+		while (*str)
+			str = shift_char(str, shift_len);
+	return (ret);
+}
+
 void	print_export(char **tab)
 {
 	while (*tab)
 	{
 		printf("declare -x%s\n", *tab++);
 	}
+}
+
+char	*ft_getenv_line(const char *var)
+{
+	size_t	var_len;
+
+	var_len = strlen(var);
+	for (int i = 0; d.env[i] != NULL; i++)
+	{
+		if (strncmp(d.env[i], var, var_len) == 0 && d.env[i][var_len] == '=')
+		{
+			return (d.env[i]);
+		}
+	}
+	return (NULL);
 }
 
 char	*ft_getenv(const char *var)
@@ -25,7 +69,7 @@ char	*ft_getenv(const char *var)
 
 int	ft_exit()
 {
-	minishell_exit("exit\n", 0);
+	minishell_exit("exit\n", 255);
 	return (0);
 }
 
@@ -35,6 +79,8 @@ int	unset_var_in_env(char *var)
 	int		j;
 	size_t	var_len;
 
+	if (!d.env || !var)
+		return (FAILURE);
 	var_len = strlen(var);
 	i = 0;
 	while (d.env[i] != NULL)
@@ -42,17 +88,18 @@ int	unset_var_in_env(char *var)
 		if (ft_strncmp(d.env[i], var, var_len) == 0 && d.env[i][var_len] == '=')
 		{
 			gc_free_item(&d.gc, d.env[i]);
-			j = 0;
+			j = i;
 			while (d.env[j] != NULL)
 			{
 				d.env[j] = d.env[j + 1];
 				j++;
 			}
-			return (0);
+			d.env[j] = NULL;
+			return (SUCCESS);
 		}
 		i++;
 	}
-	return (1);
+	return (FAILURE);
 }
 
 int	ft_unset(t_token *token)
@@ -62,9 +109,6 @@ int	ft_unset(t_token *token)
 	var = token->args[1];
 	return (unset_var_in_env(var));
 }
-
-
-
 
 int	ft_setenv(char *var)
 {
@@ -113,12 +157,17 @@ int	ft_env()
 }
 
 
+	/*
 int	ft_cd(t_token *token)
 {
 	char	*path;
 	char	cwd[1024];
 	char	*env_line;
 
+	(void)path;
+	(void)token;
+	(void)	cwd;
+	(void)	env_line;
 	if (token->args[1] == NULL)
 	{
 		path = ft_getenv("HOME");
@@ -135,8 +184,10 @@ int	ft_cd(t_token *token)
 		perror("minishell: cd");
 		return (1);
 	}
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-	{
+	//if (getcwd(cwd, sizeof(cwd)) != NULL)
+	//unset_var_in_env("OLDPWD");
+	//get
+	//ft_setenv(
 		env_line = gc_strjoin("PWD=", cwd);
 		printf("%s\n", env_line);
 		if (!ft_setenv(env_line))
@@ -151,6 +202,52 @@ int	ft_cd(t_token *token)
 		return (1);
 	}
 	return (0);
+}
+*/
+
+int ft_cd(t_token *token)
+{
+    char *target_dir;
+    char *newpwd;
+    char *oldpwd;
+
+	newpwd = NULL;
+	oldpwd = gc_strdup(&d.gc, "OLDPWD=");
+	gc_strcat(&d.gc, &oldpwd, ft_getenv("PWD"));
+    if (token->args[1] != NULL)
+        target_dir = token->args[1];
+    else
+    {
+        target_dir = ft_getenv("HOME");
+        if (target_dir == NULL)
+        {
+            fprintf(stderr, "cd: HOME not set\n");
+            return 1;
+        }
+    }
+   	if (access(target_dir, F_OK) != SUCCESS)
+	{
+		gc_free_item(&d.gc, newpwd);
+		d.status = 1;
+		return (FAILURE);
+	}
+	else
+	{
+		if (chdir(target_dir) != SUCCESS)
+		{
+			perror("cd failed");
+			gc_free_item(&d.gc, oldpwd); // Free oldpwd before returning
+			return FAILURE;
+		}
+		char	cwd[1024];
+		newpwd = gc_strdup(&d.gc, "PWD=");
+		getcwd(cwd, sizeof(cwd));
+		gc_strcat(&d.gc, &newpwd, cwd);
+		ft_setenv(oldpwd);
+		ft_setenv(newpwd);
+		d.status = 0;
+    }
+    return 0;
 }
 
 int	ft_echo(t_token *token)
@@ -173,8 +270,6 @@ int	ft_echo(t_token *token)
 		i++;
 	}
 	if (newline)
-	{
 		write(STDOUT_FILENO, "\n", 1);
-	}
 	return (0);
 }

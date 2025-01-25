@@ -17,10 +17,10 @@ LIBS = $(addprefix $(LIB_DIR)/,$(LIBRARIES))
 INCLUDES = $(addprefix -I,$(INCLUDE_DIRS))
 
 SRCS =	$(wildcard ./src/*.c)	\
-#		$(wildcard ./src/ft_env/*.c)	\
-#		$(wildcard ./src/exec/*.c)	\
-#		$(wildcard ./src/exec/builtins/*.c)	\
-#
+		$(wildcard ./src/ft_env/*.c)	\
+		$(wildcard ./src/exec/*.c)	\
+		$(wildcard ./src/exec/builtins/*.c)	\
+
 MAIN = main.c
 
 OBJS = $(SRCS:.c=.o)

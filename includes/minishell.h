@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/25 15:15:36 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/25 21:05:43 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@
 # define RIGHT 1
 # define FALSE 0
 # define TRUE 1
+# define SUCCESS 0
+# define FAILURE 1
 
 # define BUFF_TOK_CMD 0
 # define BUFF_STRLEN 1
@@ -188,6 +190,5 @@ size_t  append_until_dollar(char *input, size_t *i_input, size_t *i_result, char
 char    *process_dollar(char *input, size_t *i_input, size_t *i_result, char **result);
 void    *gc_realloc(void *ptr, size_t old_size, size_t new_size);
 char    *gc_strjoin(const char *s1, const char *s2);
-
 
 #endif

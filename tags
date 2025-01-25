@@ -48,6 +48,7 @@ ERR_GC_APPEND	includes/minishell.h	/^# define ERR_GC_APPEND /;"	d
 ERR_GC_STRDUP	includes/minishell.h	/^# define ERR_GC_STRDUP /;"	d
 EXIT_ID	includes/minishell.h	/^# define EXIT_ID /;"	d
 EXPORT_ID	includes/minishell.h	/^# define EXPORT_ID /;"	d
+FAILURE	includes/minishell.h	/^# define FAILURE /;"	d
 FALSE	includes/minishell.h	/^# define FALSE /;"	d
 FILES	lib/libbtree/Makefile	/^FILES = ft_btree.c display_tree.c$/;"	m
 FILES	lib/libft/Makefile	/^FILES = ft_atoi.c ft_bzero.c ft_calloc.c ft_errmsg.c ft_isalnum.c ft_isalpha.c \\$/;"	m
@@ -108,6 +109,7 @@ SRCS	lib/libft/Makefile	/^SRCS = $(addprefix $(SRC_DIR)\/, $(FILES))$/;"	m
 SRC_DIR	lib/libbtree/Makefile	/^SRC_DIR = src$/;"	m
 SRC_DIR	lib/libft/Makefile	/^SRC_DIR = src$/;"	m
 SRC_DIR	lib/libgc/Makefile	/^SRC_DIR = src$/;"	m
+SUCCESS	includes/minishell.h	/^# define SUCCESS /;"	d
 TOKEN_APPEND	includes/minishell.h	/^# define TOKEN_APPEND /;"	d
 TOKEN_HEREDOC	includes/minishell.h	/^# define TOKEN_HEREDOC /;"	d
 TOKEN_PIPE	includes/minishell.h	/^# define TOKEN_PIPE /;"	d
@@ -170,7 +172,7 @@ ft_atoi	lib/libft/src/ft_atoi.c	/^int	ft_atoi(const char *str0)$/;"	f	typeref:ty
 ft_atoi_err	lib/libft/src/ft_atoi.c	/^long int       ft_atoi_err(char *str)$/;"	f	typeref:typename:long int
 ft_bzero	lib/libft/src/ft_bzero.c	/^void	*ft_bzero(void *s, size_t n)$/;"	f	typeref:typename:void *
 ft_calloc	lib/libft/src/ft_calloc.c	/^void	*ft_calloc(size_t count, size_t size)$/;"	f	typeref:typename:void *
-ft_cd	src/ft_builtins.c	/^int	ft_cd(t_token *token)$/;"	f	typeref:typename:int
+ft_cd	src/ft_builtins.c	/^int ft_cd(t_token *token)$/;"	f	typeref:typename:int
 ft_echo	src/ft_builtins.c	/^int	ft_echo(t_token *token)$/;"	f	typeref:typename:int
 ft_env	src/ft_builtins.c	/^int	ft_env()$/;"	f	typeref:typename:int
 ft_errmsg	lib/libft/src/ft_errmsg.c	/^void	ft_errmsg(char *str)$/;"	f	typeref:typename:void
@@ -178,6 +180,7 @@ ft_exit	src/ft_builtins.c	/^int	ft_exit()$/;"	f	typeref:typename:int
 ft_export	src/ft_builtins.c	/^int	ft_export(t_token *token)$/;"	f	typeref:typename:int
 ft_free_split	lib/libft/src/ft_split.c	/^void	ft_free_split(char ***t)$/;"	f	typeref:typename:void
 ft_getenv	src/ft_builtins.c	/^char	*ft_getenv(const char *var)$/;"	f	typeref:typename:char *
+ft_getenv_line	src/ft_builtins.c	/^char	*ft_getenv_line(const char *var)$/;"	f	typeref:typename:char *
 ft_intlen	lib/libft/src/ft_itoa.c	/^static size_t	ft_intlen(long int n)$/;"	f	typeref:typename:size_t	file:
 ft_isalnum	lib/libft/src/ft_isalnum.c	/^int	ft_isalnum(int c)$/;"	f	typeref:typename:int
 ft_isalpha	lib/libft/src/ft_isalpha.c	/^int	ft_isalpha(int c)$/;"	f	typeref:typename:int
@@ -323,6 +326,8 @@ save_token_cmd	src/ft_tokens.c	/^char	*save_token_cmd(char *cmd, t_token *token)
 save_token_op	src/ft_op_utils.c	/^char	*save_token_op(char *cmd, int op, t_token *token)$/;"	f	typeref:typename:char *
 set_cmd_id	src/ft_exec_recursive.c	/^void	set_cmd_id(t_token *token)$/;"	f	typeref:typename:void
 setupCommands	.vscode/launch.json	/^			"setupCommands": [$/;"	a	object:configurations.0
+shift_char	src/ft_builtins.c	/^char	*shift_char(char *str, size_t shift_len)$/;"	f	typeref:typename:char *
+shift_left	src/ft_builtins.c	/^char	*shift_left(char *str, size_t shift_len)$/;"	f	typeref:typename:char *
 sigint_received	includes/minishell.h	/^	int		sigint_received;$/;"	m	struct:s_data	typeref:typename:int
 skip_op_and_arg	src/ft_op_utils.c	/^char	*skip_op_and_arg(char *str, char op)$/;"	f	typeref:typename:char *
 skip_operand	src/ft_op_utils.c	/^char	*skip_operand(char *cmd, char op)$/;"	f	typeref:typename:char *
