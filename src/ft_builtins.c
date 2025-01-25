@@ -1,5 +1,112 @@
 #include <minishell.h>
 
+
+// Comparison function for qsort
+
+int compare_strings(const void *a, const void *b) {
+
+    return strcmp(*(const char **)a, *(const char **)b);
+
+}
+
+
+
+
+
+
+
+// Function to perform bubble sort on an array of strings
+
+void ft_easy_sort(char **tab) {
+
+    if (tab == NULL) {
+
+        return; // Return if the input tab is NULL
+
+    }
+
+
+    size_t len = 0;
+
+    // Calculate the length of the tab
+
+    while (tab[len] != NULL) {
+
+        len++;
+
+    }
+
+
+    // Bubble sort algorithm
+
+    for (size_t i = 0; i < len - 1; i++) {
+
+        for (size_t j = 0; j < len - 1 - i; j++) {
+
+            // Compare adjacent strings
+
+            if (strcmp(tab[j], tab[j + 1]) > 0) {
+
+                // Swap if they are in the wrong order
+
+                char *temp = tab[j];
+
+                tab[j] = tab[j + 1];
+
+                tab[j + 1] = temp;
+
+            }
+
+        }
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+char **sort_char_tab(char **tab) {
+
+    if (tab == NULL) {
+
+        return NULL; // Return NULL if the input tab is NULL
+
+    }
+
+
+    size_t len = 0;
+
+    while (tab[len] != NULL) {
+
+        len++; // Calculate the length of the tab
+
+    }
+
+
+    // Sort the tab using qsort
+
+    qsort(tab, len, sizeof(char *), compare_strings);
+
+
+    return tab; // Return the sorted tab
+
+}
+
+
+
+
+
+
+
+
 char	*shift_char(char *str, size_t shift_len)
 {
 	int	i;
@@ -31,10 +138,15 @@ char	*shift_left(char *str, size_t shift_len)
 
 void	print_export(char **tab)
 {
-	while (*tab)
-	{
-		printf("declare -x%s\n", *tab++);
-	}
+	char	**t;
+	size_t	i;
+
+	t = ft_duplicate_tab(tab);
+	ft_easy_sort(t);
+	i = 0;
+	while (t[i])
+		printf("declare -x %s\n", t[i++]);
+	ft_free_split(&t);
 }
 
 char	*ft_getenv_line(const char *var)
@@ -69,7 +181,8 @@ char	*ft_getenv(const char *var)
 
 int	ft_exit()
 {
-	minishell_exit("exit\n", 255);
+	d.status = SUCCESS;
+	minishell_exit(NULL, 0);
 	return (0);
 }
 
@@ -120,18 +233,19 @@ int	ft_setenv(char *var_line)
 	{
 		delimiter = ft_strchr(var_line, '=');
 		if (!delimiter)
-			return (FALSE);
+			return (FAILURE);
 		var_len = ft_varlen(var_line);
 		if (var_len)
 		{
-			//if (is_var_in_env(var_line))
 			var = gc_strndup(&d.gc, var_line, var_len);
 			unset_var_in_env(var);
 			gc_free_item(&d.gc, var);
-			append_tab(&d.env, var_line);
+			append_tab(&d.env, gc_strdup(&d.gc, var_line));
 		}
 	}
-	return (TRUE);
+	else
+		return (FAILURE);
+	return (SUCCESS);
 }
 
 int	ft_export(t_token *token)
@@ -146,7 +260,7 @@ int	ft_export(t_token *token)
 	i = 1;
 	while (token->args[i] != NULL)
 	{
-		if (!ft_setenv(token->args[i]))
+		if (ft_setenv(token->args[i++]) == SUCCESS)
 			continue ;
 	}
 	return (0);
@@ -241,7 +355,7 @@ int ft_cd(t_token *token)
 		if (chdir(target_dir) != SUCCESS)
 		{
 			perror("cd failed");
-			gc_free_item(&d.gc, oldpwd); // Free oldpwd before returning
+			gc_free_item(&d.gc, oldpwd);
 			return FAILURE;
 		}
 		char	cwd[1024];
