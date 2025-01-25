@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>			+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/25 21:35:05 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/25 21:51:27 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -97,8 +97,7 @@ int	main(int argc, char **argv, char **envp)
 	char *line = gc_strdup(&d.gc, argv[1]);
 	//tokenize_cmd(line, &token);
 
-	//printf("[set_env]: %i\n", ft_setenv(line));
-	printf("[set_env]: %i\n", unset_var_in_env(line));
+	printf("[set_env]: %i\n", ft_setenv(line));
 
 	print_tab(d.env);
 	return (0);

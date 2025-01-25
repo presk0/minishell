@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/24 12:52:21 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/25 22:38:31 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	append_tab(char ***tab_addr, char *str)
 	if (!tab)
 		new_tab = gc_malloc(&d.gc, sizeof(char *), 2);
 	else
-		new_tab = gc_malloc(&d.gc, sizeof(char *), len);
+		new_tab = gc_malloc(&d.gc, sizeof(char *), len + 1);
 	if (!new_tab)
 	{
 		minishell_exit("append_tab", -1);

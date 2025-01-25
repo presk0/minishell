@@ -110,20 +110,25 @@ int	ft_unset(t_token *token)
 	return (unset_var_in_env(var));
 }
 
-int	ft_setenv(char *var)
+int	ft_setenv(char *var_line)
 {
 	char	*delimiter;
+	size_t	var_len;
+	char	*var;
 
-	if (var != NULL)
+	if (var_line != NULL)
 	{
-		delimiter = ft_strchr(var, '=');
+		delimiter = ft_strchr(var_line, '=');
 		if (!delimiter)
 			return (FALSE);
-		if (ft_varlen(var))
+		var_len = ft_varlen(var_line);
+		if (var_len)
 		{
-			if (is_var_in_env(var))
-				unset_var_in_env(var);
-			append_tab(&d.env, var);
+			//if (is_var_in_env(var_line))
+			var = gc_strndup(&d.gc, var_line, var_len);
+			unset_var_in_env(var);
+			gc_free_item(&d.gc, var);
+			append_tab(&d.env, var_line);
 		}
 	}
 	return (TRUE);

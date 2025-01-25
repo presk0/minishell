@@ -6,7 +6,7 @@
 /*   By: nkieffer <nkieffer@student.42.fr>		  +#+  +:+	   +#+		*/
 /*												+#+#+#+#+#+   +#+		   */
 /*   Created: 2022/02/24 15:51:11 by supersko		  #+#	#+#			 */
-/*   Updated: 2025/01/23 17:35:41 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/25 22:30:08 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ size_t	gc_strcat(t_list **gc, char **result, char *str);
 char *gc_strldup(t_list **gc, char *str, size_t len);
 size_t	gc_strlcat(t_list **gc, char **result, char *str, size_t l);
 void print_gc(t_list *gc);
+char	*gc_strndup(t_list **gc_addr, char *str, size_t n);
 
 #endif
