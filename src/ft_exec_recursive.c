@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/24 14:02:52 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/25 16:53:36 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -190,6 +190,19 @@ void	execute_command(t_btree *node)
 	restore_stds(saved_std);
 }
 
+void	init_fd_pipes_childs(int *pipe_fd)
+{
+	close(pipe_fd[IN]);
+	dup2(pipe_fd[OUT], STDOUT_FILENO);
+	close(pipe_fd[OUT]);
+}
+
+void	init_fd_pipes_parents(int *pipe_fd)
+{
+	close(pipe_fd[OUT]);
+	dup2(pipe_fd[IN], STDIN_FILENO);
+	close(pipe_fd[IN]);
+}
 
 void	rec_exec(t_btree *node)
 {
@@ -203,15 +216,11 @@ void	rec_exec(t_btree *node)
 		handle_pipe_failure(pipe(pipe_fd), "[rec_exec] pipe failed");
 		if (fork() == 0)
 		{
-			close(pipe_fd[0]);
-			dup2(pipe_fd[1], STDOUT_FILENO);
-			close(pipe_fd[1]);
+			init_fd_pipes_childs(pipe_fd);
 			rec_exec(node->left);
 			exit(EXIT_SUCCESS);
 		}
-		close(pipe_fd[1]);
-		dup2(pipe_fd[0], STDIN_FILENO);
-		close(pipe_fd[0]);
+		init_fd_pipes_parents(pipe_fd);
 		rec_exec(node->right);
 	}
 	else
