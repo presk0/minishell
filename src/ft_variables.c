@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/24 00:22:36 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/25 17:36:17 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	is_var_in_env(const char *var)
 	{
 		if (strncmp(d.env[i], var, var_len) == 0 && d.env[i][var_len] == '=')
 			return (TRUE);
+		i++;
 	}
 	return (FALSE);
 }
