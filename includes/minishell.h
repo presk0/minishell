@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/25 23:51:52 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/26 00:52:22 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <sys/wait.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
+# ifndef MAX_FD
+#  define MAX_FD 256
+# endif
 
 # define PS1 "$ "
 # define TOKEN_PIPE 0
@@ -134,7 +141,6 @@ void    execute_pipe_child(t_btree *node, int pipe_fd[]);
 void    pipe_right(t_btree *node, int pipe_fd[]);
 void    execute_command(t_btree *node);
 void    rec_exec(t_btree *node);
-void    rec_exec(t_btree *node);
 void    handle_dup_failure(int fd, const char *msg);
 void    handle_fork_failure(pid_t pid, const char *msg);
 void    handle_pipe_failure(int result, const char *msg);
@@ -192,5 +198,12 @@ void    *gc_realloc(void *ptr, size_t old_size, size_t new_size);
 char    *gc_strjoin(const char *s1, const char *s2);
 char	**duplicate_tab(char **tab_original);
 char	**ft_duplicate_tab(char **tab_original);
+char *read_heredoc(char *delimiter);
+
+void	format_buff(char *buff, char *next_line);
+char	*line_from_buff(char *buff);
+char	*load_until_line(int fd, char **buff);
+char	*get_next_line(int fd);
+void	get_next_line_tester(int argc, char **argv);
 
 #endif
