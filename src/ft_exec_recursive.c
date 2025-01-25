@@ -11,205 +11,21 @@
 /* ************************************************************************** */
 
 #include <minishell.h>
-void	print_export(char **tab)
-{
-	while (*tab)
-	{
-		printf("declare -x%s\n", *tab++);
-	}
-}
-
-char	*ft_getenv(const char *var)
-{
-	size_t	var_len;
-
-	var_len = strlen(var);
-	for (int i = 0; d.env[i] != NULL; i++)
-	{
-		if (strncmp(d.env[i], var, var_len) == 0 && d.env[i][var_len] == '=')
-		{
-			return (d.env[i] + var_len + 1);
-		}
-	}
-	return (NULL);
-}
-
-int	ft_exit()
-{
-	minishell_exit("exit\n", 0);
-	return (0);
-}
-
-int	unset_var_in_env(char *var)
-{
-	int		i;
-	int		j;
-	size_t	var_len;
-
-	var_len = strlen(var);
-	i = 0;
-	while (d.env[i] != NULL)
-	{
-		if (ft_strncmp(d.env[i], var, var_len) == 0 && d.env[i][var_len] == '=')
-		{
-			gc_free_item(&d.gc, d.env[i]);
-			j = 0;
-			while (d.env[j] != NULL)
-			{
-				d.env[j] = d.env[j + 1];
-				j++;
-			}
-			return (0);
-		}
-		i++;
-	}
-	return (1);
-}
-
-int	ft_unset(t_token *token)
-{
-	char	*var;
-
-	var = token->args[1];
-	return (unset_var_in_env(var));
-}
 
 
-
-
-int	ft_setenv(char *var)
-{
-	char	*delimiter;
-
-	if (var != NULL)
-	{
-		delimiter = ft_strchr(var, '=');
-		if (!delimiter)
-			return (FALSE);
-		if (ft_varlen(var))
-		{
-			if (is_var_in_env(var))
-				unset_var_in_env(var);
-			append_tab(&d.env, var);
-		}
-	}
-	return (TRUE);
-}
-
-int	ft_export(t_token *token)
-{
-	int	i;
-
-	if (!token->args[1])
-	{
-		print_export(d.env);
-		return (0);
-	}
-	i = 1;
-	while (token->args[i] != NULL)
-	{
-		if (!ft_setenv(token->args[i]))
-			continue ;
-	}
-	return (0);
-}
-
-int	ft_env()
-{
-	for (int i = 0; d.env[i] != NULL; i++)
-	{
-		printf("%s\n", d.env[i]);
-	}
-	return (0);
-}
-
-
-int	ft_cd(t_token *token)
-{
-	char	*path;
-	char	cwd[1024];
-	char	*env_line;
-
-	if (token->args[1] == NULL)
-	{
-		path = ft_getenv("HOME");
-		if (path == NULL)
-		{
-			fprintf(stderr, "minishell: cd: HOME not set\n");
-			return (1);
-		}
-	}
-	else
-		path = token->args[1];
-	if (chdir(path) != 0)
-	{
-		perror("minishell: cd");
-		return (1);
-	}
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-	{
-		env_line = gc_strjoin("PWD=", cwd);
-		printf("%s\n", env_line);
-		if (!ft_setenv(env_line))
-		{
-			fprintf(stderr, "minishell: cd: failed to update PWD\n");
-			return (1);
-		}
-	}
-	else
-	{
-		perror("minishell: cd: failed to get current directory");
-		return (1);
-	}
-	return (0);
-}
-
-int	ft_echo(t_token *token)
-{
-	int	newline;
-	int	i;
-
-	newline = TRUE;
-	i = 1;
-	if (token->args[1] != NULL && strcmp(token->args[1], "-n") == 0)
-	{
-		newline = FALSE;
-		i++;
-	}
-	while (token->args[i] != NULL)
-	{
-		write(STDOUT_FILENO, token->args[i], strlen(token->args[i]));
-		if (token->args[i + 1] != NULL)
-			write(STDOUT_FILENO, " ", 1);
-		i++;
-	}
-	if (newline)
-	{
-		write(STDOUT_FILENO, "\n", 1);
-	}
-	return (0);
-}
-
-
-void	exec_cmd(t_token *tok)
-{
-	if (!tok)
-		return ;
-	handle_redir_in(tok);
-	handle_redir_out(tok);
-	execve(tok->cmd, tok->args, d.env);
-	perror("[exec_cmd] execve failed");
-	// minishell_exit();
-}
-
-void	exec_content(t_btree *node)
+void	execve_node(t_btree *node)
 {
 	t_btree_content	*content;
-	t_token			*tok;
+	t_token			*token;
 
+	if (!node)
+		return ;
 	content = node->content;
-	tok = &(content->token);
-	exec_cmd(tok);
+	token = &(content->token);
+	reset_signals();
+	execve(token->cmd, token->args, d.env);
+	perror("[execve_node]");
+	minishell_exit("[execve_node] did not exit the process", -1);
 }
 
 int	exec_forking(t_btree *node)
@@ -218,16 +34,9 @@ int	exec_forking(t_btree *node)
 
 	pid = fork();
 	if (pid == -1)
-	{
-		perror("[rec_exec] fork failed");
-		minishell_exit("exec_forking", -1);
-	}
+		minishell_exit("[exec_forking] fork failed", -1);
 	if (pid == 0)
-	{
-		reset_signals();
-		exec_content(node);
-		minishell_exit("exec_forking", -1);
-	}
+		execve_node(node);
 	waitpid(pid, &d.status, 0);
 	return (d.status);
 }
@@ -235,10 +44,7 @@ int	exec_forking(t_btree *node)
 void	reset_stdin(int stdin_fd)
 {
 	if (dup2(stdin_fd, STDIN_FILENO) == -1)
-	{
-		perror("[rec_exec] dup2 failed");
-		minishell_exit("reset_stdin", -1);
-	}
+		minishell_exit("[rec_exec] dup2 failed", -1);
 }
 
 void	set_cmd_id(t_token *token)
@@ -268,14 +74,16 @@ int	ft_pwd(t_token *token)
 	return (0);
 }
 
-/*
-*/
 int	exec_builtin(t_token *token)
 {
 	int		exit_status;
 
 	// if (apply_redirections(token, i))
 	// 	ft_print_err("%s: %d: err applying redir\n", __FILE__, __LINE__);
+	//if (!token)
+	//	return ;
+	//handle_redir_in(token);
+	//handle_redir_out(token);
 	set_cmd_id(token);
 	exit_status = 0;
 	if (token->cmd_id == (int)ECHO_ID)
@@ -329,7 +137,7 @@ int	is_builtin(t_token *token)
 }
 
 
-void	execute_pipe_child(t_btree *node, int pipe_fd[])
+void	pipe_left(t_btree *node, int pipe_fd[])
 {
 	close(pipe_fd[0]);
 	dup2(pipe_fd[1], STDOUT_FILENO);
@@ -346,18 +154,43 @@ void	pipe_right(t_btree *node, int pipe_fd[])
 	rec_exec(node->right);
 }
 
-void	execute_command(t_btree *node, int stdin_fd)
+void	save_stds(int	*saved_std)
 {
-	(void)stdin_fd;
+	saved_std[IN] = dup(STDIN_FILENO);
+	saved_std[OUT] = dup(STDOUT_FILENO);
+	saved_std[ERR] = dup(STDERR_FILENO);
+	handle_dup_failure(saved_std[IN], "[execute_command] dup failed");
+	handle_dup_failure(saved_std[OUT], "[execute_command] dup failed");
+	handle_dup_failure(saved_std[ERR], "[execute_command] dup failed");
+}
+
+void	restore_stds(int	*saved_std)
+{
+	dup2(saved_std[IN], STDIN_FILENO);
+	dup2(saved_std[OUT], STDOUT_FILENO);
+	dup2(saved_std[ERR], STDERR_FILENO);
+	close(saved_std[IN]);
+	close(saved_std[OUT]);
+	close(saved_std[ERR]);
+}
+
+void	execute_command(t_btree *node)
+{
+	t_token	*tok;
+	int		saved_std[3];
+
+	tok = &(((t_btree_content *)(node->content))->token);
+	save_stds(saved_std);
+	handle_redir_in(tok);
+	handle_redir_out(tok);
 	if (is_builtin(node->content))
 		exec_builtin_scotch(node);
 	else
 		exec_forking(node);
-	//reset_stdin(stdin_fd);
-	//close(stdin_fd);
+	restore_stds(saved_std);
 }
 
-/*
+
 void	rec_exec(t_btree *node)
 {
 	int		pipe_fd[2];
@@ -368,56 +201,21 @@ void	rec_exec(t_btree *node)
 	if (is_pipe(node))
 	{
 		handle_pipe_failure(pipe(pipe_fd), "[rec_exec] pipe failed");
-		pipe_left(node,  pipe_fd);
-		pipe_right(node,  pipe_fd);
-	}
-	else
-		execute_command(node,  stdin_fd);
-	reset_stdin(stdin_fd);
-	close(stdin_fd);
-	//reset_stdin(stdin_fd);
-}
-*/
-
-void	rec_exec(t_btree *node)
-{
-	int		pipe_fd[2];
-	int		stdin_fd;
-	pid_t	pid;
-
-	stdin_fd = dup(STDIN_FILENO);
-	handle_dup_failure(stdin_fd, "[rec_exec] dup failed");
-
-	if (is_pipe(node))
-	{
-		handle_pipe_failure(pipe(pipe_fd), "[rec_exec] pipe failed");
-
-		// Fork for the left side of the pipe
-		pid = fork();
-		if (pid == -1)
-			minishell_exit("[rec_exec] fork failed", -1);
-		if (pid == 0)
+		if (fork() == 0)
 		{
-			close(pipe_fd[0]); // Close read end
-			dup2(pipe_fd[1], STDOUT_FILENO); // Redirect stdout to pipe write end
-			close(pipe_fd[1]); // Close write end
+			close(pipe_fd[0]);
+			dup2(pipe_fd[1], STDOUT_FILENO);
+			close(pipe_fd[1]);
 			rec_exec(node->left);
-			minishell_exit("[rec_exec] pipe left execution failed", -1);
+			exit(EXIT_SUCCESS);
 		}
-
-		// Parent process handles the right side
-		close(pipe_fd[1]); // Close write end
-		dup2(pipe_fd[0], STDIN_FILENO); // Redirect stdin to pipe read end
-		close(pipe_fd[0]); // Close read end
+		close(pipe_fd[1]);
+		dup2(pipe_fd[0], STDIN_FILENO);
+		close(pipe_fd[0]);
 		rec_exec(node->right);
-
-		waitpid(pid, NULL, 0); // Wait for left side process to finish
 	}
 	else
-	{
-		execute_command(node, stdin_fd);
-	}
-
+		execute_command(node);
 	reset_stdin(stdin_fd);
 	close(stdin_fd);
 }

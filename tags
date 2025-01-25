@@ -151,8 +151,8 @@ env	includes/minishell.h	/^	char	**env;$/;"	m	struct:s_data	typeref:typename:cha
 environment	.vscode/launch.json	/^			"environment": [],$/;"	a	object:configurations.0
 exec_builtin	src/ft_builtins.c	/^int	exec_builtin(t_token *token)$/;"	f	typeref:typename:int
 exec_builtin_scotch	src/ft_builtins.c	/^int	exec_builtin_scotch(t_btree *node)$/;"	f	typeref:typename:int
-exec_cmd	src/ft_exec_recursive.c	/^void	exec_cmd(t_token *tok)$/;"	f	typeref:typename:void
-exec_content	src/ft_exec_recursive.c	/^void	exec_content(t_btree *node)$/;"	f	typeref:typename:void
+execve_protected	src/ft_exec_recursive.c	/^void	execve_protected(t_token *tok)$/;"	f	typeref:typename:void
+execve_node	src/ft_exec_recursive.c	/^void	execve_node(t_btree *node)$/;"	f	typeref:typename:void
 exec_forking	src/ft_exec_recursive.c	/^int	exec_forking(t_btree *node)$/;"	f	typeref:typename:int
 exec_whole_line	src/ft_exec_forking.c	/^int	exec_whole_line()$/;"	f	typeref:typename:int
 execute_command	src/ft_exec_recursive.c	/^void	execute_command(t_btree *node, int stdin_fd)$/;"	f	typeref:typename:void

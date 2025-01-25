@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/24 15:24:22 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/25 15:15:36 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,10 @@
 # define CHILD_INTERRUPT -97
 # define CMD_NOT_FOUND 127
 
+# define IN 0
+# define OUT 1
+# define ERR 2
+
 typedef struct	s_data
 {
 	char	**env;
@@ -115,8 +119,8 @@ int             ft_export(t_token *token);
 int             ft_env();
 int             ft_cd(t_token *token);
 int             ft_echo(t_token *token);
-void    exec_cmd(t_token *tok);
-void    exec_content(t_btree *node);
+void    execve_protected(t_token *tok);
+void    execve_node(t_btree *node);
 int             exec_forking(t_btree *node);
 void    reset_stdin(int stdin_fd);
 void    set_cmd_id(t_token *token);
@@ -126,7 +130,7 @@ int             exec_builtin_scotch(t_btree *node);
 int             is_builtin(t_token *token);
 void    execute_pipe_child(t_btree *node, int pipe_fd[]);
 void    pipe_right(t_btree *node, int pipe_fd[]);
-void    execute_command(t_btree *node, int stdin_fd);
+void    execute_command(t_btree *node);
 void    rec_exec(t_btree *node);
 void    rec_exec(t_btree *node);
 void    handle_dup_failure(int fd, const char *msg);
