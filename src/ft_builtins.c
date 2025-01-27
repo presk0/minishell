@@ -9,12 +9,14 @@ void ft_swap(char **a, char **b)
 	*b = tmp;
 }
 
-void	ft_easy_sort(char **tab)
+void	ft_easy_sort(char ***t)
 {
 	size_t	len;
 	size_t	i;
 	size_t	j;
+	char	**tab;
 
+	tab = *t;
 	if (tab == NULL)
 		return ;
 	len = ft_tablen(tab);
@@ -79,7 +81,7 @@ void	print_export(char **tab)
 	size_t	i;
 
 	t = ft_duplicate_tab(tab);
-	ft_easy_sort(t);
+	ft_easy_sort(&t);
 	i = 0;
 	while (t[i])
 		printf("declare -x %s\n", t[i++]);
@@ -125,6 +127,7 @@ int	ft_exit(void)
 	return (0);
 }
 
+/*
 int	unset_var_in_env(char *var)
 {
 	int		i;
@@ -152,6 +155,47 @@ int	unset_var_in_env(char *var)
 		i++;
 	}
 	return (FAILURE);
+}
+*/
+
+static int	find_var_index(char **env, char *var, size_t var_len)
+{
+	int	i;
+
+	i = 0;
+	while (env[i] != NULL)
+	{
+		if (ft_strncmp(env[i], var, var_len) == 0 && env[i][var_len] == '=')
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+static void	remove_var_from_env(char **env, int index)
+{
+	gc_free_item(&g_d.gc, env[index]);
+	while (env[index] != NULL)
+	{
+		env[index] = env[index + 1];
+		index++;
+	}
+	env[index] = NULL;
+}
+
+int	unset_var_in_env(char *var)
+{
+	int		var_index;
+	size_t	var_len;
+
+	if (!g_d.env || !var)
+		return (FAILURE);
+	var_len = ft_strlen(var);
+	var_index = find_var_index(g_d.env, var, var_len);
+	if (var_index == -1)
+		return (FAILURE);
+	remove_var_from_env(g_d.env, var_index);
+	return (SUCCESS);
 }
 
 int	ft_unset(t_token *token)
@@ -203,6 +247,7 @@ int	ft_export(t_token *token)
 	return (CLEAN_EXIT);
 }
 
+/*
 int	ft_cd(t_token *token)
 {
 	char	*target_dir;
@@ -247,6 +292,76 @@ int	ft_cd(t_token *token)
 	}
 	return (CLEAN_EXIT);
 }
+*/
+
+
+static char	*get_target_directory(t_token *token)
+{
+	char	*target_dir;
+
+	if (token->args[1] != NULL)
+		return (token->args[1]);
+	target_dir = ft_getenv("HOME");
+	if (target_dir == NULL)
+		fprintf(stderr, "cd: HOME not set\n");
+	return (target_dir);
+}
+
+static int	handle_directory_access(char *target_dir)
+{
+	if (access(target_dir, F_OK) != SUCCESS)
+	{
+		g_d.status = 1;
+		return (FAILURE);
+	}
+	return (SUCCESS);
+}
+
+static int	change_directory(char *target_dir)
+{
+	if (chdir(target_dir) != SUCCESS)
+	{
+		perror("cd failed");
+		return (FAILURE);
+	}
+	return (SUCCESS);
+}
+
+static void	update_env_variables(char *oldpwd, char *cwd)
+{
+	char	*newpwd;
+
+	newpwd = gc_strdup(&g_d.gc, "PWD=");
+	gc_strcat(&g_d.gc, &newpwd, cwd);
+	ft_setenv(oldpwd);
+	ft_setenv(newpwd);
+}
+
+int	ft_cd(t_token *token)
+{
+	char	*target_dir;
+	char	oldpwd[1024];
+	char	cwd[1024];
+
+	ft_strlcpy(oldpwd, "OLDPWD=", sizeof(oldpwd));
+	ft_strlcat(oldpwd, ft_getenv("PWD"), sizeof(oldpwd));
+
+	target_dir = get_target_directory(token);
+	if (!target_dir)
+		return (FAILURE);
+	if (handle_directory_access(target_dir) != SUCCESS)
+		return (FAILURE);
+	if (change_directory(target_dir) != SUCCESS)
+		return (FAILURE);
+	getcwd(cwd, sizeof(cwd));
+	update_env_variables(oldpwd, cwd);
+	g_d.status = 0;
+	return (CLEAN_EXIT);
+}
+
+
+
+
 
 int	ft_echo(t_token *token)
 {

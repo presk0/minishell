@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/27 20:09:23 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/27 21:58:17 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ typedef struct btree_content
 
 
 int             compare_strings(const void *a, const void *b);
-void    ft_easy_sort(char **tab);
+void    ft_easy_sort(char ***tab);
 int             ft_env(void);
 char    **sort_char_tab(char **tab);
 char    *shift_char(char *str, size_t shift_len);
