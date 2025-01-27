@@ -43,7 +43,7 @@ char	**duplicate_tab(char **tab_original)
 	return (tab_copy);
 }
 
-void	inc_shlvl()
+void	inc_shlvl(void)
 {
 	int		shlvl;
 	char	*shlvl_str;
@@ -72,8 +72,6 @@ void	minishell(char **envp)
 	while (1)
 	{
 		line = readline(PS1);
-		if (line == NULL)
-			break ;
 		if (gc_append(&g_d.gc, line))
 		{
 			run_line(line);
@@ -81,12 +79,8 @@ void	minishell(char **envp)
 			gc_free_item(&g_d.gc, line);
 		}
 		else
-		{
-			ft_errmsg("[minishell] did not append to gc");
-			minishell_exit("", ERR_GC_APPEND);
-		}
+			minishell_exit(NULL, ERR_GC_APPEND);
 	}
-	minishell_exit(NULL, CLEAN_EXIT);
 }
 
 t_data g_d;

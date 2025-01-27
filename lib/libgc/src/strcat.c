@@ -47,7 +47,7 @@ size_t	gc_strlcat(t_list **gc, char **result, char *str, size_t l)
 
 char	*gc_strldup(t_list **gc, char *str, size_t len)
 {
-	void	*ret;
+	void *ret;
 
 	ret = gc_malloc(gc, len + 1, 1);
 	if (!ret)

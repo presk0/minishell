@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*																			*/
-/*														:::	  ::::::::   */
-/*   ft_btree.c										 :+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: supersko <supersko@student.42.fr>		  +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2022/04/07 17:24:45 by supersko		  #+#	#+#			 */
-/*   Updated: 2024/12/31 14:55:45 by nidionis		 ###   ########.fr	   */
+/*														:::		::::::::   */
+/*   ft_btree.c											:+:	  :+:	:+:   */
+/*													+:+ +:+			+:+	 */
+/*   By: supersko <supersko@student.42.fr>			+#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+			*/
+/*   Created: 2022/04/07 17:24:45 by supersko			#+#	#+#			 */
+/*   Updated: 2024/12/31 14:55:45 by nidionis			###   ########.fr	   */
 /*																			*/
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ t_btree	*btree_create_node(void *content)
 	return (new_node);
 }
 
-void	btree_apply_prefix(\
-	t_btree *root, void *(*applyf)(t_btree *node))
+void	btree_apply_prefix(t_btree *root, void *(*applyf)(t_btree *node))
 {
 	if (!root)
 		return ;
@@ -37,8 +36,7 @@ void	btree_apply_prefix(\
 		btree_apply_prefix(root->right, applyf);
 }
 
-void	btree_apply_infix(\
-	t_btree *root, void *(*applyf)(t_btree *node))
+void	btree_apply_infix(t_btree *root, void *(*applyf)(t_btree *node))
 {
 	if (!root)
 		return ;
@@ -49,8 +47,7 @@ void	btree_apply_infix(\
 		btree_apply_infix(root->right, applyf);
 }
 
-void	btree_apply_postfix(\
-	t_btree *root, void *(*applyf)(t_btree *node))
+void	btree_apply_postfix(t_btree *root, void *(*applyf)(t_btree *node))
 {
 	if (!root)
 		return ;

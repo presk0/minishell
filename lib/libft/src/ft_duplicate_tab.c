@@ -14,9 +14,9 @@
 
 char	**ft_duplicate_tab(char **tab_original)
 {
-	char	**tab_copy;
-	size_t	tab_len;
-	size_t	i;
+	char **tab_copy;
+	size_t tab_len;
+	size_t i;
 
 	tab_len = ft_tablen(tab_original);
 	tab_copy = malloc((tab_len + 1) * sizeof(char *));
@@ -26,10 +26,10 @@ char	**ft_duplicate_tab(char **tab_original)
 	{
 		tab_copy[i] = ft_strdup(tab_original[i]);
 		if (!tab_copy[i])
-        {
-            ft_free_split(&tab_copy);
-            return (NULL);
-        }
+		{
+			ft_free_split(&tab_copy);
+			return (NULL);
+		}
 		i++;
 	}
 	return (tab_copy);
