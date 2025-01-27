@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-int		handle_heredoc(char *delimiter);
+int			handle_heredoc(char *delimiter);
 
 int	open_redirect(char *file, int mode)
 {
@@ -44,14 +44,19 @@ void	handle_redir_in(t_token *tok)
 	}
 	else if (tok->heredoc)
 	{
-		// Appeler la fonction de gestion du heredoc
 		if (handle_heredoc(tok->redir_in) == -1)
-		{
 			fprintf(stderr, "Error: Failed to handle heredoc\n");
-		}
 	}
 }
 
+int	handle_eoheredoc(int pipe_fd[2])
+{
+	close(pipe_fd[0]);
+	close(pipe_fd[1]);
+	return (-1);
+}
+
+/*
 int	handle_heredoc(char *delimiter)
 {
 	int		pipe_fd[2];
@@ -59,27 +64,16 @@ int	handle_heredoc(char *delimiter)
 	size_t	len;
 
 	line = NULL;
-	if (pipe(pipe_fd) == -1)
+	handle_pipe_failure(pipe(pipe_fd), "pipe");
+	while (TRUE)
 	{
-		perror("pipe");
-		return (-1);
-	}
-	while (1)
-	{
-		// Afficher un prompt
-		write(STDOUT_FILENO, "> ", 2);
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
-		{
-			perror("get_next_line");
-			close(pipe_fd[0]);
-			close(pipe_fd[1]);
-			return (-1);
-		}
-		len = strlen(line);
+			return (handle_eoheredoc(pipe_fd));
+		len = ft_strlen(line);
 		if (len > 0 && line[len - 1] == '\n')
 			line[len - 1] = '\0';
-		if (strcmp(line, delimiter) == 0)
+		if (ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
 			break ;
@@ -89,12 +83,79 @@ int	handle_heredoc(char *delimiter)
 		free(line);
 	}
 	close(pipe_fd[1]);
-	if (dup2(pipe_fd[0], STDIN_FILENO) == -1)
+	handle_dup_failure(dup2(pipe_fd[0], STDIN_FILENO), "dup2");
+	close(pipe_fd[0]);
+	return (0);
+}
+*/
+
+static void	close_pipe_ends(int pipe_fd[2])
+{
+	close(pipe_fd[0]);
+	close(pipe_fd[1]);
+}
+
+static void	write_line_to_pipe(int pipe_fd[2], char **line_addr)
+{
+	size_t	len;
+	char *line;
+
+	line = *line_addr;
+	len = ft_strlen(line);
+	write(pipe_fd[1], line, len);
+	write(pipe_fd[1], "\n", 1); // Restaurer le newline
+	free(line);
+	line = NULL;
+}
+
+static int	check_delimiter(char **line_addr, char *delimiter)
+{
+	char	*line;
+
+	line = *line_addr;
+	if (ft_strcmp(line, delimiter) == 0)
 	{
-		perror("dup2");
-		close(pipe_fd[0]);
-		return (-1);
+		free(line);
+		*line_addr = NULL;
+		return (1);
 	}
+	return (0);
+}
+
+static int	read_and_write_heredoc(int pipe_fd[2], char *delimiter)
+{
+	char	*line;
+	size_t	len;
+
+	while (TRUE)
+	{
+		line = get_next_line(STDIN_FILENO);
+		if (!line)
+			return (1);
+		len = ft_strlen(line);
+		if (len > 0 && line[len - 1] == '\n')
+			line[len - 1] = '\0';
+		if (check_delimiter(&line, delimiter))
+			break ;
+		write_line_to_pipe(pipe_fd, &line);
+	}
+	if (line)
+		free(line);
+	return (0);
+}
+
+int	handle_heredoc(char *delimiter)
+{
+	int	pipe_fd[2];
+
+	handle_pipe_failure(pipe(pipe_fd), "pipe");
+	if (read_and_write_heredoc(pipe_fd, delimiter))
+	{
+		close_pipe_ends(pipe_fd);
+		return (handle_eoheredoc(pipe_fd));
+	}
+	close(pipe_fd[1]);
+	handle_dup_failure(dup2(pipe_fd[0], STDIN_FILENO), "dup2");
 	close(pipe_fd[0]);
 	return (0);
 }
@@ -116,47 +177,74 @@ void	handle_redir_out(t_token *tok)
 	}
 }
 
+/*
+void	*ft_realloc(void *ptr, size_t new_size)
+{
+	void	*new_ptr;
+
+	if (!ptr)
+		return (malloc(new_size));
+	if (new_size == 0)
+	{
+		free(ptr);
+		return (NULL);
+	}
+	new_ptr = malloc(new_size);
+	if (!new_ptr)
+		return (NULL);
+	ft_memcpy(new_ptr, ptr, new_size);
+	free(ptr);
+	return (new_ptr);
+}
+
+static char	*ft_append_heredoc(char *input, char *line, size_t *total_length)
+{
+	char	*new_input;
+
+	new_input = ft_realloc(input, *total_length + ft_strlen(line) + 1);
+	if (!new_input)
+	{
+		free(input);
+		free(line);
+		perror("Memory allocation failed");
+		return (NULL);
+	}
+	ft_strlcpy(new_input + *total_length, line, INT_MAX);
+	*total_length += ft_strlen(line);
+	return (new_input);
+}
+
+static int	is_delimiter(char *line, char *delimiter)
+{
+	if (!line)
+		return (1);
+	if (ft_strcmp(line, delimiter) == 0)
+	{
+		free(line);
+		return (1);
+	}
+	return (0);
+}
+
+
 char	*read_heredoc(char *delimiter)
 {
 	char	*input;
 	char	*line;
 	size_t	total_length;
-	char	*new_input;
 
 	input = NULL;
-	line = NULL;
 	total_length = 0;
-	printf("Enter text (end with '%s'):\n", delimiter);
 	while (1)
 	{
-		// Use readline to get a line of input
-		line = readline("> "); // Prompt for input
-		if (line == NULL)
-		{
-			break ; // Break on EOF or error
-		}
-		// Check if the line matches the delimiter
-		if (strcmp(line, delimiter) == 0)
-		{
-			free(line); // Free the line before breaking
-			break ; // Exit if the delimiter is found
-		}
-		// Remove the newline character from the line
-		line[strcspn(line, "\n")] = 0;
-		// Allocate or reallocate memory for the input
-		new_input = realloc(input, total_length + strlen(line) + 1);
-		if (new_input == NULL)
-		{
-			free(input); // Free previous memory on failure
-			free(line); // Free the line
-			perror("Memory allocation failed");
+		line = readline("> ");
+		if (is_delimiter(line, delimiter))
+			break ;
+		input = ft_append_heredoc(input, line, &total_length);
+		free(line);
+		if (!input)
 			return (NULL);
-		}
-		input = new_input;
-		// Copy the line to the input
-		strcpy(input + total_length, line);
-		total_length += strlen(line);
-		free(line); // Free the line after copying
 	}
-	return (input); // Return the collected input
+	return (input);
 }
+*/

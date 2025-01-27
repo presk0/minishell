@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/27 15:27:41 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/27 16:02:48 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ char	*gc_strjoin(const char *s1, const char *s2)
 {
 	char	*ret;
 
-	// ret = gc_malloc(sizeof(char *), ft_strlen(s1) + ft_strlen(s2) + 1)
 	ret = ft_strjoin(s1, s2);
 	if (!gc_append(&g_d.gc, ret))
 		minishell_exit("error", -1);

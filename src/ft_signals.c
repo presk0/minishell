@@ -50,29 +50,6 @@ void	init_sig(void)
 		minishell_exit("init_sig", -1);
 }
 
-/*
-void	handle_child_sigint(int sig)
-{
-	(void)sig;
-	ft_errmsg("coucou");
-}
-
-void	init_child_sig(void)
-{
-	struct sigaction	sa;
-
-	ft_memset(&sa, 0, sizeof(sa));
-	sa.sa_handler = handle_child_sigint;
-	sa.sa_flags = 0;
-	sigemptyset(&sa.sa_mask);
-	if (sigaction(SIGINT, &sa, NULL) == -1)
-	{
-		perror("sigaction");
-		exit(EXIT_FAILURE);
-	}
-}
-*/
-
 void	wait_for_child(pid_t pid)
 {
 	if (waitpid(pid, &g_d.status, 0) == -1)
