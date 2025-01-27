@@ -14,13 +14,13 @@
 
 static void	ft_memrcpy(void *dst, const void *src, size_t len)
 {
-	unsigned char	*d;
+	unsigned char	*g_d;
 	unsigned char	*s;
 
-	d = (unsigned char *)dst;
+	g_d = (unsigned char *)dst;
 	s = (unsigned char *)src;
 	while (len--)
-		d[len] = s[len];
+		g_d[len] = s[len];
 }
 
 void	*ft_memmove(void *dst, const void *src, size_t len)

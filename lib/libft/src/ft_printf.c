@@ -70,7 +70,7 @@ static int	print_item(va_list ap, char c)
 		return (ft_putstr_fd((char *)va_arg(ap, char *), FD));
 	if (c == 'p')
 		return (ft_putptr((unsigned long)va_arg(ap, void *), FD));
-	if (c == 'i' || c == 'd')
+	if (c == 'i' || c == 'g_d')
 		return (ft_putibase_fd((int)va_arg(ap, int), "0123456789", 10, FD));
 	if (c == 'u')
 		return (putubase(va_arg(ap, unsigned), "0123456789", 10, FD));

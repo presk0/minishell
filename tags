@@ -21,69 +21,69 @@ $(OBJ_DIR)/%.o	lib/libgc/Makefile	/^$(OBJ_DIR)\/%.o: $(SRC_DIR)\/%.c$/;"	t
 0	.vscode/launch.json	/^			"args": ['|'],$/;"	z	array:configurations.0.args
 0	.vscode/launch.json	/^		{$/;"	o	array:configurations
 1	.vscode/launch.json	/^				{$/;"	o	array:configurations.0.setupCommands
-BTREE_H	lib/libbtree/include/btree.h	/^# define BTREE_H$/;"	d
-BUFF_QUOTE_MAX	includes/minishell.h	/^# define BUFF_QUOTE_MAX /;"	d
-BUFF_RMQUOTES	includes/minishell.h	/^# define BUFF_RMQUOTES /;"	d
-BUFF_STRLEN	includes/minishell.h	/^# define BUFF_STRLEN /;"	d
-BUFF_STRNSTR	includes/minishell.h	/^# define BUFF_STRNSTR /;"	d
-BUFF_SUBVAR	includes/minishell.h	/^# define BUFF_SUBVAR /;"	d
-BUFF_TOK_CMD	includes/minishell.h	/^# define BUFF_TOK_CMD /;"	d
+BTREE_H	lib/libbtree/include/btree.h	/^# define BTREE_H$/;"	g_d
+BUFF_QUOTE_MAX	includes/minishell.h	/^# define BUFF_QUOTE_MAX /;"	g_d
+BUFF_RMQUOTES	includes/minishell.h	/^# define BUFF_RMQUOTES /;"	g_d
+BUFF_STRLEN	includes/minishell.h	/^# define BUFF_STRLEN /;"	g_d
+BUFF_STRNSTR	includes/minishell.h	/^# define BUFF_STRNSTR /;"	g_d
+BUFF_SUBVAR	includes/minishell.h	/^# define BUFF_SUBVAR /;"	g_d
+BUFF_TOK_CMD	includes/minishell.h	/^# define BUFF_TOK_CMD /;"	g_d
 CC	Makefile	/^CC = cc$/;"	m
 CC	lib/libbtree/Makefile	/^CC = gcc$/;"	m
 CC	lib/libft/Makefile	/^CC = gcc$/;"	m
 CC	lib/libgc/Makefile	/^CC = gcc$/;"	m
-CD_ID	includes/minishell.h	/^# define CD_ID /;"	d
+CD_ID	includes/minishell.h	/^# define CD_ID /;"	g_d
 CFLAGS	Makefile	/^CFLAGS = -Wall -Wextra -Werror -I includes -g3$/;"	m
 CFLAGS	lib/libbtree/Makefile	/^CFLAGS = -Wall -Wextra -Werror -Iinclude -g$/;"	m
 CFLAGS	lib/libft/Makefile	/^CFLAGS = -Wall -Wextra -Werror -Iinclude -g$/;"	m
 CFLAGS	lib/libgc/Makefile	/^CFLAGS = -Wall -Wextra -Werror -Iinclude -g$/;"	m
-CHILD_INTERRUPT	includes/minishell.h	/^# define CHILD_INTERRUPT /;"	d
-CLEAN_EXIT	includes/minishell.h	/^# define CLEAN_EXIT /;"	d
-CMD_NOT_FOUND	includes/minishell.h	/^# define CMD_NOT_FOUND /;"	d
-DOUBLE_QUOTE	includes/minishell.h	/^# define DOUBLE_QUOTE /;"	d
-ECHO_ID	includes/minishell.h	/^# define ECHO_ID /;"	d
-ENV_ID	includes/minishell.h	/^# define ENV_ID /;"	d
-ERR	includes/minishell.h	/^# define ERR /;"	d
-ERR_GC_APPEND	includes/minishell.h	/^# define ERR_GC_APPEND /;"	d
-ERR_GC_STRDUP	includes/minishell.h	/^# define ERR_GC_STRDUP /;"	d
-EXIT_ID	includes/minishell.h	/^# define EXIT_ID /;"	d
-EXPORT_ID	includes/minishell.h	/^# define EXPORT_ID /;"	d
-FAILURE	includes/minishell.h	/^# define FAILURE /;"	d
-FALSE	includes/minishell.h	/^# define FALSE /;"	d
+CHILD_INTERRUPT	includes/minishell.h	/^# define CHILD_INTERRUPT /;"	g_d
+CLEAN_EXIT	includes/minishell.h	/^# define CLEAN_EXIT /;"	g_d
+CMD_NOT_FOUND	includes/minishell.h	/^# define CMD_NOT_FOUND /;"	g_d
+DOUBLE_QUOTE	includes/minishell.h	/^# define DOUBLE_QUOTE /;"	g_d
+ECHO_ID	includes/minishell.h	/^# define ECHO_ID /;"	g_d
+ENV_ID	includes/minishell.h	/^# define ENV_ID /;"	g_d
+ERR	includes/minishell.h	/^# define ERR /;"	g_d
+ERR_GC_APPEND	includes/minishell.h	/^# define ERR_GC_APPEND /;"	g_d
+ERR_GC_STRDUP	includes/minishell.h	/^# define ERR_GC_STRDUP /;"	g_d
+EXIT_ID	includes/minishell.h	/^# define EXIT_ID /;"	g_d
+EXPORT_ID	includes/minishell.h	/^# define EXPORT_ID /;"	g_d
+FAILURE	includes/minishell.h	/^# define FAILURE /;"	g_d
+FALSE	includes/minishell.h	/^# define FALSE /;"	g_d
 FILES	lib/libbtree/Makefile	/^FILES = ft_btree.c display_tree.c$/;"	m
 FILES	lib/libft/Makefile	/^FILES = ft_atoi.c ft_bzero.c ft_calloc.c ft_errmsg.c ft_isalnum.c ft_isalpha.c \\$/;"	m
 FILES	lib/libgc/Makefile	/^FILES = gc.c$/;"	m
 FT_FLAGS	lib/libgc/Makefile	/^FT_FLAGS = -lft -L $(LIBFT_DIR)$/;"	m
-HERE_DOC	includes/minishell.h	/^# define HERE_DOC /;"	d
-IN	includes/minishell.h	/^# define IN /;"	d
+HERE_DOC	includes/minishell.h	/^# define HERE_DOC /;"	g_d
+IN	includes/minishell.h	/^# define IN /;"	g_d
 INCLUDES	Makefile	/^INCLUDES = $(addprefix -I,$(INCLUDE_DIRS))$/;"	m
 INCLUDES	lib/libgc/Makefile	/^INCLUDES = -I include -I $(LIBFT_DIR)\/include$/;"	m
 INCLUDE_DIR	lib/libbtree/Makefile	/^INCLUDE_DIR = include$/;"	m
 INCLUDE_DIR	lib/libft/Makefile	/^INCLUDE_DIR = include$/;"	m
 INCLUDE_DIRS	Makefile	/^INCLUDE_DIRS = .\/include$/;"	m
-INT_MAX	lib/libft/include/libft.h	/^# define INT_MAX /;"	d
-INT_MIN	lib/libft/include/libft.h	/^# define INT_MIN /;"	d
+INT_MAX	lib/libft/include/libft.h	/^# define INT_MAX /;"	g_d
+INT_MIN	lib/libft/include/libft.h	/^# define INT_MIN /;"	g_d
 LDFLAGS	Makefile	/^LDFLAGS = $(addprefix -L$(LIB_DIR)\/lib,$(LIBRARIES))$/;"	m
 LDLIBS	Makefile	/^LDLIBS = $(addprefix -l,$(LIBRARIES))$/;"	m
-LEFT	includes/minishell.h	/^# define LEFT /;"	d
-LEFT	lib/libbtree/include/btree.h	/^# define LEFT /;"	d
+LEFT	includes/minishell.h	/^# define LEFT /;"	g_d
+LEFT	lib/libbtree/include/btree.h	/^# define LEFT /;"	g_d
 LFLAGS	Makefile	/^LFLAGS = -lreadline$/;"	m
 LIBFT_DIR	lib/libgc/Makefile	/^LIBFT_DIR = ..\/libft$/;"	m
-LIBFT_H	lib/libft/include/libft.h	/^# define LIBFT_H$/;"	d
-LIBGC_H	lib/libgc/include/libgc.h	/^# define LIBGC_H$/;"	d
+LIBFT_H	lib/libft/include/libft.h	/^# define LIBFT_H$/;"	g_d
+LIBGC_H	lib/libgc/include/libgc.h	/^# define LIBGC_H$/;"	g_d
 LIBRARIES	Makefile	/^LIBRARIES = btree gc ft$/;"	m
 LIBS	Makefile	/^LIBS = $(addprefix $(LIB_DIR)\/,$(LIBRARIES))$/;"	m
 LIB_DIR	Makefile	/^LIB_DIR = .\/lib$/;"	m
 LIB_NAMES	Makefile	/^LIB_NAMES = $(addprefix lib, $(LIBRARIES))$/;"	m
 MAIN	Makefile	/^MAIN = main.c$/;"	m
 MIMode	.vscode/launch.json	/^			"MIMode": "gdb",$/;"	s	object:configurations.0
-MINISHELL_H	includes/minishell.h	/^# define MINISHELL_H$/;"	d
-MINISHELL_ID	includes/minishell.h	/^# define MINISHELL_ID /;"	d
+MINISHELL_H	includes/minishell.h	/^# define MINISHELL_H$/;"	g_d
+MINISHELL_ID	includes/minishell.h	/^# define MINISHELL_ID /;"	g_d
 NAME	Makefile	/^NAME = minishell$/;"	m
 NAME	lib/libbtree/Makefile	/^NAME = libbtree.a$/;"	m
 NAME	lib/libft/Makefile	/^NAME = libft.a$/;"	m
 NAME	lib/libgc/Makefile	/^NAME = libgc.a$/;"	m
-NO_QUOTE	includes/minishell.h	/^# define NO_QUOTE /;"	d
+NO_QUOTE	includes/minishell.h	/^# define NO_QUOTE /;"	g_d
 OBJS	Makefile	/^OBJS = $(SRCS:.c=.o)$/;"	m
 OBJS	lib/libbtree/Makefile	/^OBJS = $(addprefix $(OBJ_DIR)\/, $(FILES:.c=.o))$/;"	m
 OBJS	lib/libft/Makefile	/^OBJS = $(SRCS:$(SRC_DIR)\/%.c=$(OBJ_DIR)\/%.o)$/;"	m
@@ -91,33 +91,33 @@ OBJS	lib/libgc/Makefile	/^OBJS = $(addprefix $(OBJ_DIR)\/, $(FILES:.c=.o))$/;"	m
 OBJ_DIR	lib/libbtree/Makefile	/^OBJ_DIR = obj$/;"	m
 OBJ_DIR	lib/libft/Makefile	/^OBJ_DIR = obj$/;"	m
 OBJ_DIR	lib/libgc/Makefile	/^OBJ_DIR = obj$/;"	m
-OUT	includes/minishell.h	/^# define OUT /;"	d
-PS1	includes/minishell.h	/^# define PS1 /;"	d
-PWD_ID	includes/minishell.h	/^# define PWD_ID /;"	d
-READ	includes/minishell.h	/^# define READ /;"	d
-REDIR_APPEND	includes/minishell.h	/^# define REDIR_APPEND /;"	d
-REDIR_IN	includes/minishell.h	/^# define REDIR_IN /;"	d
-REDIR_OUT	includes/minishell.h	/^# define REDIR_OUT /;"	d
-RESET	includes/minishell.h	/^# define RESET /;"	d
-RIGHT	includes/minishell.h	/^# define RIGHT /;"	d
-RIGHT	lib/libbtree/include/btree.h	/^# define RIGHT /;"	d
-ROOT	lib/libbtree/include/btree.h	/^# define ROOT /;"	d
-SAVE	includes/minishell.h	/^# define SAVE /;"	d
-SIMPLE_QUOTE	includes/minishell.h	/^# define SIMPLE_QUOTE /;"	d
+OUT	includes/minishell.h	/^# define OUT /;"	g_d
+PS1	includes/minishell.h	/^# define PS1 /;"	g_d
+PWD_ID	includes/minishell.h	/^# define PWD_ID /;"	g_d
+READ	includes/minishell.h	/^# define READ /;"	g_d
+REDIR_APPEND	includes/minishell.h	/^# define REDIR_APPEND /;"	g_d
+REDIR_IN	includes/minishell.h	/^# define REDIR_IN /;"	g_d
+REDIR_OUT	includes/minishell.h	/^# define REDIR_OUT /;"	g_d
+RESET	includes/minishell.h	/^# define RESET /;"	g_d
+RIGHT	includes/minishell.h	/^# define RIGHT /;"	g_d
+RIGHT	lib/libbtree/include/btree.h	/^# define RIGHT /;"	g_d
+ROOT	lib/libbtree/include/btree.h	/^# define ROOT /;"	g_d
+SAVE	includes/minishell.h	/^# define SAVE /;"	g_d
+SIMPLE_QUOTE	includes/minishell.h	/^# define SIMPLE_QUOTE /;"	g_d
 SRCS	Makefile	/^SRCS =	$(wildcard .\/src\/*.c)	\\$/;"	m
 SRCS	lib/libft/Makefile	/^SRCS = $(addprefix $(SRC_DIR)\/, $(FILES))$/;"	m
 SRC_DIR	lib/libbtree/Makefile	/^SRC_DIR = src$/;"	m
 SRC_DIR	lib/libft/Makefile	/^SRC_DIR = src$/;"	m
 SRC_DIR	lib/libgc/Makefile	/^SRC_DIR = src$/;"	m
-SUCCESS	includes/minishell.h	/^# define SUCCESS /;"	d
-TOKEN_APPEND	includes/minishell.h	/^# define TOKEN_APPEND /;"	d
-TOKEN_HEREDOC	includes/minishell.h	/^# define TOKEN_HEREDOC /;"	d
-TOKEN_PIPE	includes/minishell.h	/^# define TOKEN_PIPE /;"	d
-TOKEN_REDIR_IN	includes/minishell.h	/^# define TOKEN_REDIR_IN /;"	d
-TOKEN_REDIR_OUT	includes/minishell.h	/^# define TOKEN_REDIR_OUT /;"	d
-TRUE	includes/minishell.h	/^# define TRUE /;"	d
-UNSET_ID	includes/minishell.h	/^# define UNSET_ID /;"	d
-WHITE_SPACE	includes/minishell.h	/^# define WHITE_SPACE /;"	d
+SUCCESS	includes/minishell.h	/^# define SUCCESS /;"	g_d
+TOKEN_APPEND	includes/minishell.h	/^# define TOKEN_APPEND /;"	g_d
+TOKEN_HEREDOC	includes/minishell.h	/^# define TOKEN_HEREDOC /;"	g_d
+TOKEN_PIPE	includes/minishell.h	/^# define TOKEN_PIPE /;"	g_d
+TOKEN_REDIR_IN	includes/minishell.h	/^# define TOKEN_REDIR_IN /;"	g_d
+TOKEN_REDIR_OUT	includes/minishell.h	/^# define TOKEN_REDIR_OUT /;"	g_d
+TRUE	includes/minishell.h	/^# define TRUE /;"	g_d
+UNSET_ID	includes/minishell.h	/^# define UNSET_ID /;"	g_d
+WHITE_SPACE	includes/minishell.h	/^# define WHITE_SPACE /;"	g_d
 all	Makefile	/^all: make_libs $(NAME)$/;"	t
 all	lib/libft/Makefile	/^all: $(NAME)$/;"	t
 append_flag	includes/minishell.h	/^	int		append_flag;$/;"	m	struct:s_token	typeref:typename:int
@@ -150,7 +150,7 @@ configurations	.vscode/launch.json	/^	"configurations": [$/;"	a
 content	lib/libbtree/include/btree.h	/^	void				*content;$/;"	m	struct:s_btree	typeref:typename:void *
 content	lib/libft/include/libft.h	/^	void			*content;$/;"	m	struct:s_list	typeref:typename:void *
 cwd	.vscode/launch.json	/^			"cwd": "${fileDirname}",$/;"	s	object:configurations.0
-d	main.c	/^t_data d;$/;"	v	typeref:typename:t_data
+g_d	main.c	/^t_data g_d;$/;"	v	typeref:typename:t_data
 del_char	src/ft_var_substitution.c	/^char	*del_char(char *str)$/;"	f	typeref:typename:char *
 description	.vscode/launch.json	/^					"description": "Enable pretty-printing for gdb",$/;"	s	object:configurations.0.setupCommands.0
 description	.vscode/launch.json	/^					"description": "Set Disassembly Flavor to Intel",$/;"	s	object:configurations.0.setupCommands.1

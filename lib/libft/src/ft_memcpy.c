@@ -14,10 +14,10 @@
 
 void	*ft_memcpy(void *dst, const void *src, size_t len)
 {
-	char	*d;
+	char	*g_d;
 	char	*s;
 
-	d = dst;
+	g_d = dst;
 	s = (void *)src;
 	if (dst == src)
 		return (dst);
@@ -27,6 +27,6 @@ void	*ft_memcpy(void *dst, const void *src, size_t len)
 		return (NULL);
 	}
 	while (len--)
-		*d++ = *s++;
+		*g_d++ = *s++;
 	return (dst);
 }

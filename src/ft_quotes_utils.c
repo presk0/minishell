@@ -36,7 +36,7 @@ char	*strdup_wd_quote(char *cmd)
 	char	*out;
 
 	wd_len_quoted = strlen_wd_quoted(cmd);
-	duplicated = gc_malloc(&d.gc, 1, wd_len_quoted + 1);
+	duplicated = gc_malloc(&g_d.gc, 1, wd_len_quoted + 1);
 	if (!duplicated)
 		return (NULL);
 	out = duplicated;

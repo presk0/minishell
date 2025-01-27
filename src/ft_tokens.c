@@ -47,7 +47,7 @@ static char	*find_path(char *cmd, char **envp)
 		while (paths[i] && !path)
 			path = is_available_path(paths[i++], cmd);
 	ft_free_split(&paths);
-	return (gc_append(&d.gc, path));
+	return (gc_append(&g_d.gc, path));
 }
 
 void	prepend_path(char **cmd)
@@ -56,18 +56,18 @@ void	prepend_path(char **cmd)
 
 	if (!cmd)
 		return ;
-	path_available = find_path(*cmd, d.env);
+	path_available = find_path(*cmd, g_d.env);
 	if (path_available)
 	{
-		gc_free_item(&d.gc, *cmd);
+		gc_free_item(&g_d.gc, *cmd);
 		*cmd = path_available;
 	}
 	else
 	{
 		if (*cmd)
 			printf("%s: command not found\n", *cmd);
-		gc_free_tree(d.gc, &d.cmd_tree, gc_free_node_content);
-		d.status = CMD_NOT_FOUND;
+		gc_free_tree(g_d.gc, &g_d.cmd_tree, gc_free_node_content);
+		g_d.status = CMD_NOT_FOUND;
 	}
 }
 
@@ -82,7 +82,7 @@ char	*save_token_cmd(char *cmd, t_token *token)
 			token->cmd = itm;
 		if (*itm == '\0')
 		{
-			gc_free_item(&d.gc, itm);
+			gc_free_item(&g_d.gc, itm);
 			return (++cmd);
 		}
 		else
@@ -102,7 +102,7 @@ t_token	*tokenize_cmd(char *cmd, t_token *token)
 	{
 		op = is_operand(cmd);
 		if (op == -1)
-			return (gc_free_item(&d.gc, token), NULL);
+			return (gc_free_item(&g_d.gc, token), NULL);
 		if (op && !is_quoted(*cmd, BUFF_TOK_CMD, SAVE))
 			cmd = save_token_op(cmd, op, token);
 		else if (!op && !ft_strchr(WHITE_SPACE, *cmd))

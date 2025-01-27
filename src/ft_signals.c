@@ -27,7 +27,7 @@ void	handle_sigint(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	d.sigint_received = 1;
+	g_d.sigint_received = 1;
 }
 
 void	init_sig(void)
@@ -75,6 +75,6 @@ void	init_child_sig(void)
 
 void	wait_for_child(pid_t pid)
 {
-	if (waitpid(pid, &d.status, 0) == -1)
+	if (waitpid(pid, &g_d.status, 0) == -1)
 		perror("waitpid");
 }

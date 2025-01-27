@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/25 20:43:16 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/27 15:27:41 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*substitute_variables(char *input)
 	size_t	i_input;
 	size_t	i_result;
 
-	result = gc_strdup(&d.gc, "");
+	result = gc_strdup(&g_d.gc, "");
 	i_input = 0;
 	i_result = 0;
 	is_quoted(0, BUFF_SUBVAR, RESET);
@@ -47,7 +47,7 @@ char	*substitute_variables(char *input)
 		else
 			append_until_dollar(input, &i_input, &i_result, &result);
 	}
-	// gc_free_item(&d.gc, input);
+	// gc_free_item(&g_d.gc, input);
 	return (result);
 }
 
@@ -114,7 +114,7 @@ size_t	append_until_dollar(char *input, size_t *i_input, size_t *i_result,
 
 	next_dollar = strlen_char_simple_quoted(input + *i_input, '$', BUFF_SUBVAR);
 	if (next_dollar)
-		*i_result = gc_strlcat(&d.gc, result, &input[*i_input],
+		*i_result = gc_strlcat(&g_d.gc, result, &input[*i_input],
 				ft_strlen(*result) + next_dollar);
 	*i_input += next_dollar;
 	return (next_dollar);
@@ -135,16 +135,16 @@ char	*process_dollar(char *input, size_t *i_input, size_t *i_result,
 		var_name = ft_strndup(input + var_start, var_len);
 		var_value = ft_getenv(var_name);
 		if (var_value)
-			*i_result += gc_strcat(&d.gc, result, var_value);
+			*i_result += gc_strcat(&g_d.gc, result, var_value);
 		else if (var_name && *var_name)
 		{
-			*i_result += gc_strcat(&d.gc, result, "$");
-			*i_result += gc_strcat(&d.gc, result, var_name);
+			*i_result += gc_strcat(&g_d.gc, result, "$");
+			*i_result += gc_strcat(&g_d.gc, result, var_name);
 		}
 		free(var_name);
 	}
 	else
-		*i_result = gc_strcat(&d.gc, result, "$");
+		*i_result = gc_strcat(&g_d.gc, result, "$");
 	*i_input += var_len + 1;
 	return (*result);
 }

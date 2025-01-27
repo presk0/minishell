@@ -19,8 +19,8 @@ void	minishell_exit(char *errmsg, int status)
 	else
 		printf("exit\n");
 	rl_clear_history();
-	// print_gc(d.gc);
-	gc_free_all(&d.gc);
+	// print_gc(g_d.gc);
+	gc_free_all(&g_d.gc);
 	exit(status);
 }
 
@@ -54,12 +54,12 @@ char	**duplicate_tab(char **tab_original)
 	size_t	i;
 
 	tab_len = ft_tablen(tab_original);
-	tab_copy = gc_malloc(&d.gc, (tab_len + 1), sizeof(char *));
+	tab_copy = gc_malloc(&g_d.gc, (tab_len + 1), sizeof(char *));
 	tab_copy[tab_len] = NULL;
 	i = 0;
 	while (i < tab_len)
 	{
-		tab_copy[i] = gc_strdup(&d.gc, tab_original[i]);
+		tab_copy[i] = gc_strdup(&g_d.gc, tab_original[i]);
 		if (!tab_copy[i])
 		{
 			ft_errmsg("[duplicate_tab]malloc error\n");
@@ -80,8 +80,8 @@ void	inc_shlvl(void)
 	shlvl = ft_atoi(shlvl_str);
 	shlvl++;
 	shlvl_str = ft_itoa(shlvl);
-	shlvl_line = gc_strdup(&d.gc, "SHLVL=");
-	gc_strcat(&d.gc, &shlvl_line, shlvl_str);
+	shlvl_line = gc_strdup(&g_d.gc, "SHLVL=");
+	gc_strcat(&g_d.gc, &shlvl_line, shlvl_str);
 	free(shlvl_str);
 	ft_setenv(shlvl_line);
 }
@@ -91,21 +91,21 @@ void	minishell(char **envp)
 	char	*line;
 
 	init_sig();
-	d.gc = NULL;
-	d.status = 0;
-	d.env = duplicate_tab(envp);
-	d.sigint_received = 0;
+	g_d.gc = NULL;
+	g_d.status = 0;
+	g_d.env = duplicate_tab(envp);
+	g_d.sigint_received = 0;
 	inc_shlvl();
 	while (1)
 	{
 		line = readline(PS1);
 		if (line == NULL)
 			break ;
-		if (gc_append(&d.gc, line))
+		if (gc_append(&g_d.gc, line))
 		{
 			run_line(line);
 			add_history(line);
-			gc_free_item(&d.gc, line);
+			gc_free_item(&g_d.gc, line);
 		}
 		else
 		{
@@ -116,7 +116,7 @@ void	minishell(char **envp)
 	minishell_exit(NULL, CLEAN_EXIT);
 }
 
-t_data	d;
+t_data	g_d;
 
 void	print_tab(char **tab)
 {
@@ -131,11 +131,11 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)envp;
 	minishell(envp);
-	// d.gc = NULL;
-	// d.status = 0;
-	// d.env = duplicate_tab(envp);
-	// d.sigint_received = 0;
+	// g_d.gc = NULL;
+	// g_d.status = 0;
+	// g_d.env = duplicate_tab(envp);
+	// g_d.sigint_received = 0;
 	// static t_token token;
-	// char *line = gc_strdup(&d.gc, argv[1]);
+	// char *line = gc_strdup(&g_d.gc, argv[1]);
 	return (0);
 }

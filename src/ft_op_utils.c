@@ -65,7 +65,7 @@ char	*save_token_op(char *cmd, int op, t_token *token)
 	if (op == REDIR_IN)
 	{
 		if (token->redir_in)
-			gc_free_item(&d.gc, token->redir_in);
+			gc_free_item(&g_d.gc, token->redir_in);
 		token->redir_in = grep_token('<', cmd);
 		token->heredoc = 0;
 		return (skip_op_and_arg(cmd, '<'));
@@ -73,9 +73,9 @@ char	*save_token_op(char *cmd, int op, t_token *token)
 	if (op == REDIR_OUT)
 	{
 		if (token->redir_out)
-			gc_free_item(&d.gc, token->redir_out);
+			gc_free_item(&g_d.gc, token->redir_out);
 		if (token->redir_out)
-			gc_free_item(&d.gc, token->redir_out);
+			gc_free_item(&g_d.gc, token->redir_out);
 		token->redir_out = grep_token('>', cmd);
 		token->append_flag = 0;
 		return (skip_op_and_arg(cmd, '>'));
@@ -89,7 +89,7 @@ char	*save_token_op(char *cmd, int op, t_token *token)
 	if (op == REDIR_APPEND)
 	{
 		if (token->redir_out)
-			gc_free_item(&d.gc, token->redir_out);
+			gc_free_item(&g_d.gc, token->redir_out);
 		token->redir_out = grep_token('>', cmd);
 		token->append_flag = 1;
 		return (skip_op_and_arg(cmd, '>'));

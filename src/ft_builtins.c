@@ -42,9 +42,9 @@ int	ft_env(void)
 	int	i;
 
 	i = 0;
-	while (d.env[i] != NULL)
+	while (g_d.env[i] != NULL)
 	{
-		printf("%s\n", d.env[i]);
+		printf("%s\n", g_d.env[i]);
 		i++;
 	}
 	return (0);
@@ -112,10 +112,10 @@ char	*ft_getenv_line(const char *var)
 
 	var_len = strlen(var);
 	i = 0;
-	while (d.env[i] != NULL)
+	while (g_d.env[i] != NULL)
 	{
-		if (strncmp(d.env[i], var, var_len) == 0 && d.env[i][var_len] == '=')
-			return (d.env[i]);
+		if (strncmp(g_d.env[i], var, var_len) == 0 && g_d.env[i][var_len] == '=')
+			return (g_d.env[i]);
 		i++;
 	}
 	return (NULL);
@@ -128,10 +128,10 @@ char	*ft_getenv(const char *var)
 
 	var_len = strlen(var);
 	i = 0;
-	while (d.env[i] != NULL)
+	while (g_d.env[i] != NULL)
 	{
-		if (strncmp(d.env[i], var, var_len) == 0 && d.env[i][var_len] == '=')
-			return (d.env[i] + var_len + 1);
+		if (strncmp(g_d.env[i], var, var_len) == 0 && g_d.env[i][var_len] == '=')
+			return (g_d.env[i] + var_len + 1);
 		i++;
 	}
 	return (NULL);
@@ -139,7 +139,7 @@ char	*ft_getenv(const char *var)
 
 int	ft_exit(void)
 {
-	d.status = SUCCESS;
+	g_d.status = SUCCESS;
 	minishell_exit(NULL, 0);
 	return (0);
 }
@@ -150,22 +150,22 @@ int	unset_var_in_env(char *var)
 	int		j;
 	size_t	var_len;
 
-	if (!d.env || !var)
+	if (!g_d.env || !var)
 		return (FAILURE);
 	var_len = strlen(var);
 	i = 0;
-	while (d.env[i] != NULL)
+	while (g_d.env[i] != NULL)
 	{
-		if (ft_strncmp(d.env[i], var, var_len) == 0 && d.env[i][var_len] == '=')
+		if (ft_strncmp(g_d.env[i], var, var_len) == 0 && g_d.env[i][var_len] == '=')
 		{
-			gc_free_item(&d.gc, d.env[i]);
+			gc_free_item(&g_d.gc, g_d.env[i]);
 			j = i;
-			while (d.env[j] != NULL)
+			while (g_d.env[j] != NULL)
 			{
-				d.env[j] = d.env[j + 1];
+				g_d.env[j] = g_d.env[j + 1];
 				j++;
 			}
-			d.env[j] = NULL;
+			g_d.env[j] = NULL;
 			return (SUCCESS);
 		}
 		i++;
@@ -195,10 +195,10 @@ int	ft_setenv(char *var_line)
 		var_len = ft_varlen(var_line);
 		if (var_len)
 		{
-			var = gc_strndup(&d.gc, var_line, var_len);
+			var = gc_strndup(&g_d.gc, var_line, var_len);
 			unset_var_in_env(var);
-			gc_free_item(&d.gc, var);
-			append_tab(&d.env, gc_strdup(&d.gc, var_line));
+			gc_free_item(&g_d.gc, var);
+			append_tab(&g_d.env, gc_strdup(&g_d.gc, var_line));
 		}
 	}
 	else
@@ -212,7 +212,7 @@ int	ft_export(t_token *token)
 
 	if (!token->args[1])
 	{
-		print_export(d.env);
+		print_export(g_d.env);
 		return (0);
 	}
 	i = 1;
@@ -232,8 +232,8 @@ int	ft_cd(t_token *token)
 	char	cwd[1024];
 
 	newpwd = NULL;
-	oldpwd = gc_strdup(&d.gc, "OLDPWD=");
-	gc_strcat(&d.gc, &oldpwd, ft_getenv("PWD"));
+	oldpwd = gc_strdup(&g_d.gc, "OLDPWD=");
+	gc_strcat(&g_d.gc, &oldpwd, ft_getenv("PWD"));
 	if (token->args[1] != NULL)
 		target_dir = token->args[1];
 	else
@@ -247,8 +247,8 @@ int	ft_cd(t_token *token)
 	}
 	if (access(target_dir, F_OK) != SUCCESS)
 	{
-		gc_free_item(&d.gc, newpwd);
-		d.status = 1;
+		gc_free_item(&g_d.gc, newpwd);
+		g_d.status = 1;
 		return (FAILURE);
 	}
 	else
@@ -256,15 +256,15 @@ int	ft_cd(t_token *token)
 		if (chdir(target_dir) != SUCCESS)
 		{
 			perror("cd failed");
-			gc_free_item(&d.gc, oldpwd);
+			gc_free_item(&g_d.gc, oldpwd);
 			return (FAILURE);
 		}
-		newpwd = gc_strdup(&d.gc, "PWD=");
+		newpwd = gc_strdup(&g_d.gc, "PWD=");
 		getcwd(cwd, sizeof(cwd));
-		gc_strcat(&d.gc, &newpwd, cwd);
+		gc_strcat(&g_d.gc, &newpwd, cwd);
 		ft_setenv(oldpwd);
 		ft_setenv(newpwd);
-		d.status = 0;
+		g_d.status = 0;
 	}
 	return (0);
 }

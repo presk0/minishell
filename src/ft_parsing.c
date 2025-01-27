@@ -35,7 +35,7 @@ char	*substr_left(char *node_content, char *found)
 	}
 	if (ret)
 	{
-		if (!gc_append(&d.gc, ret))
+		if (!gc_append(&g_d.gc, ret))
 		{
 			minishell_exit("substr_left", -1);
 		}
@@ -59,7 +59,7 @@ char	*substr_right(char *node_content, char *found)
 	}
 	if (ret)
 	{
-		if (!gc_append(&d.gc, ret))
+		if (!gc_append(&g_d.gc, ret))
 		{
 			minishell_exit("substr_right", -1);
 		}
@@ -88,8 +88,8 @@ void	split_node(t_btree *root, char *sep)
 		if (content->cmd)
 			root->right = new_node(content);
 		content = root->content;
-		gc_free_item(&d.gc, content->cmd);
-		content->cmd = gc_strdup(&d.gc, sep);
+		gc_free_item(&g_d.gc, content->cmd);
+		content->cmd = gc_strdup(&g_d.gc, sep);
 	}
 }
 

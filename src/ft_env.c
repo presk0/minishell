@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/27 14:15:38 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/27 15:27:41 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 //		{
 //			if (is_var_in_env(var))
 //				unset_var_in_env(var);
-//			append_tab(&d.env, var);
+//			append_tab(&g_d.env, var);
 //		}
 //	}
 //	return (TRUE);
@@ -37,7 +37,7 @@
 //
 //	if (!token->args[1])
 //	{
-//		print_export(d.env);
+//		print_export(g_d.env);
 //		return (0);
 //	}
 //	i = 1;
@@ -51,9 +51,9 @@
 //
 // int	ft_env(void)
 //{
-//	for (int i = 0; d.env[i] != NULL; i++)
+//	for (int i = 0; g_d.env[i] != NULL; i++)
 //	{
-//		printf("%s\n", d.env[i]);
+//		printf("%s\n", g_d.env[i]);
 //	}
 //	return (0);
 //}

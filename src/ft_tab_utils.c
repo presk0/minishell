@@ -21,9 +21,9 @@ void	append_tab(char ***tab_addr, char *str)
 	tab = *tab_addr;
 	len = ft_tablen(tab) + 1;
 	if (!tab)
-		new_tab = gc_malloc(&d.gc, sizeof(char *), 2);
+		new_tab = gc_malloc(&g_d.gc, sizeof(char *), 2);
 	else
-		new_tab = gc_malloc(&d.gc, sizeof(char *), len + 1);
+		new_tab = gc_malloc(&g_d.gc, sizeof(char *), len + 1);
 	if (!new_tab)
 		minishell_exit("[append_tab]", -1);
 	new_tab[len--] = NULL;
@@ -32,7 +32,7 @@ void	append_tab(char ***tab_addr, char *str)
 	{
 		while (len--)
 			new_tab[len] = tab[len];
-		gc_free_item(&d.gc, tab);
+		gc_free_item(&g_d.gc, tab);
 	}
 	*tab_addr = new_tab;
 }
