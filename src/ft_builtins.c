@@ -1,39 +1,33 @@
 #include <minishell.h>
 
-// Comparison function for qsort
-int	compare_strings(const void *a, const void *b)
+void ft_swap(char **a, char **b)
 {
-	return (strcmp(*(const char **)a, *(const char **)b));
+	char	*tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
 }
 
-// Function to perform bubble sort on an array of strings
 void	ft_easy_sort(char **tab)
 {
 	size_t	len;
 	size_t	i;
 	size_t	j;
-	char	*temp;
 
 	if (tab == NULL)
 		return ;
-	len = 0;
-	while (tab[len] != NULL)
-		len++;
+	len = ft_tablen(tab);
 	i = 0;
 	while (i < len - 1)
 	{
 		j = 0;
-		while (j < len - 1 - i)
+		while (j < len - 1 - i++)
 		{
-			if (strcmp(tab[j], tab[j + 1]) > 0)
-			{
-				temp = tab[j];
-				tab[j] = tab[j + 1];
-				tab[j + 1] = temp;
-			}
+			if (ft_strcmp(tab[j], tab[j + 1]) > 0)
+				ft_swap(&tab[j], &tab[j + 1]);
 			j++;
 		}
-		i++;
 	}
 }
 
@@ -48,19 +42,6 @@ int	ft_env(void)
 		i++;
 	}
 	return (0);
-}
-
-char	**sort_char_tab(char **tab)
-{
-	size_t	len;
-
-	if (tab == NULL)
-		return (NULL);
-	len = 0;
-	while (tab[len] != NULL)
-		len++;
-	qsort(tab, len, sizeof(char *), compare_strings);
-	return (tab);
 }
 
 char	*shift_char(char *str, size_t shift_len)
@@ -110,11 +91,11 @@ char	*ft_getenv_line(const char *var)
 	size_t	var_len;
 	int		i;
 
-	var_len = strlen(var);
+	var_len = ft_strlen(var);
 	i = 0;
 	while (g_d.env[i] != NULL)
 	{
-		if (strncmp(g_d.env[i], var, var_len) == 0 && g_d.env[i][var_len] == '=')
+		if (ft_strncmp(g_d.env[i], var, var_len) == 0 && g_d.env[i][var_len] == '=')
 			return (g_d.env[i]);
 		i++;
 	}
@@ -126,11 +107,11 @@ char	*ft_getenv(const char *var)
 	size_t	var_len;
 	int		i;
 
-	var_len = strlen(var);
+	var_len = ft_strlen(var);
 	i = 0;
 	while (g_d.env[i] != NULL)
 	{
-		if (strncmp(g_d.env[i], var, var_len) == 0 && g_d.env[i][var_len] == '=')
+		if (ft_strncmp(g_d.env[i], var, var_len) == 0 && g_d.env[i][var_len] == '=')
 			return (g_d.env[i] + var_len + 1);
 		i++;
 	}
@@ -152,7 +133,7 @@ int	unset_var_in_env(char *var)
 
 	if (!g_d.env || !var)
 		return (FAILURE);
-	var_len = strlen(var);
+	var_len = ft_strlen(var);
 	i = 0;
 	while (g_d.env[i] != NULL)
 	{
@@ -213,12 +194,13 @@ int	ft_export(t_token *token)
 	if (!token->args[1])
 	{
 		print_export(g_d.env);
-		return (0);
+		return (CLEAN_EXIT);
 	}
 	i = 1;
 	while (token->args[i] != NULL)
 		ft_setenv(token->args[i++]);
-	return (0);
+	g_d.status = CLEAN_EXIT;
+	return (CLEAN_EXIT);
 }
 
 int	ft_cd(t_token *token)
@@ -239,7 +221,7 @@ int	ft_cd(t_token *token)
 		if (target_dir == NULL)
 		{
 			fprintf(stderr, "cd: HOME not set\n");
-			return (1);
+			return (FAILURE);
 		}
 	}
 	if (access(target_dir, F_OK) != SUCCESS)
@@ -263,7 +245,7 @@ int	ft_cd(t_token *token)
 		ft_setenv(newpwd);
 		g_d.status = 0;
 	}
-	return (0);
+	return (CLEAN_EXIT);
 }
 
 int	ft_echo(t_token *token)
@@ -273,19 +255,19 @@ int	ft_echo(t_token *token)
 
 	newline = TRUE;
 	i = 1;
-	if (token->args[1] != NULL && strcmp(token->args[1], "-n") == 0)
+	if (token->args[1] != NULL && ft_strcmp(token->args[1], "-n") == 0)
 	{
 		newline = FALSE;
 		i++;
 	}
 	while (token->args[i] != NULL)
 	{
-		write(STDOUT_FILENO, token->args[i], strlen(token->args[i]));
+		write(STDOUT_FILENO, token->args[i], ft_strlen(token->args[i]));
 		if (token->args[i + 1] != NULL)
 			write(STDOUT_FILENO, " ", 1);
 		i++;
 	}
 	if (newline)
 		write(STDOUT_FILENO, "\n", 1);
-	return (0);
+	return (CLEAN_EXIT);
 }
