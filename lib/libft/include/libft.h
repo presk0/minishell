@@ -25,6 +25,7 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
+char	**ft_duplicate_tab(char **tab_original);
 void	ft_errmsg(char *str);
 int		ft_ismaj(int c);
 int		ft_ismin(int c);

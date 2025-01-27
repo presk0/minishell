@@ -19,32 +19,8 @@ void	minishell_exit(char *errmsg, int status)
 	else
 		printf("exit\n");
 	rl_clear_history();
-	// print_gc(g_d.gc);
 	gc_free_all(&g_d.gc);
 	exit(status);
-}
-
-char	**ft_duplicate_tab(char **tab_original)
-{
-	char	**tab_copy;
-	size_t	tab_len;
-	size_t	i;
-
-	tab_len = ft_tablen(tab_original);
-	tab_copy = malloc((tab_len + 1) * sizeof(char *));
-	tab_copy[tab_len] = NULL;
-	i = 0;
-	while (i < tab_len)
-	{
-		tab_copy[i] = ft_strdup(tab_original[i]);
-		if (!tab_copy[i])
-		{
-			ft_errmsg("[duplicate_tab]malloc error\n");
-			minishell_exit("[duplicate_tab]", ERR_GC_STRDUP);
-		}
-		i++;
-	}
-	return (tab_copy);
 }
 
 char	**duplicate_tab(char **tab_original)
@@ -61,16 +37,13 @@ char	**duplicate_tab(char **tab_original)
 	{
 		tab_copy[i] = gc_strdup(&g_d.gc, tab_original[i]);
 		if (!tab_copy[i])
-		{
-			ft_errmsg("[duplicate_tab]malloc error\n");
 			minishell_exit("[duplicate_tab]", ERR_GC_STRDUP);
-		}
 		i++;
 	}
 	return (tab_copy);
 }
 
-void	inc_shlvl(void)
+void	inc_shlvl()
 {
 	int		shlvl;
 	char	*shlvl_str;
@@ -116,7 +89,7 @@ void	minishell(char **envp)
 	minishell_exit(NULL, CLEAN_EXIT);
 }
 
-t_data	g_d;
+t_data g_d;
 
 void	print_tab(char **tab)
 {
@@ -131,11 +104,5 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)envp;
 	minishell(envp);
-	// g_d.gc = NULL;
-	// g_d.status = 0;
-	// g_d.env = duplicate_tab(envp);
-	// g_d.sigint_received = 0;
-	// static t_token token;
-	// char *line = gc_strdup(&g_d.gc, argv[1]);
 	return (0);
 }

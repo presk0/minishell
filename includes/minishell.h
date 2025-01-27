@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/27 15:27:41 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/27 17:25:47 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,6 @@ char			*load_until_line(int fd, char **buff);
 char			*get_next_line(int fd);
 
 void			minishell_exit(char *errmsg, int status);
-char			**ft_duplicate_tab(char **tab_original);
 char			**duplicate_tab(char **tab_original);
 void			inc_shlvl(void);
 void			minishell(char **envp);
