@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/27 15:18:21 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/27 19:51:40 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 char	*pop_line(char *buff)
 {
 	char	*line;
+	char	*carriage_return;
 
-	char *carriage_return ;
 	line = NULL;
 	carriage_return = ft_strchr(buff, '\n');
 	if (!carriage_return)

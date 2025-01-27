@@ -120,6 +120,7 @@ t_token	*tokenize_cmd(char *cmd, t_token *token)
 	return (token);
 }
 
+/*
 void	print_token(t_token *token)
 {
 	if (!token)
@@ -135,3 +136,4 @@ void	print_token(t_token *token)
 	printf("append_flag: {%i}\n", token->append_flag);
 	printf("heredoc: {%i}\n", token->heredoc);
 }
+*/
