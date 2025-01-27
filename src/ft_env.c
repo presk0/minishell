@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/27 22:19:51 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/27 23:59:57 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*ft_getenv_line(const char *var)
 	i = 0;
 	while (g_d.env[i] != NULL)
 	{
-		if (ft_strncmp(g_d.env[i], var, var_len) == 0 && g_d.env[i][var_len] == '=')
+		if (!ft_strncmp(g_d.env[i], var, var_len) && g_d.env[i][var_len] == '=')
 			return (g_d.env[i]);
 		i++;
 	}
@@ -64,7 +64,7 @@ char	*ft_getenv(const char *var)
 	i = 0;
 	while (g_d.env[i] != NULL)
 	{
-		if (ft_strncmp(g_d.env[i], var, var_len) == 0 && g_d.env[i][var_len] == '=')
+		if (!ft_strncmp(g_d.env[i], var, var_len) && g_d.env[i][var_len] == '=')
 			return (g_d.env[i] + var_len + 1);
 		i++;
 	}

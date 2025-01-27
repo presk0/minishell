@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			*/
-/*														:::		::::::::   */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
 /*   gc.c                                               :+:      :+:    :+:   */
-/*													+:+ +:+			+:+	 */
-/*   By: nidionis <nidionis@student.42.fr>			+#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+			*/
-/*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#			 */
-/*   Updated: 2025/01/25 22:31:49 by nidionis         ###   ########.fr       */
-/*																			*/
+/*                                                    +:+ +:+         +:+     */
+/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
+/*   Updated: 2025/01/28 00:03:17 by nidionis         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
@@ -79,34 +79,6 @@ void	*gc_malloc(t_list **gc_addr, size_t count, size_t size)
 	return (ptr);
 }
 
-char	*gc_strndup(t_list **gc_addr, char *str, size_t n)
-{
-	char	*ret;
-
-	ret = NULL;
-	ret = gc_malloc(gc_addr, n + 1, 1);
-	if (!ret)
-		gc_free_all(gc_addr);
-	else
-		ft_strlcpy(ret, str, n + 1);
-	return (ret);
-}
-
-char	*gc_strdup(t_list **gc_addr, char *str)
-{
-	char	*ret;
-	size_t	len;
-
-	ret = NULL;
-	len = ft_strlen(str);
-	ret = gc_malloc(gc_addr, ++len, 1);
-	if (!ret)
-		gc_free_all(gc_addr);
-	else
-		ft_strlcpy(ret, str, len);
-	return (ret);
-}
-
 void	gc_free_item(t_list **gc_addr, void *ptr)
 {
 	t_list	*gc;
@@ -142,52 +114,4 @@ void	print_gc(t_list *gc)
 		printf("  	Content: %s\n", (char *)gc->content);
 		gc = gc->next;
 	}
-}
-
-size_t	gc_strcat(t_list **gc, char **result, char *str)
-{
-	size_t	result_new_len;
-	char	*original_result;
-
-	original_result = *result;
-	result_new_len = ft_strlen(*result) + ft_strlen(str);
-	*result = gc_strldup(gc, *result, result_new_len + 1);
-	gc_free_item(gc, original_result);
-	if (!*result)
-	{
-		perror("[gc_strlcat]");
-		return (-1);
-	}
-	return (ft_strlcat(*result, str, result_new_len + 1));
-}
-
-size_t	gc_strlcat(t_list **gc, char **result, char *str, size_t l)
-{
-	char	*original_result;
-
-	original_result = *result;
-	*result = gc_strldup(gc, *result, l + 1);
-	gc_free_item(gc, original_result);
-	if (!*result)
-	{
-		perror("[gc_strlcat]");
-		return (-1);
-	}
-	return (ft_strlcat(*result, str, l + 1));
-}
-
-char	*gc_strldup(t_list **gc, char *str, size_t len)
-{
-	void	*ret;
-
-	ret = gc_malloc(gc, len + 1, 1);
-	if (!ret)
-	{
-		ft_errmsg("[gc_strldup] gc_malloc returns NULL\n");
-		gc_free_all(gc);
-		return (NULL);
-	}
-	if (str)
-		ft_strlcpy(ret, str, len + 1);
-	return (ret);
 }

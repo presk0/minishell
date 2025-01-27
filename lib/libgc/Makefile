@@ -7,7 +7,7 @@ OBJ_DIR = obj
 INCLUDES = -I include -I $(LIBFT_DIR)/include
 FT_FLAGS = -lft -L $(LIBFT_DIR)
 
-FILES = gc.c
+FILES = gc.c strcat.c strdup.c
 
 OBJS = $(addprefix $(OBJ_DIR)/, $(FILES:.c=.o))
 
