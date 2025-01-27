@@ -19,7 +19,7 @@ void	minishell_exit(char *errmsg, int status)
 	else
 		printf("exit\n");
 	rl_clear_history();
-	//print_gc(d.gc);
+	// print_gc(d.gc);
 	gc_free_all(&d.gc);
 	exit(status);
 }
@@ -70,7 +70,7 @@ char	**duplicate_tab(char **tab_original)
 	return (tab_copy);
 }
 
-void	inc_shlvl()
+void	inc_shlvl(void)
 {
 	int		shlvl;
 	char	*shlvl_str;
@@ -116,7 +116,7 @@ void	minishell(char **envp)
 	minishell_exit(NULL, CLEAN_EXIT);
 }
 
-t_data d;
+t_data	d;
 
 void	print_tab(char **tab)
 {
@@ -131,11 +131,11 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)envp;
 	minishell(envp);
-	//d.gc = NULL;
-	//d.status = 0;
-	//d.env = duplicate_tab(envp);
-	//d.sigint_received = 0;
-	//static t_token token;
-	//char *line = gc_strdup(&d.gc, argv[1]);
+	// d.gc = NULL;
+	// d.status = 0;
+	// d.env = duplicate_tab(envp);
+	// d.sigint_received = 0;
+	// static t_token token;
+	// char *line = gc_strdup(&d.gc, argv[1]);
 	return (0);
 }

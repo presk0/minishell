@@ -12,7 +12,6 @@
 
 #include <minishell.h>
 
-
 size_t	var_len(char *var)
 {
 	size_t	len;

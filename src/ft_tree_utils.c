@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-t_btree_content	*gc_malloc_btree_content()
+t_btree_content	*gc_malloc_btree_content(void)
 {
 	t_btree_content	*content;
 	void			*gc_ok;
@@ -57,7 +57,7 @@ void	gc_free_node_content(t_list *gc, void *content)
 {
 	t_btree_content	*node_content;
 
-	(void) gc;
+	(void)gc;
 	node_content = (t_btree_content *)content;
 	if (!node_content)
 		return ;
@@ -67,7 +67,8 @@ void	gc_free_node_content(t_list *gc, void *content)
 	gc_free_item(&d.gc, node_content);
 }
 
-void	gc_free_tree(t_list *gc, t_btree **r, void (*f_free)(t_list *gc, void *content))
+void	gc_free_tree(t_list *gc, t_btree **r, void (*f_free)(t_list *gc,
+			void *content))
 {
 	t_btree	*node;
 
@@ -85,7 +86,7 @@ void	gc_free_tree(t_list *gc, t_btree **r, void (*f_free)(t_list *gc, void *cont
 
 void	print_node_content(void *content)
 {
-	t_btree_content *stuff;
+	t_btree_content	*stuff;
 
 	stuff = content;
 	if (stuff)

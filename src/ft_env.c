@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-//int	ft_setenv(char *var)
+// int	ft_setenv(char *var)
 //{
 //	char	*delimiter;
 //
@@ -31,7 +31,7 @@
 //	return (TRUE);
 //}
 //
-//int	ft_export(t_token *token)
+// int	ft_export(t_token *token)
 //{
 //	int	i;
 //
@@ -49,7 +49,7 @@
 //	return (0);
 //}
 //
-//int	ft_env()
+// int	ft_env(void)
 //{
 //	for (int i = 0; d.env[i] != NULL; i++)
 //	{

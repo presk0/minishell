@@ -29,8 +29,7 @@ void	run_line(char *line)
 	exec_whole_line(d.cmd_tree);
 }
 
-
-int	exec_whole_line()
+int	exec_whole_line(void)
 {
 	pid_t	pid;
 	int		status;

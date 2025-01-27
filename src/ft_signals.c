@@ -12,12 +12,12 @@
 
 #include <minishell.h>
 
-void reset_signals()
+void	reset_signals(void)
 {
-    if (signal(SIGINT, SIG_DFL) == SIG_ERR)
-        perror("Erreur lors de la réinitialisation de SIGINT");
-    if (signal(SIGTERM, SIG_DFL) == SIG_ERR)
-        perror("Erreur lors de la réinitialisation de SIGTERM");
+	if (signal(SIGINT, SIG_DFL) == SIG_ERR)
+		perror("Erreur lors de la réinitialisation de SIGINT");
+	if (signal(SIGTERM, SIG_DFL) == SIG_ERR)
+		perror("Erreur lors de la réinitialisation de SIGTERM");
 }
 
 void	handle_sigint(int sig)
@@ -30,7 +30,7 @@ void	handle_sigint(int sig)
 	d.sigint_received = 1;
 }
 
-void	init_sig()
+void	init_sig(void)
 {
 	struct sigaction	sa_int;
 	struct sigaction	sa_quit;
@@ -51,31 +51,30 @@ void	init_sig()
 }
 
 /*
-void handle_child_sigint(int sig)
+void	handle_child_sigint(int sig)
 {
 	(void)sig;
 	ft_errmsg("coucou");
 }
 
-void init_child_sig()
+void	init_child_sig(void)
 {
-    struct sigaction sa;
+	struct sigaction	sa;
 
-    ft_memset(&sa, 0, sizeof(sa));
-    sa.sa_handler = handle_child_sigint;
-    sa.sa_flags = 0;
-    sigemptyset(&sa.sa_mask);
-    if (sigaction(SIGINT, &sa, NULL) == -1)
+	ft_memset(&sa, 0, sizeof(sa));
+	sa.sa_handler = handle_child_sigint;
+	sa.sa_flags = 0;
+	sigemptyset(&sa.sa_mask);
+	if (sigaction(SIGINT, &sa, NULL) == -1)
 	{
-        perror("sigaction");
-        exit(EXIT_FAILURE);
-    }
+		perror("sigaction");
+		exit(EXIT_FAILURE);
+	}
 }
 */
 
-void wait_for_child(pid_t pid)
+void	wait_for_child(pid_t pid)
 {
-    if (waitpid(pid, &d.status, 0) == -1)
-        perror("waitpid");
+	if (waitpid(pid, &d.status, 0) == -1)
+		perror("waitpid");
 }
-

@@ -14,7 +14,7 @@
 
 char	*subst_var_and_quotes(char *str)
 {
-	char *ret;
+	char	*ret;
 
 	ret = NULL;
 	if (str)
@@ -47,7 +47,7 @@ char	*substitute_variables(char *input)
 		else
 			append_until_dollar(input, &i_input, &i_result, &result);
 	}
-	//gc_free_item(&d.gc, input);
+	// gc_free_item(&d.gc, input);
 	return (result);
 }
 
@@ -92,7 +92,7 @@ int	strlen_char_simple_quoted(char *cmd, char c, int buff)
 {
 	int	len;
 
-	//is_quoted(0, buff, RESET);
+	// is_quoted(0, buff, RESET);
 	len = 0;
 	if (!cmd)
 		return (0);
@@ -107,18 +107,21 @@ int	strlen_char_simple_quoted(char *cmd, char c, int buff)
 	return (len);
 }
 
-size_t	append_until_dollar(char *input, size_t *i_input, size_t *i_result, char **result)
+size_t	append_until_dollar(char *input, size_t *i_input, size_t *i_result,
+		char **result)
 {
 	size_t	next_dollar;
 
 	next_dollar = strlen_char_simple_quoted(input + *i_input, '$', BUFF_SUBVAR);
 	if (next_dollar)
-		*i_result = gc_strlcat(&d.gc, result, &input[*i_input], ft_strlen(*result) + next_dollar);
+		*i_result = gc_strlcat(&d.gc, result, &input[*i_input],
+				ft_strlen(*result) + next_dollar);
 	*i_input += next_dollar;
 	return (next_dollar);
 }
 
-char	*process_dollar(char *input, size_t *i_input, size_t *i_result, char **result)
+char	*process_dollar(char *input, size_t *i_input, size_t *i_result,
+		char **result)
 {
 	size_t	var_start;
 	size_t	var_len;

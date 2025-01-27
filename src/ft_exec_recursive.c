@@ -12,7 +12,6 @@
 
 #include <minishell.h>
 
-
 void	execve_node(t_btree *node)
 {
 	t_btree_content	*content;
@@ -76,14 +75,14 @@ int	ft_pwd(t_token *token)
 
 int	exec_builtin(t_token *token)
 {
-	int		exit_status;
+	int	exit_status;
 
 	// if (apply_redirections(token, i))
 	// 	ft_print_err("%s: %d: err applying redir\n", __FILE__, __LINE__);
-	//if (!token)
+	// if (!token)
 	//	return ;
-	//handle_redir_in(token);
-	//handle_redir_out(token);
+	// handle_redir_in(token);
+	// handle_redir_out(token);
 	set_cmd_id(token);
 	exit_status = 0;
 	if (token->cmd_id == (int)ECHO_ID)
@@ -104,7 +103,6 @@ int	exec_builtin(t_token *token)
 	// 	ft_print_err("%s: %d: err restore std fds", __FILE__, __LINE__);
 	return (exit_status);
 }
-
 
 int	exec_builtin_scotch(t_btree *node)
 {
@@ -136,7 +134,6 @@ int	is_builtin(t_token *token)
 	return (0);
 }
 
-
 void	pipe_left(t_btree *node, int pipe_fd[])
 {
 	close(pipe_fd[0]);
@@ -154,7 +151,7 @@ void	pipe_right(t_btree *node, int pipe_fd[])
 	rec_exec(node->right);
 }
 
-void	save_stds(int	*saved_std)
+void	save_stds(int *saved_std)
 {
 	saved_std[IN] = dup(STDIN_FILENO);
 	saved_std[OUT] = dup(STDOUT_FILENO);
@@ -164,7 +161,7 @@ void	save_stds(int	*saved_std)
 	handle_dup_failure(saved_std[ERR], "[execute_command] dup failed");
 }
 
-void	restore_stds(int	*saved_std)
+void	restore_stds(int *saved_std)
 {
 	dup2(saved_std[IN], STDIN_FILENO);
 	dup2(saved_std[OUT], STDOUT_FILENO);
@@ -190,12 +187,10 @@ void	execute_command(t_btree *node)
 	restore_stds(saved_std);
 }
 
-
-
 void	rec_exec(t_btree *node)
 {
-	int		pipe_fd[2];
-	int		stdin_fd;
+	int pipe_fd[2];
+	int stdin_fd;
 
 	stdin_fd = dup(STDIN_FILENO);
 	handle_dup_failure(stdin_fd, "[rec_exec] dup failed");
