@@ -21,7 +21,7 @@ int	open_redirect(char *file, int mode)
 	fd = open(file, mode, 0666);
 	if (fd == -1)
 	{
-		perror("[open_redirect] Redirection failed");
+		perror(file);
 		return (-1);
 	}
 	return (fd);
@@ -45,7 +45,7 @@ void	handle_redir_in(t_token *tok)
 	else if (tok->heredoc)
 	{
 		if (handle_heredoc(tok->redir_in) == -1)
-			fprintf(stderr, "Error: Failed to handle heredoc\n");
+			ft_errmsg("Error: Failed to handle heredoc\n");
 	}
 }
 

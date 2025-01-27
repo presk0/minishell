@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/27 16:02:48 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/27 18:00:04 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,61 +48,6 @@ char	*substitute_variables(char *input)
 			append_until_dollar(input, &i_input, &i_result, &result);
 	}
 	return (result);
-}
-
-char	*del_char(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str)
-	{
-		while (str[i++])
-			str[i - 1] = str[i];
-	}
-	return (str);
-}
-
-char	*rm_quotes(char *str)
-{
-	char	*ret;
-	int		last_state;
-
-	ret = str;
-	last_state = 0;
-	is_quoted(0, BUFF_RMQUOTES, RESET);
-	if (str)
-	{
-		while (*str)
-		{
-			if (last_state != is_quoted(*str, BUFF_RMQUOTES, SAVE))
-			{
-				last_state = is_quoted(*str, BUFF_RMQUOTES, READ);
-				str = del_char(str);
-			}
-			else
-				str++;
-		}
-	}
-	return (ret);
-}
-
-int	strlen_char_simple_quoted(char *cmd, char c, int buff)
-{
-	int	len;
-
-	len = 0;
-	if (!cmd)
-		return (0);
-	while (*cmd)
-	{
-		if (is_quoted(*cmd, buff, SAVE) != SIMPLE_QUOTE)
-			if (*cmd == c)
-				break ;
-		cmd++;
-		len++;
-	}
-	return (len);
 }
 
 size_t	append_until_dollar(char *input, size_t *i_input, size_t *i_result,
