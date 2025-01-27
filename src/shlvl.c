@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/28 00:37:20 by nidionis         ###   ########.fr       */
+/*   Created: 2025/01/28 00:38:00 by nidionis          #+#    #+#             */
+/*   Updated: 2025/01/28 00:38:24 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	minishell_exit(char *errmsg, int status)
+void	inc_shlvl(void)
 {
-	if (errmsg)
-		perror(errmsg);
-	else
-		printf("exit\n");
-	rl_clear_history();
-	gc_free_all(&g_d.gc);
-	exit(status);
-}
+	int		shlvl;
+	char	*shlvl_str;
+	char	*shlvl_line;
 
-int	ft_exit(void)
-{
-	g_d.status = SUCCESS;
-	minishell_exit(NULL, 0);
-	return (0);
+	shlvl_str = ft_getenv("SHLVL");
+	shlvl = ft_atoi(shlvl_str);
+	shlvl++;
+	shlvl_str = ft_itoa(shlvl);
+	shlvl_line = gc_strdup(&g_d.gc, "SHLVL=");
+	gc_strcat(&g_d.gc, &shlvl_line, shlvl_str);
+	free(shlvl_str);
+	ft_setenv(shlvl_line);
 }
