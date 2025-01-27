@@ -172,7 +172,7 @@ void	execute_command(t_btree *node)
 	save_stds(saved_std);
 	handle_redir_in(tok);
 	handle_redir_out(tok);
-	if (is_builtin(node->content))
+	if (is_builtin(tok))
 		exec_builtin_scotch(node);
 	else
 		exec_forking(node);

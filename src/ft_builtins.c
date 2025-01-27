@@ -217,10 +217,7 @@ int	ft_export(t_token *token)
 	}
 	i = 1;
 	while (token->args[i] != NULL)
-	{
-		if (ft_setenv(token->args[i]) == SUCCESS)
-			i++;
-	}
+		ft_setenv(token->args[i++]);
 	return (0);
 }
 
