@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/27 20:03:00 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/27 20:09:23 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,6 @@ typedef struct btree_content
 }				t_btree_content;
 
 
-
-
-
 int             compare_strings(const void *a, const void *b);
 void    ft_easy_sort(char **tab);
 int             ft_env(void);
@@ -161,7 +158,9 @@ int             is_operand(char *cmd);
 char    *skip_operand(char *cmd, char op);
 char    *skip_op_and_arg(char *str, char op);
 char    *grep_token(char op, char *cmd);
-char    *save_token_op(char *cmd, int op, t_token *token);
+char    *save_and_skip_redir_out(char *cmd, t_token *token);
+char    *save_and_skip_here_doc(char *cmd, t_token *token);
+char    *save_and_skip_redir_append(char *cmd, t_token *token);
 char    *save_token_op(char *cmd, int op, t_token *token);
 int             is_blank(char *str);
 char    *substr_left(char *node_content, char *found);

@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/27 20:00:58 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/27 20:08:15 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	write_line_to_pipe(int pipe_fd[2], char **line_addr)
 	line = *line_addr;
 	len = ft_strlen(line);
 	write(pipe_fd[1], line, len);
-	write(pipe_fd[1], "\n", 1); // Restaurer le newline
+	write(pipe_fd[1], "\n", 1);
 	free(line);
 	line = NULL;
 }

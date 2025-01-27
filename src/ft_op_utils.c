@@ -59,55 +59,7 @@ char	*grep_token(char op, char *cmd)
 	return (strdup_wd_quote(cmd));
 }
 
-
-/* creer et fermer les redir out
-char	*save_token_op(char *cmd, int op, t_token *token)
-{
-	if (op == REDIR_IN)
-	{
-		if (token->redir_in)
-			gc_free_item(&g_d.gc, token->redir_in);
-		token->redir_in = grep_token('<', cmd);
-		token->heredoc = 0;
-		return (skip_op_and_arg(cmd, '<'));
-	}
-	if (op == REDIR_OUT)
-	{
-		if (token->redir_out)
-			gc_free_item(&g_d.gc, token->redir_out);
-		if (token->redir_out)
-			gc_free_item(&g_d.gc, token->redir_out);
-		token->redir_out = grep_token('>', cmd);
-		token->append_flag = 0;
-		return (skip_op_and_arg(cmd, '>'));
-	}
-	if (op == HERE_DOC)
-	{
-		token->redir_in = grep_token('<', cmd);
-		token->heredoc = 1;
-		return (skip_op_and_arg(cmd, '<'));
-	}
-	if (op == REDIR_APPEND)
-	{
-		if (token->redir_out)
-			gc_free_item(&g_d.gc, token->redir_out);
-		token->redir_out = grep_token('>', cmd);
-		token->append_flag = 1;
-		return (skip_op_and_arg(cmd, '>'));
-	}
-	return (NULL);
-}
- */
-static char	*save_and_skip_redir_in(char *cmd, t_token *token)
-{
-	if (token->redir_in)
-		gc_free_item(&g_d.gc, token->redir_in);
-	token->redir_in = grep_token('<', cmd);
-	token->heredoc = 0;
-	return (skip_op_and_arg(cmd, '<'));
-}
-
-static char	*save_and_skip_redir_out(char *cmd, t_token *token)
+char	*save_and_skip_redir_out(char *cmd, t_token *token)
 {
 	if (token->redir_out)
 		gc_free_item(&g_d.gc, token->redir_out);
@@ -116,14 +68,21 @@ static char	*save_and_skip_redir_out(char *cmd, t_token *token)
 	return (skip_op_and_arg(cmd, '>'));
 }
 
-static char	*save_and_skip_here_doc(char *cmd, t_token *token)
+char	*save_and_skip_redir_in(char *cmd, t_token *token)
+{
+	token->redir_in = grep_token('<', cmd);
+	token->heredoc = 0;
+	return (skip_op_and_arg(cmd, '<'));
+}
+
+char	*save_and_skip_here_doc(char *cmd, t_token *token)
 {
 	token->redir_in = grep_token('<', cmd);
 	token->heredoc = 1;
 	return (skip_op_and_arg(cmd, '<'));
 }
 
-static char	*save_and_skip_redir_append(char *cmd, t_token *token)
+char	*save_and_skip_redir_append(char *cmd, t_token *token)
 {
 	if (token->redir_out)
 		gc_free_item(&g_d.gc, token->redir_out);

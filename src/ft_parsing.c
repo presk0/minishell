@@ -48,8 +48,6 @@ char	*substr_right(char *node_content, char *found)
 	char	*ret;
 
 	(void)node_content;
-	// while (found[0] == found[1])
-	//	found++;
 	found++;
 	ret = ft_substr(found, 0, ft_strlen(found));
 	if (ret && is_blank(ret))
