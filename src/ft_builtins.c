@@ -1,388 +1,88 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_builtins.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
+/*   Updated: 2025/01/27 22:27:35 by nidionis         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <minishell.h>
 
-void ft_swap(char **a, char **b)
+void	set_cmd_id(t_token *token)
 {
-	char	*tmp;
-
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
+	if (ft_strcmp(token->cmd, "echo") == 0)
+		token->cmd_id = (int)ECHO_ID;
+	else if (ft_strcmp(token->cmd, "cd") == 0)
+		token->cmd_id = (int)CD_ID;
+	else if (ft_strcmp(token->cmd, "pwd") == 0)
+		token->cmd_id = (int)PWD_ID;
+	else if (ft_strcmp(token->cmd, "export") == 0)
+		token->cmd_id = (int)EXPORT_ID;
+	else if (ft_strcmp(token->cmd, "unset") == 0)
+		token->cmd_id = (int)UNSET_ID;
+	else if (ft_strcmp(token->cmd, "env") == 0)
+		token->cmd_id = (int)ENV_ID;
+	else if (ft_strcmp(token->cmd, "exit") == 0)
+		token->cmd_id = (int)EXIT_ID;
+	else
+		token->cmd_id = 0;
 }
 
-void	ft_easy_sort(char ***t)
+int	exec_builtin(t_token *token)
 {
-	size_t	len;
-	size_t	i;
-	size_t	j;
-	char	**tab;
+	int	exit_status;
 
-	tab = *t;
-	if (tab == NULL)
-		return ;
-	len = ft_tablen(tab);
-	i = 0;
-	while (i < len - 1)
-	{
-		j = 0;
-		while (j < len - 1 - i++)
-		{
-			if (ft_strcmp(tab[j], tab[j + 1]) > 0)
-				ft_swap(&tab[j], &tab[j + 1]);
-			j++;
-		}
-	}
+	set_cmd_id(token);
+	exit_status = 0;
+	if (token->cmd_id == (int)ECHO_ID)
+		exit_status = ft_echo(token);
+	else if (token->cmd_id == (int)CD_ID)
+		exit_status = ft_cd(token);
+	else if (token->cmd_id == (int)PWD_ID)
+		exit_status = ft_pwd(token);
+	else if (token->cmd_id == (int)EXPORT_ID)
+		exit_status = ft_export(token);
+	else if (token->cmd_id == (int)UNSET_ID)
+		exit_status = ft_unset(token);
+	else if (token->cmd_id == (int)ENV_ID)
+		exit_status = ft_env();
+	else if (token->cmd_id == (int)EXIT_ID)
+		exit_status = ft_exit();
+	return (exit_status);
 }
 
-int	ft_env(void)
+int	exec_builtin_scotch(t_btree *node)
 {
-	int	i;
+	t_btree_content	*c;
+	int				ret;
 
-	i = 0;
-	while (g_d.env[i] != NULL)
-	{
-		printf("%s\n", g_d.env[i]);
-		i++;
-	}
-	return (0);
-}
-
-char	*shift_char(char *str, size_t shift_len)
-{
-	size_t	i;
-
-	if (ft_strlen(str) < shift_len)
-		return (NULL);
-	i = shift_len;
-	if (str)
-	{
-		while (str[i])
-		{
-			str[i - shift_len] = str[i];
-			i++;
-		}
-	}
-	return (str);
-}
-
-char	*shift_left(char *str, size_t shift_len)
-{
-	char	*ret;
-
-	ret = str;
-	if (str)
-		while (*str)
-			str = shift_char(str, shift_len);
+	(void)node;
+	c = node->content;
+	ret = exec_builtin(&c->token);
 	return (ret);
 }
 
-void	print_export(char **tab)
+int	is_builtin(t_token *token)
 {
-	char	**t;
-	size_t	i;
-
-	t = ft_duplicate_tab(tab);
-	ft_easy_sort(&t);
-	i = 0;
-	while (t[i])
-		printf("declare -x %s\n", t[i++]);
-	ft_free_split(&t);
-}
-
-char	*ft_getenv_line(const char *var)
-{
-	size_t	var_len;
-	int		i;
-
-	var_len = ft_strlen(var);
-	i = 0;
-	while (g_d.env[i] != NULL)
-	{
-		if (ft_strncmp(g_d.env[i], var, var_len) == 0 && g_d.env[i][var_len] == '=')
-			return (g_d.env[i]);
-		i++;
-	}
-	return (NULL);
-}
-
-char	*ft_getenv(const char *var)
-{
-	size_t	var_len;
-	int		i;
-
-	var_len = ft_strlen(var);
-	i = 0;
-	while (g_d.env[i] != NULL)
-	{
-		if (ft_strncmp(g_d.env[i], var, var_len) == 0 && g_d.env[i][var_len] == '=')
-			return (g_d.env[i] + var_len + 1);
-		i++;
-	}
-	return (NULL);
-}
-
-int	ft_exit(void)
-{
-	g_d.status = SUCCESS;
-	minishell_exit(NULL, 0);
+	if (ft_strcmp(token->cmd, "echo") == 0)
+		return (ECHO_ID);
+	else if (ft_strcmp(token->cmd, "cd") == 0)
+		return (CD_ID);
+	else if (ft_strcmp(token->cmd, "pwd") == 0)
+		return (PWD_ID);
+	else if (ft_strcmp(token->cmd, "export") == 0)
+		return (EXPORT_ID);
+	else if (ft_strcmp(token->cmd, "unset") == 0)
+		return (UNSET_ID);
+	else if (ft_strcmp(token->cmd, "env") == 0)
+		return (ENV_ID);
+	else if (ft_strcmp(token->cmd, "exit") == 0)
+		return (EXIT_ID);
 	return (0);
 }
 
-/*
-int	unset_var_in_env(char *var)
-{
-	int		i;
-	int		j;
-	size_t	var_len;
 
-	if (!g_d.env || !var)
-		return (FAILURE);
-	var_len = ft_strlen(var);
-	i = 0;
-	while (g_d.env[i] != NULL)
-	{
-		if (ft_strncmp(g_d.env[i], var, var_len) == 0 && g_d.env[i][var_len] == '=')
-		{
-			gc_free_item(&g_d.gc, g_d.env[i]);
-			j = i;
-			while (g_d.env[j] != NULL)
-			{
-				g_d.env[j] = g_d.env[j + 1];
-				j++;
-			}
-			g_d.env[j] = NULL;
-			return (SUCCESS);
-		}
-		i++;
-	}
-	return (FAILURE);
-}
-*/
-
-static int	find_var_index(char **env, char *var, size_t var_len)
-{
-	int	i;
-
-	i = 0;
-	while (env[i] != NULL)
-	{
-		if (ft_strncmp(env[i], var, var_len) == 0 && env[i][var_len] == '=')
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-static void	remove_var_from_env(char **env, int index)
-{
-	gc_free_item(&g_d.gc, env[index]);
-	while (env[index] != NULL)
-	{
-		env[index] = env[index + 1];
-		index++;
-	}
-	env[index] = NULL;
-}
-
-int	unset_var_in_env(char *var)
-{
-	int		var_index;
-	size_t	var_len;
-
-	if (!g_d.env || !var)
-		return (FAILURE);
-	var_len = ft_strlen(var);
-	var_index = find_var_index(g_d.env, var, var_len);
-	if (var_index == -1)
-		return (FAILURE);
-	remove_var_from_env(g_d.env, var_index);
-	return (SUCCESS);
-}
-
-int	ft_unset(t_token *token)
-{
-	char	*var;
-
-	var = token->args[1];
-	return (unset_var_in_env(var));
-}
-
-int	ft_setenv(char *var_line)
-{
-	char	*delimiter;
-	size_t	var_len;
-	char	*var;
-
-	if (var_line != NULL)
-	{
-		delimiter = ft_strchr(var_line, '=');
-		if (!delimiter)
-			return (FAILURE);
-		var_len = ft_varlen(var_line);
-		if (var_len)
-		{
-			var = gc_strndup(&g_d.gc, var_line, var_len);
-			unset_var_in_env(var);
-			gc_free_item(&g_d.gc, var);
-			append_tab(&g_d.env, gc_strdup(&g_d.gc, var_line));
-		}
-	}
-	else
-		return (FAILURE);
-	return (SUCCESS);
-}
-
-int	ft_export(t_token *token)
-{
-	int	i;
-
-	if (!token->args[1])
-	{
-		print_export(g_d.env);
-		return (CLEAN_EXIT);
-	}
-	i = 1;
-	while (token->args[i] != NULL)
-		ft_setenv(token->args[i++]);
-	g_d.status = CLEAN_EXIT;
-	return (CLEAN_EXIT);
-}
-
-/*
-int	ft_cd(t_token *token)
-{
-	char	*target_dir;
-	char	*newpwd;
-	char	*oldpwd;
-	char	cwd[1024];
-
-	newpwd = NULL;
-	oldpwd = gc_strdup(&g_d.gc, "OLDPWD=");
-	gc_strcat(&g_d.gc, &oldpwd, ft_getenv("PWD"));
-	if (token->args[1] != NULL)
-		target_dir = token->args[1];
-	else
-	{
-		target_dir = ft_getenv("HOME");
-		if (target_dir == NULL)
-		{
-			fprintf(stderr, "cd: HOME not set\n");
-			return (FAILURE);
-		}
-	}
-	if (access(target_dir, F_OK) != SUCCESS)
-	{
-		gc_free_item(&g_d.gc, newpwd);
-		g_d.status = 1;
-		return (FAILURE);
-	}
-	else
-	{
-		if (chdir(target_dir) != SUCCESS)
-		{
-			perror("cd failed");
-			gc_free_item(&g_d.gc, oldpwd);
-			return (FAILURE);
-		}
-		newpwd = gc_strdup(&g_d.gc, "PWD=");
-		getcwd(cwd, sizeof(cwd));
-		gc_strcat(&g_d.gc, &newpwd, cwd);
-		ft_setenv(oldpwd);
-		ft_setenv(newpwd);
-		g_d.status = 0;
-	}
-	return (CLEAN_EXIT);
-}
-*/
-
-
-static char	*get_target_directory(t_token *token)
-{
-	char	*target_dir;
-
-	if (token->args[1] != NULL)
-		return (token->args[1]);
-	target_dir = ft_getenv("HOME");
-	if (target_dir == NULL)
-		fprintf(stderr, "cd: HOME not set\n");
-	return (target_dir);
-}
-
-static int	handle_directory_access(char *target_dir)
-{
-	if (access(target_dir, F_OK) != SUCCESS)
-	{
-		g_d.status = 1;
-		return (FAILURE);
-	}
-	return (SUCCESS);
-}
-
-static int	change_directory(char *target_dir)
-{
-	if (chdir(target_dir) != SUCCESS)
-	{
-		perror("cd failed");
-		return (FAILURE);
-	}
-	return (SUCCESS);
-}
-
-static void	update_env_variables(char *oldpwd, char *cwd)
-{
-	char	*newpwd;
-
-	newpwd = gc_strdup(&g_d.gc, "PWD=");
-	gc_strcat(&g_d.gc, &newpwd, cwd);
-	ft_setenv(oldpwd);
-	ft_setenv(newpwd);
-}
-
-int	ft_cd(t_token *token)
-{
-	char	*target_dir;
-	char	oldpwd[1024];
-	char	cwd[1024];
-
-	ft_strlcpy(oldpwd, "OLDPWD=", sizeof(oldpwd));
-	ft_strlcat(oldpwd, ft_getenv("PWD"), sizeof(oldpwd));
-
-	target_dir = get_target_directory(token);
-	if (!target_dir)
-		return (FAILURE);
-	if (handle_directory_access(target_dir) != SUCCESS)
-		return (FAILURE);
-	if (change_directory(target_dir) != SUCCESS)
-		return (FAILURE);
-	getcwd(cwd, sizeof(cwd));
-	update_env_variables(oldpwd, cwd);
-	g_d.status = 0;
-	return (CLEAN_EXIT);
-}
-
-
-
-
-
-int	ft_echo(t_token *token)
-{
-	int	newline;
-	int	i;
-
-	newline = TRUE;
-	i = 1;
-	if (token->args[1] != NULL && ft_strcmp(token->args[1], "-n") == 0)
-	{
-		newline = FALSE;
-		i++;
-	}
-	while (token->args[i] != NULL)
-	{
-		write(STDOUT_FILENO, token->args[i], ft_strlen(token->args[i]));
-		if (token->args[i + 1] != NULL)
-			write(STDOUT_FILENO, " ", 1);
-		i++;
-	}
-	if (newline)
-		write(STDOUT_FILENO, "\n", 1);
-	return (CLEAN_EXIT);
-}

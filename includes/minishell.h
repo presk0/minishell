@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/27 21:58:17 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/27 22:29:13 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,40 +112,42 @@ typedef struct btree_content
 }				t_btree_content;
 
 
-int             compare_strings(const void *a, const void *b);
-void    ft_easy_sort(char ***tab);
-int             ft_env(void);
-char    **sort_char_tab(char **tab);
-char    *shift_char(char *str, size_t shift_len);
-char    *shift_left(char *str, size_t shift_len);
-void    print_export(char **tab);
-char    *ft_getenv_line(const char *var);
-char    *ft_getenv(const char *var);
-int             ft_exit(void);
-int             unset_var_in_env(char *var);
-int             ft_unset(t_token *token);
-int             ft_setenv(char *var_line);
-int             ft_export(t_token *token);
-int             ft_cd(t_token *token);
-int             ft_echo(t_token *token);
-int             check_childs_rec(t_btree *root);
-int             check_childs(t_btree *root);
-void    run_line(char *line);
-int             exec_whole_line(void);
-void    execve_node(t_btree *node);
-int             exec_forking(t_btree *node);
-void    reset_stdin(int stdin_fd);
 void    set_cmd_id(t_token *token);
-int             ft_pwd(t_token *token);
 int             exec_builtin(t_token *token);
 int             exec_builtin_scotch(t_btree *node);
 int             is_builtin(t_token *token);
-void    pipe_left(t_btree *node, int pipe_fd[]);
-void    pipe_right(t_btree *node, int pipe_fd[]);
+char    *get_target_directory(t_token *token);
+int             handle_directory_access(char *target_dir);
+int             change_directory(char *target_dir);
+void    update_env_variables(char *oldpwd, char *cwd);
+int             ft_cd(t_token *token);
+char    *shift_char(char *str, size_t shift_len);
+char    *shift_left(char *str, size_t shift_len);
+int             check_childs_rec(t_btree *root);
+int             check_childs(t_btree *root);
+void    reset_stdin(int stdin_fd);
 void    save_stds(int *saved_std);
 void    restore_stds(int *saved_std);
+int             ft_echo(t_token *token);
+void    remove_var_from_env(char **env, int index);
+int             unset_var_in_env(char *var);
+int             ft_unset(t_token *token);
+int             ft_setenv(char *var_line);
+int             find_var_index(char **env, char *var, size_t var_len);
+int             ft_env(void);
+char    *ft_getenv_line(const char *var);
+char    *ft_getenv(const char *var);
+void    execve_node(t_btree *node);
+int             exec_forking(t_btree *node);
+void    run_line(char *line);
+int             exec_whole_line(void);
 void    execute_command(t_btree *node);
 void    rec_exec(t_btree *node);
+int             ft_exit(void);
+void    print_export(char **tab);
+void ft_swap(char **a, char **b);
+void    ft_easy_sort(char ***t);
+int             ft_export(t_token *token);
 void    handle_dup_failure(int fd, const char *msg);
 void    handle_fork_failure(pid_t pid, const char *msg);
 void    handle_pipe_failure(int result, const char *msg);
@@ -159,6 +161,7 @@ char    *skip_operand(char *cmd, char op);
 char    *skip_op_and_arg(char *str, char op);
 char    *grep_token(char op, char *cmd);
 char    *save_and_skip_redir_out(char *cmd, t_token *token);
+char    *save_and_skip_redir_in(char *cmd, t_token *token);
 char    *save_and_skip_here_doc(char *cmd, t_token *token);
 char    *save_and_skip_redir_append(char *cmd, t_token *token);
 char    *save_token_op(char *cmd, int op, t_token *token);
@@ -167,6 +170,9 @@ char    *substr_left(char *node_content, char *found);
 char    *substr_right(char *node_content, char *found);
 void    split_node(t_btree *root, char *sep);
 void    btree_split(t_btree *root, char *sep);
+void    pipe_left(t_btree *node, int pipe_fd[]);
+void    pipe_right(t_btree *node, int pipe_fd[]);
+int             ft_pwd(t_token *token);
 char    *del_char(char *str);
 char    *rm_quotes(char *str);
 int             strlen_char_simple_quoted(char *cmd, char c, int buff);
@@ -209,6 +215,8 @@ char    *pop_line(char *buff);
 char    *clean_lines(char **next_line, char **buff);
 char    *load_until_line(int fd, char **buff);
 char    *get_next_line(int fd);
+
+
 
 
 void			gc_free_tree(t_list *gc, t_btree **r, void (*f_free)(t_list *gc,\
