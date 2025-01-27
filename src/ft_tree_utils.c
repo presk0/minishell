@@ -20,7 +20,7 @@ t_btree_content	*gc_malloc_btree_content()
 	content = ft_calloc(sizeof(t_btree_content), 1);
 	gc_ok = gc_append(&d.gc, content);
 	if (!gc_ok || !content)
-		minishell_exit("gc_malloc_btree_content", -1);
+		minishell_exit("[gc_malloc_btree_content]", -1);
 	return (content);
 }
 

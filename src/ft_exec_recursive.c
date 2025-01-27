@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/25 17:22:21 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/24 14:02:52 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -78,6 +78,12 @@ int	exec_builtin(t_token *token)
 {
 	int		exit_status;
 
+	// if (apply_redirections(token, i))
+	// 	ft_print_err("%s: %d: err applying redir\n", __FILE__, __LINE__);
+	//if (!token)
+	//	return ;
+	//handle_redir_in(token);
+	//handle_redir_out(token);
 	set_cmd_id(token);
 	exit_status = 0;
 	if (token->cmd_id == (int)ECHO_ID)
@@ -94,6 +100,8 @@ int	exec_builtin(t_token *token)
 		exit_status = ft_env();
 	else if (token->cmd_id == (int)EXIT_ID)
 		exit_status = ft_exit();
+	// if (restore_std_fds(m->std_fds) == -1)
+	// 	ft_print_err("%s: %d: err restore std fds", __FILE__, __LINE__);
 	return (exit_status);
 }
 
@@ -175,26 +183,14 @@ void	execute_command(t_btree *node)
 	save_stds(saved_std);
 	handle_redir_in(tok);
 	handle_redir_out(tok);
-	if (is_builtin(tok))
+	if (is_builtin(node->content))
 		exec_builtin_scotch(node);
 	else
 		exec_forking(node);
 	restore_stds(saved_std);
 }
 
-void	init_fd_pipes_childs(int *pipe_fd)
-{
-	close(pipe_fd[IN]);
-	dup2(pipe_fd[OUT], STDOUT_FILENO);
-	close(pipe_fd[OUT]);
-}
 
-void	init_fd_pipes_parents(int *pipe_fd)
-{
-	close(pipe_fd[OUT]);
-	dup2(pipe_fd[IN], STDIN_FILENO);
-	close(pipe_fd[IN]);
-}
 
 void	rec_exec(t_btree *node)
 {
@@ -208,11 +204,15 @@ void	rec_exec(t_btree *node)
 		handle_pipe_failure(pipe(pipe_fd), "[rec_exec] pipe failed");
 		if (fork() == 0)
 		{
-			init_fd_pipes_childs(pipe_fd);
+			close(pipe_fd[0]);
+			dup2(pipe_fd[1], STDOUT_FILENO);
+			close(pipe_fd[1]);
 			rec_exec(node->left);
 			exit(EXIT_SUCCESS);
 		}
-		init_fd_pipes_parents(pipe_fd);
+		close(pipe_fd[1]);
+		dup2(pipe_fd[0], STDIN_FILENO);
+		close(pipe_fd[0]);
 		rec_exec(node->right);
 	}
 	else

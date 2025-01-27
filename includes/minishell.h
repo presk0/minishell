@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/26 00:52:22 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/27 14:13:50 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,23 +112,26 @@ typedef struct btree_content
 	t_token	token;
 }	t_btree_content;
 
-
-void	minishell_exit(char *errmsg, int status);
-int             check_childs_rec(t_btree *root);
-int             check_childs(t_btree *root);
-void    run_line(char *line);
-int             exec_whole_line();
+char    *shift_char(char *str, size_t shift_len);
+char    *shift_left(char *str, size_t shift_len);
 void    print_export(char **tab);
+char    *ft_getenv_line(const char *var);
 char    *ft_getenv(const char *var);
 int             ft_exit();
 int             unset_var_in_env(char *var);
 int             ft_unset(t_token *token);
+int             ft_setenv(char *var_line);
+int             ft_export(t_token *token);
+int             ft_env();
+int ft_cd(t_token *token);
+int             ft_echo(t_token *token);
+int             check_childs_rec(t_btree *root);
+int             check_childs(t_btree *root);
 int             ft_setenv(char *var);
 int             ft_export(t_token *token);
 int             ft_env();
-int             ft_cd(t_token *token);
-int             ft_echo(t_token *token);
-void    execve_protected(t_token *tok);
+void    run_line(char *line);
+int             exec_whole_line();
 void    execve_node(t_btree *node);
 int             exec_forking(t_btree *node);
 void    reset_stdin(int stdin_fd);
@@ -137,8 +140,10 @@ int             ft_pwd(t_token *token);
 int             exec_builtin(t_token *token);
 int             exec_builtin_scotch(t_btree *node);
 int             is_builtin(t_token *token);
-void    execute_pipe_child(t_btree *node, int pipe_fd[]);
+void    pipe_left(t_btree *node, int pipe_fd[]);
 void    pipe_right(t_btree *node, int pipe_fd[]);
+void    save_stds(int           *saved_std);
+void    restore_stds(int                *saved_std);
 void    execute_command(t_btree *node);
 void    rec_exec(t_btree *node);
 void    handle_dup_failure(int fd, const char *msg);
@@ -160,6 +165,7 @@ int             is_quoted(char c, int buff, int action);
 char    *ft_strnstr_quotes(const char *str, const char *ndl, size_t len);
 int             open_redirect(char *file, int mode);
 void    handle_redir_in(t_token *tok);
+int handle_heredoc(char *delimiter);
 void    handle_redir_out(t_token *tok);
 void reset_signals();
 void    handle_sigint(int sig);
@@ -196,14 +202,22 @@ size_t  append_until_dollar(char *input, size_t *i_input, size_t *i_result, char
 char    *process_dollar(char *input, size_t *i_input, size_t *i_result, char **result);
 void    *gc_realloc(void *ptr, size_t old_size, size_t new_size);
 char    *gc_strjoin(const char *s1, const char *s2);
-char	**duplicate_tab(char **tab_original);
-char	**ft_duplicate_tab(char **tab_original);
-char *read_heredoc(char *delimiter);
+char    *pop_line(char *buff);
+char    *clean_lines(char **next_line, char **buff);
+char    *load_until_line(int fd, char **buff);
+char    *get_next_line(int fd);
 
-void	format_buff(char *buff, char *next_line);
-char	*line_from_buff(char *buff);
-char	*load_until_line(int fd, char **buff);
-char	*get_next_line(int fd);
-void	get_next_line_tester(int argc, char **argv);
+void    minishell_exit(char *errmsg, int status);
+char    **ft_duplicate_tab(char **tab_original);
+char    **duplicate_tab(char **tab_original);
+void    inc_shlvl();
+void    minishell(char **envp);
+void    print_tab(char **tab);
+
+//void	format_buff(char *buff, char *next_line);
+//char	*line_from_buff(char *buff);
+//char	*load_until_line(int fd, char **buff);
+//char	*get_next_line(int fd);
+//void	get_next_line_tester(int argc, char **argv);
 
 #endif

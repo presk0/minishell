@@ -48,7 +48,6 @@ void	init_sig()
 	sa_quit.sa_flags = SA_RESTART;
 	if (sigaction(SIGQUIT, &sa_quit, NULL) == -1)
 		minishell_exit("init_sig", -1);
-	//signal(SIGPIPE, SIG_IGN);
 }
 
 /*
