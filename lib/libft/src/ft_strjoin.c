@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*																			*/
-/*														:::	  ::::::::   */
-/*   ft_strjoin.c									   :+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: nkieffer <nkieffer@student.42.fr>		  +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2022/02/24 15:51:11 by supersko		  #+#	#+#			 */
-/*   Updated: 2024/12/17 18:45:57 by nkieffer		 ###   ########.fr	   */
+/*														:::		::::::::   */
+/*   ft_strjoin.c										:+:	  :+:	:+:   */
+/*													+:+ +:+			+:+	 */
+/*   By: nkieffer <nkieffer@student.42.fr>			+#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+			*/
+/*   Created: 2022/02/24 15:51:11 by supersko			#+#	#+#			 */
+/*   Updated: 2024/12/17 18:45:57 by nkieffer			###   ########.fr	   */
 /*																			*/
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	size_t			len_s1;
-	size_t			len_s2;
-	char			*ret;
+	size_t	len_s1;
+	size_t	len_s2;
+	char	*ret;
 
 	len_s1 = ft_strlen(s1);
 	len_s2 = ft_strlen(s2);

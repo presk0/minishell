@@ -1,11 +1,11 @@
 /* ************************************************************************** */
 /*																			*/
-/*														:::	  ::::::::   */
+/*														:::		::::::::   */
 /*   gc.c                                               :+:      :+:    :+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: nidionis <nidionis@student.42.fr>		  +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2024/09/04 16:20:59 by nidionis		  #+#	#+#			 */
+/*													+:+ +:+			+:+	 */
+/*   By: nidionis <nidionis@student.42.fr>			+#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+			*/
+/*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#			 */
 /*   Updated: 2025/01/25 22:31:49 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
@@ -107,13 +107,13 @@ char	*gc_strdup(t_list **gc_addr, char *str)
 	return (ret);
 }
 
-void gc_free_item(t_list **gc_addr, void *ptr)
+void	gc_free_item(t_list **gc_addr, void *ptr)
 {
 	t_list	*gc;
-	t_list *prev;
+	t_list	*prev;
 
 	if (!gc_addr || !*gc_addr)
-		return;
+		return ;
 	gc = *gc_addr;
 	prev = NULL;
 	while (gc)
@@ -133,8 +133,7 @@ void gc_free_item(t_list **gc_addr, void *ptr)
 	}
 }
 
-
-void print_gc(t_list *gc)
+void	print_gc(t_list *gc)
 {
 	printf("Garbage Collector List:\n");
 	while (gc)
@@ -177,8 +176,7 @@ size_t	gc_strlcat(t_list **gc, char **result, char *str, size_t l)
 	return (ft_strlcat(*result, str, l + 1));
 }
 
-
-char *gc_strldup(t_list **gc, char *str, size_t len)
+char	*gc_strldup(t_list **gc, char *str, size_t len)
 {
 	void	*ret;
 

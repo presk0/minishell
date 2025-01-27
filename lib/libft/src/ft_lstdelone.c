@@ -1,11 +1,11 @@
 /* ************************************************************************** */
 /*																			*/
-/*														:::	  ::::::::   */
+/*														:::		::::::::   */
 /*   ft_lstdelone.c                                     :+:      :+:    :+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: nidionis <nidionis@student.42.fr>		  +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2022/03/04 12:18:26 by supersko		  #+#	#+#			 */
+/*													+:+ +:+			+:+	 */
+/*   By: nidionis <nidionis@student.42.fr>			+#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+			*/
+/*   Created: 2022/03/04 12:18:26 by supersko			#+#	#+#			 */
 /*   Updated: 2025/01/23 17:03:44 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
@@ -14,8 +14,9 @@
 
 void	ft_lstdelone(t_list **lst_addr, void (*del)(void *))
 {
-	t_list	*lst = *lst_addr;
+	t_list	*lst;
 
+	lst = *lst_addr;
 	if (lst)
 		lst = *lst_addr;
 	if (lst && del)
@@ -29,5 +30,4 @@ void	ft_lstdelone(t_list **lst_addr, void (*del)(void *))
 	}
 	if (!del)
 		ft_errmsg("[ft_lstdelone] missing del function?\n");
-
 }

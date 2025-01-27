@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*																			*/
-/*														:::	  ::::::::   */
-/*   ft_strtrim.c									   :+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: supersko <ndionis@student.42mulhouse.fr>   +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2022/03/01 14:33:46 by supersko		  #+#	#+#			 */
-/*   Updated: 2024/10/30 21:13:00 by nidionis		 ###   ########.fr	   */
+/*														:::		::::::::   */
+/*   ft_strtrim.c										:+:	  :+:	:+:   */
+/*													+:+ +:+			+:+	 */
+/*   By: supersko <ndionis@student.42mulhouse.fr>   +#+  +:+		+#+		*/
+/*												+#+#+#+#+#+   +#+			*/
+/*   Created: 2022/03/01 14:33:46 by supersko			#+#	#+#			 */
+/*   Updated: 2024/10/30 21:13:00 by nidionis			###   ########.fr	   */
 /*																			*/
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*ft_strtrim(char const *str, char const *set)
 #include <stdio.h>
 #include <string.h>
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	printf("%s\n", ft_strtrim(argv[1], argv[2]));
 }

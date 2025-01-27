@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*																			*/
-/*														:::	  ::::::::   */
-/*   ft_printf.c										:+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: nidionis <marvin@42.fr>					+#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2024/09/04 16:20:59 by nidionis		  #+#	#+#			 */
-/*   Updated: 2024/12/17 16:31:47 by nidionis		 ###   ########.fr	   */
+/*														:::		::::::::   */
+/*   ft_printf.c										:+:		:+:	:+:   */
+/*													+:+ +:+			+:+	 */
+/*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
+/*												+#+#+#+#+#+   +#+			*/
+/*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#			 */
+/*   Updated: 2024/12/17 16:31:47 by nidionis			###   ########.fr	   */
 /*																			*/
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
-static size_t	ft_putibase_fd(\
-	long long int n, char *base, size_t base_len, int fd)
+static size_t	ft_putibase_fd(long long int n, char *base, size_t base_len,
+		int fd)
 {
 	size_t	len;
 
@@ -24,7 +24,7 @@ static size_t	ft_putibase_fd(\
 		if (-(n) != n)
 			len += ft_putibase_fd(-1 * n, base, base_len, fd);
 	}
-	else if (n >= (int) base_len)
+	else if (n >= (int)base_len)
 	{
 		len += ft_putibase_fd(n / base_len, base, base_len, fd);
 		len += ft_putibase_fd(n % base_len, base, base_len, fd);
@@ -34,8 +34,8 @@ static size_t	ft_putibase_fd(\
 	return (len);
 }
 
-static size_t	putubase(\
-			long long unsigned n, char *base, size_t base_len, int fd)
+static size_t	putubase(long long unsigned n, char *base, size_t base_len,
+		int fd)
 {
 	size_t	len;
 
@@ -67,11 +67,11 @@ static int	print_item(va_list ap, char c)
 	if (c == 'c')
 		return (ft_putchar((char)va_arg(ap, int)));
 	if (c == 's')
-		return (ft_putstr_fd((char *) va_arg(ap, char *), FD));
+		return (ft_putstr_fd((char *)va_arg(ap, char *), FD));
 	if (c == 'p')
 		return (ft_putptr((unsigned long)va_arg(ap, void *), FD));
 	if (c == 'i' || c == 'd')
-		return (ft_putibase_fd((int) va_arg(ap, int), "0123456789", 10, FD));
+		return (ft_putibase_fd((int)va_arg(ap, int), "0123456789", 10, FD));
 	if (c == 'u')
 		return (putubase(va_arg(ap, unsigned), "0123456789", 10, FD));
 	if (c == 'x')

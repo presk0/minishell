@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*																			*/
-/*														:::	  ::::::::   */
-/*   ft_strdup.c										:+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: supersko <ndionis@student.42mulhouse.fr>   +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2022/02/27 15:55:04 by supersko		  #+#	#+#			 */
-/*   Updated: 2024/11/16 15:21:08 by nidionis		 ###   ########.fr	   */
+/*														:::		::::::::   */
+/*   ft_strdup.c										:+:		:+:	:+:   */
+/*													+:+ +:+			+:+	 */
+/*   By: supersko <ndionis@student.42mulhouse.fr>   +#+  +:+		+#+		*/
+/*												+#+#+#+#+#+   +#+			*/
+/*   Created: 2022/02/27 15:55:04 by supersko			#+#	#+#			 */
+/*   Updated: 2024/11/16 15:21:08 by nidionis			###   ########.fr	   */
 /*																			*/
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 char	*ft_strndup(const char *str, size_t n)
 {
-	size_t		i;
-	size_t		s_len;
-	char		*scpy;
+	size_t	i;
+	size_t	s_len;
+	char	*scpy;
 
 	s_len = ft_strlen(str);
 	if (s_len > n)
 		s_len = n;
-	scpy = (char *) malloc((s_len + 1) * sizeof(char));
+	scpy = (char *)malloc((s_len + 1) * sizeof(char));
 	if (!scpy)
 		return (NULL);
 	scpy[s_len] = '\0';
@@ -33,12 +33,12 @@ char	*ft_strndup(const char *str, size_t n)
 
 char	*ft_strdup(const char *str)
 {
-	size_t		i;
-	size_t		s_len;
-	char		*scpy;
+	size_t	i;
+	size_t	s_len;
+	char	*scpy;
 
 	s_len = ft_strlen(str);
-	scpy = (char *) malloc((s_len + 1) * sizeof(char));
+	scpy = (char *)malloc((s_len + 1) * sizeof(char));
 	if (!scpy)
 		return (NULL);
 	scpy[s_len] = '\0';

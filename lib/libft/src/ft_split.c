@@ -1,11 +1,11 @@
 /* ************************************************************************** */
 /*																			*/
-/*														:::	  ::::::::   */
+/*														:::		::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: nidionis <nidionis@student.42.fr>		  +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2022/03/01 16:31:55 by supersko		  #+#	#+#			 */
+/*													+:+ +:+			+:+	 */
+/*   By: nidionis <nidionis@student.42.fr>			+#+  +:+	   +#+		*/
+/*												+#+#+#+#+#+   +#+			*/
+/*   Created: 2022/03/01 16:31:55 by supersko			#+#	#+#			 */
 /*   Updated: 2025/01/23 19:45:16 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
@@ -32,7 +32,6 @@ void	ft_free_split(char ***t)
 	}
 }
 
-
 static size_t	append_line(char *str, char sep, char **ret, size_t i_wd)
 {
 	size_t	wd_len;
@@ -52,7 +51,7 @@ static size_t	append_line(char *str, char sep, char **ret, size_t i_wd)
 
 static int	ft_wd_count(char *str, char sep)
 {
-	int		wd_nb;
+	int	wd_nb;
 
 	wd_nb = 0;
 	if (!str)
@@ -101,8 +100,8 @@ char	**ft_split(char const *s, char c)
 		write(2, "try to split a NULL\n", 20);
 		return (NULL);
 	}
-	nb_wd = ft_wd_count((char *) s, c);
-	ret = (char **) malloc((nb_wd + 1) * sizeof(char *));
+	nb_wd = ft_wd_count((char *)s, c);
+	ret = (char **)malloc((nb_wd + 1) * sizeof(char *));
 	if (!ret)
 		return (NULL);
 	ret[nb_wd] = NULL;
