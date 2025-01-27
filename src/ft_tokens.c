@@ -38,7 +38,9 @@ static char	*find_path(char *cmd, char **envp)
 	int		i;
 
 	i = 0;
-	while (ft_strnstr(envp[i], "PATH", 4) == 0)
+	if (ft_strncmp(cmd, "./", 2) == 0)
+		return (gc_strdup(&g_d.gc, cmd));
+	while (ft_strnstr(envp[i], "PATH=", 5) == 0)
 		i++;
 	paths = ft_split(envp[i] + 5, ':');
 	i = 0;

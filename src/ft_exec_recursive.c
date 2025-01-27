@@ -23,8 +23,7 @@ void	execve_node(t_btree *node)
 	token = &(content->token);
 	reset_signals();
 	execve(token->cmd, token->args, g_d.env);
-	perror("[execve_node]");
-	minishell_exit("[execve_node] did not exit the process", -1);
+	minishell_exit(token->cmd, CMD_NOT_FOUND);
 }
 
 int	exec_forking(t_btree *node)
@@ -77,12 +76,6 @@ int	exec_builtin(t_token *token)
 {
 	int	exit_status;
 
-	// if (apply_redirections(token, i))
-	// 	ft_print_err("%s: %g_d: err applying redir\n", __FILE__, __LINE__);
-	// if (!token)
-	//	return ;
-	// handle_redir_in(token);
-	// handle_redir_out(token);
 	set_cmd_id(token);
 	exit_status = 0;
 	if (token->cmd_id == (int)ECHO_ID)
@@ -99,8 +92,6 @@ int	exec_builtin(t_token *token)
 		exit_status = ft_env();
 	else if (token->cmd_id == (int)EXIT_ID)
 		exit_status = ft_exit();
-	// if (restore_std_fds(m->std_fds) == -1)
-	// 	ft_print_err("%s: %g_d: err restore std fds", __FILE__, __LINE__);
 	return (exit_status);
 }
 
