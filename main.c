@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			*/
-/*														:::		::::::::   */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
-/*													+:+ +:+			+:+		*/
-/*   By: nkieffer <nkieffer@student.42.fr>			+#+  +:+		+#+		*/
-/*												+#+#+#+#+#+   +#+			*/
-/*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/24 13:34:45 by nidionis         ###   ########.fr       */
-/*																			*/
+/*                                                    +:+ +:+         +:+     */
+/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/28 00:24:39 by nidionis          #+#    #+#             */
+/*   Updated: 2025/01/28 00:24:41 by nidionis         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
@@ -21,26 +21,6 @@ void	minishell_exit(char *errmsg, int status)
 	rl_clear_history();
 	gc_free_all(&g_d.gc);
 	exit(status);
-}
-
-char	**duplicate_tab(char **tab_original)
-{
-	char	**tab_copy;
-	size_t	tab_len;
-	size_t	i;
-
-	tab_len = ft_tablen(tab_original);
-	tab_copy = gc_malloc(&g_d.gc, (tab_len + 1), sizeof(char *));
-	tab_copy[tab_len] = NULL;
-	i = 0;
-	while (i < tab_len)
-	{
-		tab_copy[i] = gc_strdup(&g_d.gc, tab_original[i]);
-		if (!tab_copy[i])
-			minishell_exit("[duplicate_tab]", ERR_GC_STRDUP);
-		i++;
-	}
-	return (tab_copy);
 }
 
 void	inc_shlvl(void)
@@ -83,7 +63,7 @@ void	minishell(char **envp)
 	}
 }
 
-t_data g_d;
+t_data	g_d;
 
 void	print_tab(char **tab)
 {

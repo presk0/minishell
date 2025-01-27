@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/27 22:27:35 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/28 00:30:43 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,3 @@ int	is_builtin(t_token *token)
 		return (EXIT_ID);
 	return (0);
 }
-
-

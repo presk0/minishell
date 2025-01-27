@@ -12,7 +12,6 @@
 
 #include <minishell.h>
 
-
 void	execve_node(t_btree *node)
 {
 	t_btree_content	*content;

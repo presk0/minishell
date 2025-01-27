@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/27 22:17:26 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/28 00:34:28 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,3 @@ char	*shift_left(char *str, size_t shift_len)
 			str = shift_char(str, shift_len);
 	return (ret);
 }
-

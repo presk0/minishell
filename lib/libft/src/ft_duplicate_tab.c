@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/27 17:31:25 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/28 00:26:30 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 char	**ft_duplicate_tab(char **tab_original)
 {
-	char **tab_copy;
-	size_t tab_len;
-	size_t i;
+	char	**tab_copy;
+	size_t	tab_len;
+	size_t	i;
 
 	tab_len = ft_tablen(tab_original);
 	tab_copy = malloc((tab_len + 1) * sizeof(char *));

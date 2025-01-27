@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/28 00:01:42 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/28 00:27:46 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ size_t	gc_strlcat(t_list **gc, char **result, char *str, size_t l)
 
 char	*gc_strldup(t_list **gc, char *str, size_t len)
 {
-	void *ret;
+	void	*ret;
 
 	ret = gc_malloc(gc, len + 1, 1);
 	if (!ret)

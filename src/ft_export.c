@@ -1,13 +1,12 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_op_grep_skip.c                                  :+:      :+:    :+:   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/27 21:47:20 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/28 00:33:22 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +25,7 @@ void	print_export(char **tab)
 	ft_free_split(&t);
 }
 
-void ft_swap(char **a, char **b)
+void	ft_swap(char **a, char **b)
 {
 	char	*tmp;
 

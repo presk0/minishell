@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/27 22:18:25 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/28 00:32:28 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	ft_cd(t_token *token)
 
 	ft_strlcpy(oldpwd, "OLDPWD=", sizeof(oldpwd));
 	ft_strlcat(oldpwd, ft_getenv("PWD"), sizeof(oldpwd));
-
 	target_dir = get_target_directory(token);
 	if (!target_dir)
 		return (FAILURE);

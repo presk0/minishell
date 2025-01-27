@@ -30,8 +30,8 @@ void	execute_command(t_btree *node)
 
 void	rec_exec(t_btree *node)
 {
-	int pipe_fd[2];
-	int stdin_fd;
+	int	pipe_fd[2];
+	int	stdin_fd;
 
 	stdin_fd = dup(STDIN_FILENO);
 	handle_dup_failure(stdin_fd, "[rec_exec] dup failed");

@@ -54,14 +54,13 @@ int	handle_eoheredoc(int pipe_fd[2])
 	return (-1);
 }
 
-
 void	handle_redir_out(t_token *tok)
 {
 	int	redir;
 	int	mode;
 
 	if (tok->append_flag)
-		mode =  O_CREAT | O_WRONLY | O_APPEND;
+		mode = O_CREAT | O_WRONLY | O_APPEND;
 	else
 		mode = O_CREAT | O_WRONLY | O_TRUNC;
 	if (tok->redir_out)
