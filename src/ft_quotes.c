@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*																			*/
 /*														:::		::::::::   */
-/*   ft_signals.c                                       :+:      :+:    :+:   */
+/*   ft_quotes.c                                        :+:      :+:    :+:   */
 /*													+:+ +:+			+:+		*/
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/24 00:34:14 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/28 14:10:37 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -47,6 +47,14 @@ char	*rm_quotes(char *str)
 		}
 	}
 	return (ret);
+}
+
+int	is_quote_opened(char *str)
+{
+	is_quoted(0, BUFF_RDLINES, RESET);
+	while (*str)
+		is_quoted(*str++, BUFF_RDLINES, SAVE);
+	return (is_quoted(0, BUFF_RDLINES, READ));
 }
 
 int	strlen_char_simple_quoted(char *cmd, char c, int buff)

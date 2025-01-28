@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/28 00:06:18 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:08:30 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@
 # define BUFF_STRNSTR 2
 # define BUFF_SUBVAR 3
 # define BUFF_RMQUOTES 4
-# define BUFF_QUOTE_MAX 5
+# define BUFF_RDLINES 5
+# define BUFF_QUOTE_MAX 6
 # define SAVE 0
 # define READ 1
 # define RESET 2
@@ -229,6 +230,7 @@ char			**duplicate_tab(char **tab_original);
 void			inc_shlvl(void);
 void			minishell(char **envp);
 void			print_tab(char **tab);
+int				is_quote_opened(char *str);
 
 // void	format_buff(char *buff, char *next_line);
 // char	*line_from_buff(char *buff);

@@ -6,11 +6,39 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 00:24:39 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/28 00:37:32 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:06:32 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+/*
+char	*rl_quoted()
+{
+	char	*line;
+	char	*closed_line;
+	char	prompt[1024];
+	int		quote;
+
+	quote = SIMPLE_QUOTE;
+	closed_line = NULL;
+	line = "Un spaghetti parfaitement droit.";
+	ft_strlcpy(prompt, PS1, strlen(PS1) + 1);
+	while (quote && line)
+	{
+		line = readline(prompt);
+		if (gc_append(&g_d.gc, line))
+		{
+			gc_strcat(&g_d.gc, &closed_line, line);
+			gc_free_item(&g_d.gc, line);
+			quote = is_quote_opened(closed_line);
+			if (quote)
+				ft_strlcpy(prompt, "> ", 3);
+		}
+	}
+	return (closed_line);
+}
+*/
 
 void	minishell(char **envp)
 {
