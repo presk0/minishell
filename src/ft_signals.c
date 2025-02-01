@@ -17,7 +17,7 @@ void	handle_sigquit_forked(int sig)
 	(void)sig;
 	write(STDERR_FILENO, "Quit\n", 6);
 	minishell_exit("init_sig", STATUS_SIGQUIT);
-}	
+}
 
 void	forked_sig(void)
 {

@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/02/01 16:49:21 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/01 19:54:25 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int	ft_exit(t_token *token)
 	if (exit_status > 255)
 	{
 		if (exit_status > INT_MAX)
-			printf("bash: exit: %s: numeric argument required\n", token->args[1]);
+			printf("bash: exit: %s: numeric argument required\n", \
+														token->args[1]);
 		g_d.status = 0;
 	}
 	g_d.status = exit_status;
