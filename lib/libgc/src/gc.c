@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/28 00:03:17 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/01 16:50:06 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	gc_free_all(t_list **gc_addr)
 	while (gc)
 	{
 		tmp = gc->next;
-		ft_lstdelone(&gc, free);
+		ft_lstdelone(gc, free);
 		gc = tmp;
 	}
 	*gc_addr = NULL;
@@ -97,7 +97,7 @@ void	gc_free_item(t_list **gc_addr, void *ptr)
 			else
 				*gc_addr = gc->next;
 			if (gc->content)
-				ft_lstdelone(&gc, free);
+				ft_lstdelone(gc, free);
 			return ;
 		}
 		prev = gc;

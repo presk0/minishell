@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/28 00:16:49 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/28 00:17:19 by nidionis         ###   ########.fr       */
+/*   Created: 2022/03/01 14:33:46 by supersko          #+#    #+#             */
+/*   Updated: 2025/02/01 05:47:15 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <libft.h>
 
 char	*ft_strtrim(char const *str, char const *set)
 {

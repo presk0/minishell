@@ -1,0 +1,60 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+CC	Makefile	/^CC = gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS = -Wall -Wextra -Werror$/;"	m
+LIBFT_H	libft.h	14;"	d
+NAME	Makefile	/^NAME = libft.a$/;"	m
+OBJS	Makefile	/^OBJS := ${SRCS:c=o}$/;"	m
+SRCS	Makefile	/^SRCS = ft_errmsg.c ft_atoi.c ft_atoi_arg.c ft_bzero.c ft_calloc.c \\$/;"	m
+c_to_i	ft_atoi.c	/^static long int	c_to_i(char c)$/;"	f	file:
+carry_negative	ft_itoa.c	/^static char	*carry_negative(int *n, char *n_strn, int *len)$/;"	f	file:
+ft_errmsg	ft_errmsg.c	/^void	ft_errmsg(char *msg)$/;"	f
+ft_atoi	ft_atoi.c	/^int	ft_atoi(const char *str0)$/;"	f
+ft_atoi_arg	ft_atoi_arg.c	/^int	ft_atoi_arg(char *str_nb)$/;"	f
+ft_bzero	ft_bzero.c	/^void	*ft_bzero(void *s, size_t n)$/;"	f
+ft_calloc	ft_calloc.c	/^void	*ft_calloc(size_t count, size_t size)$/;"	f
+ft_get_next_wd	ft_get_next_wd.c	/^char	*ft_get_next_wd(char *sentence, char sep)$/;"	f
+ft_intlen	ft_itoa.c	/^static int	ft_intlen(int n)$/;"	f	file:
+ft_isalnum	ft_isalnum.c	/^int	ft_isalnum(int c)$/;"	f
+ft_isalpha	ft_isalpha.c	/^int	ft_isalpha(int c)$/;"	f
+ft_isascii	ft_isascii.c	/^int	ft_isascii(int c)$/;"	f
+ft_isdigit	ft_isdigit.c	/^int	ft_isdigit(int c)$/;"	f
+ft_isprint	ft_isprint.c	/^int	ft_isprint(int c)$/;"	f
+ft_isspace	ft_atoi.c	/^static int	ft_isspace(const char c)$/;"	f	file:
+ft_itoa	ft_itoa.c	/^char	*ft_itoa(int n)$/;"	f
+ft_memchr	ft_memchr.c	/^void	*ft_memchr(const void *str0, int c, size_t n)$/;"	f
+ft_memcmp	ft_memcmp.c	/^int	ft_memcmp(const void *s1, const void *s2, size_t n)$/;"	f
+ft_memcpy	ft_memcpy.c	/^void	*ft_memcpy(void *dst, const void *src, unsigned int len)$/;"	f
+ft_memmove	ft_memmove.c	/^void	*ft_memmove(void *dst, const void *src, size_t len)$/;"	f
+ft_memset	ft_memset.c	/^void	*ft_memset(void *b, int c, size_t len)$/;"	f
+ft_putchar_fd	ft_putchar_fd.c	/^void	ft_putchar_fd(char c, int fd)$/;"	f
+ft_putendl_fd	ft_putendl_fd.c	/^void	ft_putendl_fd(char *s, int fd)$/;"	f
+ft_putnbr_fd	ft_putnbr_fd.c	/^void	ft_putnbr_fd(int n, int fd)$/;"	f
+ft_putstr_fd	ft_putstr_fd.c	/^void	ft_putstr_fd(char *s, int fd)$/;"	f
+ft_split	ft_split.c	/^char	**ft_split(char const *s, char c)$/;"	f
+ft_strchr	ft_strchr.c	/^char	*ft_strchr(const char *str, int c)$/;"	f
+ft_strdup	ft_strdup.c	/^char	*ft_strdup(const char *s1)$/;"	f
+ft_striteri	ft_striteri.c	/^void	ft_striteri(char *s, void (*f)(unsigned int, char *))$/;"	f
+ft_strjoin	ft_strjoin.c	/^char	*ft_strjoin(char const *s1, char const *s2)$/;"	f
+ft_strlcat	ft_strlcat.c	/^size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)$/;"	f
+ft_strlcpy	ft_strlcpy.c	/^size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)$/;"	f
+ft_strlen	ft_strlen.c	/^size_t	ft_strlen(const char *str)$/;"	f
+ft_strlen_char	ft_strlen_char.c	/^size_t	ft_strlen_char(char *str, char sep)$/;"	f
+ft_strmapi	ft_strmapi.c	/^char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))$/;"	f
+ft_strncmp	ft_strncmp.c	/^int	ft_strncmp(const char *s1, const char *s2, size_t n)$/;"	f
+ft_strnlen	ft_strlcat.c	/^static unsigned int	ft_strnlen(char *s, size_t max)$/;"	f	file:
+ft_strnstr	ft_strnstr.c	/^char	*ft_strnstr(const char *str, const char *ndl, size_t len)$/;"	f
+ft_strrchr	ft_strrchr.c	/^char	*ft_strrchr(char *s, int c)$/;"	f
+ft_strtrim	ft_strtrim.c	/^char	*ft_strtrim(char const *s1, char const *set)$/;"	f
+ft_substr	ft_substr.c	/^char	*ft_substr(char const *s, unsigned int start, size_t len)$/;"	f
+ft_tolower	ft_tolower.c	/^int	ft_tolower(int c)$/;"	f
+ft_toupper	ft_toupper.c	/^int	ft_toupper(int c)$/;"	f
+ft_wd_count	ft_wd_count.c	/^int	ft_wd_count(char *str, char sep)$/;"	f
+is_trimable	ft_strtrim.c	/^static int	is_trimable(char c, char *trimset)$/;"	f	file:
+make_str	ft_itoa.c	/^static void	make_str(int *n, char *n_str, int i)$/;"	f	file:
+make_tab	ft_split.c	/^static char	**make_tab(char **ret, char const *s, char c, unsigned int nb_wd)$/;"	f	file:
+my_loc	ft_itoa.c	/^static char	*my_loc(int len)$/;"	f	file:

@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/28 00:11:18 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/28 00:12:36 by nidionis         ###   ########.fr       */
+/*   Created: 2022/02/23 16:48:16 by supersko          #+#    #+#             */
+/*   Updated: 2025/02/01 05:47:15 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <libft.h>
 
 int	ft_atoi(const char *str0)
 {
@@ -32,31 +32,4 @@ int	ft_atoi(const char *str0)
 			nbr = *str++ - '0' + nbr * 10;
 	}
 	return (sign * nbr);
-}
-
-long int	ft_atoi_err(char *str)
-{
-	long int	sign;
-	long int	nbr;
-
-	sign = 1;
-	while (ft_strchr("\t ", *str))
-		str++;
-	if (*str == '-' || *str == '+')
-		if (*str++ == '-')
-			sign *= -1;
-	nbr = 0;
-	if (!ft_isdigit(*str))
-		return (2147483649);
-	while (ft_isdigit(*str))
-	{
-		nbr *= 10;
-		nbr = *str++ - '0' + nbr * 10;
-		if (nbr > 2147483648)
-			return (nbr);
-	}
-	if (*str)
-		return (2147483649);
-	nbr *= sign;
-	return (nbr);
 }

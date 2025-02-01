@@ -5,25 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/28 00:13:46 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/28 00:17:19 by nidionis         ###   ########.fr       */
+/*   Created: 2022/03/04 12:18:26 by supersko          #+#    #+#             */
+/*   Updated: 2025/02/01 05:47:15 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <libft.h>
 
-void	ft_lstdelone(t_list **lst_addr, void (*del)(void *))
+void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {
-	t_list	*lst;
-
-	lst = *lst_addr;
-	if (lst)
-		lst = *lst_addr;
 	if (lst && del)
 	{
-		if (lst->content)
-			del(lst->content);
-		lst->content = NULL;
+		del(lst->content);
 		lst->next = NULL;
 		free(lst);
 		lst = NULL;

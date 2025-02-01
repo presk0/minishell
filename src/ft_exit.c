@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/28 00:37:20 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/01 16:49:21 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,18 @@ void	minishell_exit(char *errmsg, int status)
 	exit(status);
 }
 
-int	ft_exit(void)
+int	ft_exit(t_token *token)
 {
-	g_d.status = SUCCESS;
-	minishell_exit(NULL, 0);
+	long int	exit_status;
+
+	exit_status = ft_atoi_err(token->args[1]);
+	if (exit_status > 255)
+	{
+		if (exit_status > INT_MAX)
+			printf("bash: exit: %s: numeric argument required\n", token->args[1]);
+		g_d.status = 0;
+	}
+	g_d.status = exit_status;
+	minishell_exit(NULL, g_d.status);
 	return (0);
 }

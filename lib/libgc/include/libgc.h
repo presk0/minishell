@@ -12,6 +12,7 @@
 
 #ifndef LIBGC_H
 # define LIBGC_H
+# include <stdio.h>
 # include "../../libft/include/libft.h"
 
 void	*gc_append(t_list **gc_addr, void *ptr);

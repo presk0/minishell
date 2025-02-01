@@ -179,7 +179,7 @@ ft_atoi_err	lib/libft/src/ft_atoi.c	/^long int	ft_atoi_err(char *str)$/;"	f	type
 ft_bzero	lib/libft/src/ft_bzero.c	/^void	*ft_bzero(void *s, size_t n)$/;"	f	typeref:typename:void *
 ft_calloc	lib/libft/src/ft_calloc.c	/^void	*ft_calloc(size_t count, size_t size)$/;"	f	typeref:typename:void *
 ft_cd	src/ft_cd.c	/^int	ft_cd(t_token *token)$/;"	f	typeref:typename:int
-ft_duplicate_tab	lib/libft/src/ft_duplicate_tab.c	/^char	**ft_duplicate_tab(char **tab_original)$/;"	f	typeref:typename:char **
+ft_tabdup	lib/libft/src/ft_tabdup.c	/^char	**ft_tabdup(char **tab_original)$/;"	f	typeref:typename:char **
 ft_easy_sort	src/ft_export.c	/^void	ft_easy_sort(char ***t)$/;"	f	typeref:typename:void
 ft_echo	src/ft_echo.c	/^int	ft_echo(t_token *token)$/;"	f	typeref:typename:int
 ft_env	src/ft_env.c	/^int	ft_env(void)$/;"	f	typeref:typename:int

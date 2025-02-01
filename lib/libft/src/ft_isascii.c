@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/28 00:13:06 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/28 00:17:19 by nidionis         ###   ########.fr       */
+/*   Created: 2022/02/23 16:48:16 by supersko          #+#    #+#             */
+/*   Updated: 2025/02/01 05:47:15 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <libft.h>
 
 int	ft_isascii(int c)
 {

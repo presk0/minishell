@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tab_utils.c                                     :+:      :+:    :+:   */
+/*   ft_tablen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/28 00:17:02 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/28 00:17:19 by nidionis         ###   ########.fr       */
+/*   Created: 2025/02/01 16:47:02 by nidionis          #+#    #+#             */
+/*   Updated: 2025/02/01 17:18:48 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "libft.h"
 
-int	ft_tablen(char **tab)
+size_t	ft_tablen(char **tab)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	if (tab)
-		while (*tab++)
+		while (tab[i])
 			i++;
 	return (i);
 }

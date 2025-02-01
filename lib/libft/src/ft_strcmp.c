@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_utils.c                                  :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/28 00:15:03 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/28 00:17:19 by nidionis         ###   ########.fr       */
+/*   Created: 2025/02/01 16:51:31 by nidionis          #+#    #+#             */
+/*   Updated: 2025/02/01 17:18:41 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include <libft.h>
 
-void	loop_norminette(char **str_addr, va_list ap, int *p_itm, int *ret_val)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	if (**str_addr == '%')
+	while (*s1 && *s2 && *s1 == *s2)
 	{
-		*p_itm = print_item(ap, *(++(*str_addr)));
-		if (*p_itm == -1)
-			*ret_val = -1;
-		if (*ret_val != -1)
-			*ret_val += *p_itm;
+		s1++;
+		s2++;
 	}
-	else
-	{
-		write(FD, *str_addr, 1);
-		if (*ret_val != -1)
-			(*ret_val)++;
-	}
-	if (**str_addr)
-		(*str_addr)++;
+	return ((unsigned char)*s1 - (unsigned char)*s2);
 }

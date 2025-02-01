@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/28 15:08:30 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/01 16:26:06 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void			run_line(char *line);
 int				exec_whole_line(void);
 void			execute_command(t_btree *node);
 void			rec_exec(t_btree *node);
-int				ft_exit(void);
+int				ft_exit(t_token *token);
 void			print_export(char **tab);
 void			ft_swap(char **a, char **b);
 void			ft_easy_sort(char ***t);

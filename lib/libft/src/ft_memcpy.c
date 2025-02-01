@@ -5,19 +5,19 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/28 00:14:46 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/28 00:17:19 by nidionis         ###   ########.fr       */
+/*   Created: 2022/02/24 15:51:11 by supersko          #+#    #+#             */
+/*   Updated: 2025/02/01 05:47:15 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <libft.h>
 
 void	*ft_memcpy(void *dst, const void *src, size_t len)
 {
-	char	*g_d;
+	char	*d;
 	char	*s;
 
-	g_d = dst;
+	d = dst;
 	s = (void *)src;
 	if (dst == src)
 		return (dst);
@@ -27,6 +27,6 @@ void	*ft_memcpy(void *dst, const void *src, size_t len)
 		return (NULL);
 	}
 	while (len--)
-		*g_d++ = *s++;
+		*d++ = *s++;
 	return (dst);
 }

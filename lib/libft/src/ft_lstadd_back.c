@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/28 00:13:32 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/28 00:26:54 by nidionis         ###   ########.fr       */
+/*   Created: 2022/03/04 10:36:39 by supersko          #+#    #+#             */
+/*   Updated: 2025/02/01 17:13:48 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <libft.h>
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
@@ -25,6 +25,5 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 			buff->next = new;
 	}
 	else
-		ft_errmsg("[ft_lstadd_back] passing null args,\
-			cannot you do better ?\n");
+		ft_errmsg("[ft_lstadd_back] stop coding with your feet ?\n");
 }

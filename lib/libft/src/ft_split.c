@@ -5,32 +5,51 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/28 00:15:36 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/28 00:17:19 by nidionis         ###   ########.fr       */
+/*   Created: 2022/03/01 16:31:55 by supersko          #+#    #+#             */
+/*   Updated: 2025/02/01 17:10:17 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <libft.h>
+#include <stdlib.h>
 
 void	ft_free_split(char ***t)
 {
 	char	**tab;
-	size_t	i;
+	char	**temp;
+
+	if (!t || !*t)
+		return ;
+	tab = *t;
+	temp = tab;
+	while (*tab)
+	{
+		free(*tab);
+		*tab = NULL;
+		tab++;
+	}
+	free(temp);
+	*t = NULL;
+}
+
+/*
+void	ft_free_split(char ***t)
+{
+	char	**tab;
 
 	tab = *t;
 	if (tab)
 	{
-		i = 0;
-		while (tab[i])
+		while (*tab)
 		{
-			free(tab[i]);
-			tab[i] = NULL;
-			i++;
+			free(*tab);
+			*tab++ = NULL;
 		}
 		free(tab);
-		*t = NULL;
 	}
+	tab = NULL;
 }
+*/
 
 static size_t	append_line(char *str, char sep, char **ret, size_t i_wd)
 {
@@ -47,25 +66,6 @@ static size_t	append_line(char *str, char sep, char **ret, size_t i_wd)
 	else
 		ft_free_split(&ret);
 	return (wd_len);
-}
-
-static int	ft_wd_count(char *str, char sep)
-{
-	int	wd_nb;
-
-	wd_nb = 0;
-	if (!str)
-		return (0);
-	while (*str)
-	{
-		while (*str == sep)
-			str++;
-		if (*str)
-			wd_nb++;
-		while (*str && *str != sep)
-			str++;
-	}
-	return (wd_nb);
 }
 
 static char	**make_tab(char **ret, char const *s, char sep, unsigned int nb_wd)

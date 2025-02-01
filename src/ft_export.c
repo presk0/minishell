@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/28 00:33:22 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/01 16:43:58 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	print_export(char **tab)
 	char	**t;
 	size_t	i;
 
-	t = ft_duplicate_tab(tab);
+	t = ft_tabdup(tab);
 	ft_easy_sort(&t);
 	i = 0;
 	while (t[i])
