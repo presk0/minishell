@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/02/01 16:26:06 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/01 18:53:23 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	exec_builtin(t_token *token)
 	else if (token->cmd_id == (int)ENV_ID)
 		exit_status = ft_env();
 	else if (token->cmd_id == (int)EXIT_ID)
-		exit_status = ft_exit(token	);
+		exit_status = ft_exit(token);
 	return (exit_status);
 }
 

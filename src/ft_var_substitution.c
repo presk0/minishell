@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/01/27 18:00:04 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/01 18:55:59 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,28 +63,77 @@ size_t	append_until_dollar(char *input, size_t *i_input, size_t *i_result,
 	return (next_dollar);
 }
 
+//char	*process_dollar(char *input, size_t *i_input, size_t *i_result,
+//		char **result)
+//{
+//	size_t	var_start;
+//	size_t	var_len;
+//	char	*var_name;
+//	char	*var_value;
+//
+//	var_start = *i_input + 1;
+//	var_len = ft_varlen(input + var_start);
+//	if (var_len > 0 && input[var_start])
+//	{
+//		var_name = ft_strndup(input + var_start, var_len);
+//		var_value = ft_getenv(var_name);
+//		if (var_value)
+//			*i_result += gc_strcat(&g_d.gc, result, var_value);
+//		else if (var_name && *var_name)
+//		{
+//			*i_result += gc_strcat(&g_d.gc, result, "$");
+//			*i_result += gc_strcat(&g_d.gc, result, var_name);
+//		}
+//		free(var_name);
+//	}
+//	else
+//		*i_result = gc_strcat(&g_d.gc, result, "$");
+//	*i_input += var_len + 1;
+//	return (*result);
+//}
+
+char	*handle_variable_expansion(char **result, char *var_name, size_t *i_result)
+{
+	char	*var_value;
+
+	var_value = ft_getenv(var_name);
+	if (var_value)
+		*i_result += gc_strcat(&g_d.gc, result, var_value);
+	else if (var_name && *var_name)
+	{
+		*i_result += gc_strcat(&g_d.gc, result, "$");
+		*i_result += gc_strcat(&g_d.gc, result, var_name);
+	}
+	return (var_value);
+}
+
+void	process_valid_variable(char *input, size_t var_start, size_t var_len,
+		char **result, size_t *i_result)
+{
+	char	*var_name;
+
+	var_name = ft_strndup(input + var_start, var_len);
+	if (var_name)
+	{
+		handle_variable_expansion(result, var_name, i_result);
+		free(var_name);
+	}
+}
+
 char	*process_dollar(char *input, size_t *i_input, size_t *i_result,
 		char **result)
 {
 	size_t	var_start;
 	size_t	var_len;
-	char	*var_name;
-	char	*var_value;
 
 	var_start = *i_input + 1;
 	var_len = ft_varlen(input + var_start);
 	if (var_len > 0 && input[var_start])
+		process_valid_variable(input, var_start, var_len, result, i_result);
+	else if (var_len == 0 && input[var_start] == '?')
 	{
-		var_name = ft_strndup(input + var_start, var_len);
-		var_value = ft_getenv(var_name);
-		if (var_value)
-			*i_result += gc_strcat(&g_d.gc, result, var_value);
-		else if (var_name && *var_name)
-		{
-			*i_result += gc_strcat(&g_d.gc, result, "$");
-			*i_result += gc_strcat(&g_d.gc, result, var_name);
-		}
-		free(var_name);
+		*i_result = gc_strcat(&g_d.gc, result, gc_append(&g_d.gc, ft_itoa(g_d.status)));
+		var_len = 1;
 	}
 	else
 		*i_result = gc_strcat(&g_d.gc, result, "$");

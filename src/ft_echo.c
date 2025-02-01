@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/27 22:20:19 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/01 18:53:23 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ int	ft_echo(t_token *token)
 	}
 	if (newline)
 		write(STDOUT_FILENO, "\n", 1);
+	g_d.status = CLEAN_EXIT;
 	return (CLEAN_EXIT);
 }
