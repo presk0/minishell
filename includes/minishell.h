@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/02/01 16:26:06 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/01 19:35:26 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@
 # define CD_ID 2
 # define PWD_ID 3
 # define EXPORT_ID 4
-# define UNSET_ID 4
-# define ENV_ID 5
-# define EXIT_ID 6
-# define MINISHELL_ID 7
+# define UNSET_ID 5
+# define ENV_ID 6
+# define EXIT_ID 7
+# define MINISHELL_ID 8
 
 # define NO_QUOTE 0
 # define SIMPLE_QUOTE 1
@@ -83,6 +83,7 @@
 # define IN 0
 # define OUT 1
 # define ERR 2
+# define STATUS_SIGQUIT 131
 
 typedef struct s_data
 {
@@ -185,7 +186,7 @@ int				open_redirect(char *file, int mode);
 void			handle_redir_in(t_token *tok);
 int				handle_eoheredoc(int pipe_fd[2]);
 void			handle_redir_out(t_token *tok);
-void			reset_signals(void);
+void			forked_sig(void);
 void			handle_sigint(int sig);
 void			init_sig(void);
 void			wait_for_child(pid_t pid);

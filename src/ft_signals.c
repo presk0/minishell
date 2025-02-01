@@ -12,12 +12,26 @@
 
 #include <minishell.h>
 
-void	reset_signals(void)
+void	handle_sigquit_forked(int sig)
 {
+	(void)sig;
+	write(STDERR_FILENO, "Quit\n", 6);
+	minishell_exit("init_sig", STATUS_SIGQUIT);
+}	
+
+void	forked_sig(void)
+{
+	struct sigaction	sa_quit;
+
 	if (signal(SIGINT, SIG_DFL) == SIG_ERR)
 		perror("Erreur lors de la réinitialisation de SIGINT");
 	if (signal(SIGTERM, SIG_DFL) == SIG_ERR)
 		perror("Erreur lors de la réinitialisation de SIGTERM");
+	sa_quit.sa_handler = handle_sigquit_forked;
+	sigemptyset(&sa_quit.sa_mask);
+	sa_quit.sa_flags = SA_RESTART;
+	if (sigaction(SIGQUIT, &sa_quit, NULL) == -1)
+		minishell_exit("init_sig", STATUS_SIGQUIT);
 }
 
 void	handle_sigint(int sig)

@@ -24,6 +24,7 @@ $(OBJ_DIR)/%.o	lib/libgc/Makefile	/^$(OBJ_DIR)\/%.o: $(SRC_DIR)\/%.c$/;"	t
 BTREE_H	lib/libbtree/include/btree.h	/^# define BTREE_H$/;"	d
 BUFFER_SIZE	includes/minishell.h	/^#  define BUFFER_SIZE /;"	d
 BUFF_QUOTE_MAX	includes/minishell.h	/^# define BUFF_QUOTE_MAX /;"	d
+BUFF_RDLINES	includes/minishell.h	/^# define BUFF_RDLINES /;"	d
 BUFF_RMQUOTES	includes/minishell.h	/^# define BUFF_RMQUOTES /;"	d
 BUFF_STRLEN	includes/minishell.h	/^# define BUFF_STRLEN /;"	d
 BUFF_STRNSTR	includes/minishell.h	/^# define BUFF_STRNSTR /;"	d
@@ -36,7 +37,7 @@ CC	lib/libgc/Makefile	/^CC = gcc$/;"	m
 CD_ID	includes/minishell.h	/^# define CD_ID /;"	d
 CFLAGS	Makefile	/^CFLAGS = -Wall -Wextra -Werror -I includes -g3$/;"	m
 CFLAGS	lib/libbtree/Makefile	/^CFLAGS = -Wall -Wextra -Werror -Iinclude -g$/;"	m
-CFLAGS	lib/libft/Makefile	/^CFLAGS = -Wall -Wextra -Werror -Iinclude -g$/;"	m
+CFLAGS	lib/libft/Makefile	/^CFLAGS = -Wall -Wextra -Werror -Iinclude$/;"	m
 CFLAGS	lib/libgc/Makefile	/^CFLAGS = -Wall -Wextra -Werror -Iinclude -g$/;"	m
 CHILD_INTERRUPT	includes/minishell.h	/^# define CHILD_INTERRUPT /;"	d
 CLEAN_EXIT	includes/minishell.h	/^# define CLEAN_EXIT /;"	d
@@ -51,8 +52,9 @@ EXIT_ID	includes/minishell.h	/^# define EXIT_ID /;"	d
 EXPORT_ID	includes/minishell.h	/^# define EXPORT_ID /;"	d
 FAILURE	includes/minishell.h	/^# define FAILURE /;"	d
 FALSE	includes/minishell.h	/^# define FALSE /;"	d
+FALSE	lib/libft/include/libft.h	/^# define FALSE /;"	d
 FILES	lib/libbtree/Makefile	/^FILES = ft_btree.c display_tree.c$/;"	m
-FILES	lib/libft/Makefile	/^FILES = ft_atoi.c ft_bzero.c ft_calloc.c ft_errmsg.c ft_isalnum.c ft_isalpha.c \\$/;"	m
+FILES	lib/libft/Makefile	/^FILES = ft_atoi.c ft_atoi_err.c ft_bzero.c ft_calloc.c \\$/;"	m
 FILES	lib/libgc/Makefile	/^FILES = gc.c strcat.c strdup.c$/;"	m
 FT_FLAGS	lib/libgc/Makefile	/^FT_FLAGS = -lft -L $(LIBFT_DIR)$/;"	m
 HERE_DOC	includes/minishell.h	/^# define HERE_DOC /;"	d
@@ -111,6 +113,7 @@ SRCS	lib/libft/Makefile	/^SRCS = $(addprefix $(SRC_DIR)\/, $(FILES))$/;"	m
 SRC_DIR	lib/libbtree/Makefile	/^SRC_DIR = src$/;"	m
 SRC_DIR	lib/libft/Makefile	/^SRC_DIR = src$/;"	m
 SRC_DIR	lib/libgc/Makefile	/^SRC_DIR = src$/;"	m
+STATUS_SIGQUIT	includes/minishell.h	/^# define STATUS_SIGQUIT /;"	d
 SUCCESS	includes/minishell.h	/^# define SUCCESS /;"	d
 TOKEN_APPEND	includes/minishell.h	/^# define TOKEN_APPEND /;"	d
 TOKEN_HEREDOC	includes/minishell.h	/^# define TOKEN_HEREDOC /;"	d
@@ -118,6 +121,7 @@ TOKEN_PIPE	includes/minishell.h	/^# define TOKEN_PIPE /;"	d
 TOKEN_REDIR_IN	includes/minishell.h	/^# define TOKEN_REDIR_IN /;"	d
 TOKEN_REDIR_OUT	includes/minishell.h	/^# define TOKEN_REDIR_OUT /;"	d
 TRUE	includes/minishell.h	/^# define TRUE /;"	d
+TRUE	lib/libft/include/libft.h	/^# define TRUE /;"	d
 UNSET_ID	includes/minishell.h	/^# define UNSET_ID /;"	d
 WHITE_SPACE	includes/minishell.h	/^# define WHITE_SPACE /;"	d
 all	Makefile	/^all: make_libs $(NAME)$/;"	t
@@ -134,6 +138,7 @@ btree_apply_prefix	lib/libbtree/src/ft_btree.c	/^void	btree_apply_prefix(t_btree
 btree_content	includes/minishell.h	/^typedef struct btree_content$/;"	s
 btree_create_node	lib/libbtree/src/ft_btree.c	/^t_btree	*btree_create_node(void *content)$/;"	f	typeref:typename:t_btree *
 btree_split	src/ft_parsing.c	/^void	btree_split(t_btree *root, char *sep)$/;"	f	typeref:typename:void
+c_to_i	lib/libft/src/ft_atoi_err.c	/^static long int	c_to_i(char c)$/;"	f	typeref:typename:long int	file:
 change_directory	src/ft_cd.c	/^int	change_directory(char *target_dir)$/;"	f	typeref:typename:int
 check_childs	src/ft_check_pipe_syntax.c	/^int	check_childs(t_btree *root)$/;"	f	typeref:typename:int
 check_childs_rec	src/ft_check_pipe_syntax.c	/^int	check_childs_rec(t_btree *root)$/;"	f	typeref:typename:int
@@ -172,21 +177,22 @@ fclean	lib/libft/Makefile	/^fclean: clean$/;"	t
 fclean	lib/libgc/Makefile	/^fclean: clean$/;"	t
 find_path	src/ft_tokens.c	/^static char	*find_path(char *cmd, char **envp)$/;"	f	typeref:typename:char *	file:
 find_var_index	src/ft_env.c	/^int	find_var_index(char **env, char *var, size_t var_len)$/;"	f	typeref:typename:int
+forked_sig	src/ft_signals.c	/^void	forked_sig(void)$/;"	f	typeref:typename:void
 free_token	src/ft_tree_utils.c	/^void	free_token(t_token token)$/;"	f	typeref:typename:void
 free_tree	lib/libbtree/src/ft_btree.c	/^void	free_tree(t_btree *root, void (*f_free)(void *content))$/;"	f	typeref:typename:void
 ft_atoi	lib/libft/src/ft_atoi.c	/^int	ft_atoi(const char *str0)$/;"	f	typeref:typename:int
-ft_atoi_err	lib/libft/src/ft_atoi.c	/^long int	ft_atoi_err(char *str)$/;"	f	typeref:typename:long int
+ft_atoi_err	lib/libft/src/ft_atoi_err.c	/^int	ft_atoi_err(char *str)$/;"	f	typeref:typename:int
 ft_bzero	lib/libft/src/ft_bzero.c	/^void	*ft_bzero(void *s, size_t n)$/;"	f	typeref:typename:void *
 ft_calloc	lib/libft/src/ft_calloc.c	/^void	*ft_calloc(size_t count, size_t size)$/;"	f	typeref:typename:void *
 ft_cd	src/ft_cd.c	/^int	ft_cd(t_token *token)$/;"	f	typeref:typename:int
-ft_tabdup	lib/libft/src/ft_tabdup.c	/^char	**ft_tabdup(char **tab_original)$/;"	f	typeref:typename:char **
 ft_easy_sort	src/ft_export.c	/^void	ft_easy_sort(char ***t)$/;"	f	typeref:typename:void
 ft_echo	src/ft_echo.c	/^int	ft_echo(t_token *token)$/;"	f	typeref:typename:int
 ft_env	src/ft_env.c	/^int	ft_env(void)$/;"	f	typeref:typename:int
 ft_errmsg	lib/libft/src/ft_errmsg.c	/^void	ft_errmsg(char *str)$/;"	f	typeref:typename:void
-ft_exit	src/ft_exit.c	/^int	ft_exit(void)$/;"	f	typeref:typename:int
+ft_exit	src/ft_exit.c	/^int	ft_exit(t_token *token)$/;"	f	typeref:typename:int
 ft_export	src/ft_export.c	/^int	ft_export(t_token *token)$/;"	f	typeref:typename:int
 ft_free_split	lib/libft/src/ft_split.c	/^void	ft_free_split(char ***t)$/;"	f	typeref:typename:void
+ft_get_next_wd	lib/libft/src/ft_get_next_wd.c	/^char	*ft_get_next_wd(char *sentence, char sep)$/;"	f	typeref:typename:char *
 ft_getenv	src/ft_env.c	/^char	*ft_getenv(const char *var)$/;"	f	typeref:typename:char *
 ft_getenv_line	src/ft_env.c	/^char	*ft_getenv_line(const char *var)$/;"	f	typeref:typename:char *
 ft_intlen	lib/libft/src/ft_itoa.c	/^static size_t	ft_intlen(long int n)$/;"	f	typeref:typename:size_t	file:
@@ -197,11 +203,12 @@ ft_isdigit	lib/libft/src/ft_isdigit.c	/^int	ft_isdigit(int c)$/;"	f	typeref:type
 ft_ismaj	lib/libft/src/ft_isalpha.c	/^int	ft_ismaj(int c)$/;"	f	typeref:typename:int
 ft_ismin	lib/libft/src/ft_isalpha.c	/^int	ft_ismin(int c)$/;"	f	typeref:typename:int
 ft_isprint	lib/libft/src/ft_isprint.c	/^int	ft_isprint(int c)$/;"	f	typeref:typename:int
+ft_isspace	lib/libft/src/ft_atoi_err.c	/^static int	ft_isspace(const char c)$/;"	f	typeref:typename:int	file:
 ft_itoa	lib/libft/src/ft_itoa.c	/^char	*ft_itoa(int n)$/;"	f	typeref:typename:char *
 ft_lstadd_back	lib/libft/src/ft_lstadd_back.c	/^void	ft_lstadd_back(t_list **lst, t_list *new)$/;"	f	typeref:typename:void
 ft_lstadd_front	lib/libft/src/ft_lstadd_front.c	/^void	ft_lstadd_front(t_list **lst, t_list *new)$/;"	f	typeref:typename:void
 ft_lstclear	lib/libft/src/ft_lstclear.c	/^void	ft_lstclear(t_list **lst, void (*del)(void *))$/;"	f	typeref:typename:void
-ft_lstdelone	lib/libft/src/ft_lstdelone.c	/^void	ft_lstdelone(t_list **lst_addr, void (*del)(void *))$/;"	f	typeref:typename:void
+ft_lstdelone	lib/libft/src/ft_lstdelone.c	/^void	ft_lstdelone(t_list *lst, void (*del)(void *))$/;"	f	typeref:typename:void
 ft_lstiter	lib/libft/src/ft_lstiter.c	/^void	ft_lstiter(t_list *lst, void (*f)(void *))$/;"	f	typeref:typename:void
 ft_lstlast	lib/libft/src/ft_lstlast.c	/^t_list	*ft_lstlast(t_list *lst)$/;"	f	typeref:typename:t_list *
 ft_lstmap	lib/libft/src/ft_lstmap.c	/^t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))$/;"	f	typeref:typename:t_list *
@@ -213,30 +220,24 @@ ft_memcpy	lib/libft/src/ft_memcpy.c	/^void	*ft_memcpy(void *dst, const void *src
 ft_memmove	lib/libft/src/ft_memmove.c	/^void	*ft_memmove(void *dst, const void *src, size_t len)$/;"	f	typeref:typename:void *
 ft_memrcpy	lib/libft/src/ft_memmove.c	/^static void	ft_memrcpy(void *dst, const void *src, size_t len)$/;"	f	typeref:typename:void	file:
 ft_memset	lib/libft/src/ft_memset.c	/^void	*ft_memset(void *b, int c, size_t len)$/;"	f	typeref:typename:void *
-ft_printf	lib/libft/src/ft_printf.c	/^int	ft_printf(const char *str, ...)$/;"	f	typeref:typename:int
 ft_putchar_fd	lib/libft/src/ft_putchar_fd.c	/^void	ft_putchar_fd(char c, int fd)$/;"	f	typeref:typename:void
 ft_putendl_fd	lib/libft/src/ft_putendl_fd.c	/^void	ft_putendl_fd(char *s, int fd)$/;"	f	typeref:typename:void
-ft_putibase_fd	lib/libft/src/ft_printf.c	/^static size_t	ft_putibase_fd(long long int n, char *base, size_t base_len,$/;"	f	typeref:typename:size_t	file:
 ft_putnbr_fd	lib/libft/src/ft_putnbr_fd.c	/^void	ft_putnbr_fd(int n, int fd)$/;"	f	typeref:typename:void
-ft_putptr	lib/libft/src/ft_printf.c	/^static size_t	ft_putptr(unsigned long ptr, int fd)$/;"	f	typeref:typename:size_t	file:
 ft_putstr_fd	lib/libft/src/ft_putstr_fd.c	/^void	ft_putstr_fd(char *s, int fd)$/;"	f	typeref:typename:void
 ft_pwd	src/ft_pwd.c	/^int	ft_pwd(t_token *token)$/;"	f	typeref:typename:int
 ft_setenv	src/ft_env2.c	/^int	ft_setenv(char *var_line)$/;"	f	typeref:typename:int
 ft_split	lib/libft/src/ft_split.c	/^char	**ft_split(char const *s, char c)$/;"	f	typeref:typename:char **
 ft_strchr	lib/libft/src/ft_strchr.c	/^char	*ft_strchr(const char *str, int c)$/;"	f	typeref:typename:char *
-ft_strcmp	lib/libft/src/ft_strncmp.c	/^int	ft_strcmp(const char *s1, const char *s2)$/;"	f	typeref:typename:int
-ft_strcmp_until	lib/libft/src/ft_strncmp.c	/^int	ft_strcmp_until(const char *s1, const char *s2, char c)$/;"	f	typeref:typename:int
+ft_strcmp	lib/libft/src/ft_strcmp.c	/^int	ft_strcmp(const char *s1, const char *s2)$/;"	f	typeref:typename:int
 ft_strdup	lib/libft/src/ft_strdup.c	/^char	*ft_strdup(const char *str)$/;"	f	typeref:typename:char *
 ft_striteri	lib/libft/src/ft_striteri.c	/^void	ft_striteri(char *s, void (*f)(unsigned int, char *))$/;"	f	typeref:typename:void
 ft_strjoin	lib/libft/src/ft_strjoin.c	/^char	*ft_strjoin(char const *s1, char const *s2)$/;"	f	typeref:typename:char *
-ft_strjoin_free1	lib/libft/src/ft_strjoin.c	/^char	*ft_strjoin_free1(char *s1, char *s2)$/;"	f	typeref:typename:char *
-ft_strjoin_free2	lib/libft/src/ft_strjoin.c	/^char	*ft_strjoin_free2(char *s1, char *s2)$/;"	f	typeref:typename:char *
 ft_strlcat	lib/libft/src/ft_strlcat.c	/^size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)$/;"	f	typeref:typename:size_t
 ft_strlcpy	lib/libft/src/ft_strlcpy.c	/^size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)$/;"	f	typeref:typename:size_t
 ft_strlen	lib/libft/src/ft_strlen.c	/^size_t	ft_strlen(const char *str)$/;"	f	typeref:typename:size_t
 ft_strmapi	lib/libft/src/ft_strmapi.c	/^char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))$/;"	f	typeref:typename:char *
 ft_strncmp	lib/libft/src/ft_strncmp.c	/^int	ft_strncmp(const char *s1, const char *s2, size_t n)$/;"	f	typeref:typename:int
-ft_strndup	lib/libft/src/ft_strdup.c	/^char	*ft_strndup(const char *str, size_t n)$/;"	f	typeref:typename:char *
+ft_strndup	lib/libft/src/ft_strndup.c	/^char	*ft_strndup(const char *s, size_t n)$/;"	f	typeref:typename:char *
 ft_strnlen	lib/libft/src/ft_strlcat.c	/^static size_t	ft_strnlen(char *s, size_t max)$/;"	f	typeref:typename:size_t	file:
 ft_strnstr	lib/libft/src/ft_strnstr.c	/^char	*ft_strnstr(const char *str, const char *ndl, size_t len)$/;"	f	typeref:typename:char *
 ft_strnstr_quotes	src/ft_quotes_utils.c	/^char	*ft_strnstr_quotes(const char *str, const char *ndl, size_t len)$/;"	f	typeref:typename:char *
@@ -244,12 +245,13 @@ ft_strrchr	lib/libft/src/ft_strrchr.c	/^char	*ft_strrchr(char *s, int c)$/;"	f	t
 ft_strtrim	lib/libft/src/ft_strtrim.c	/^char	*ft_strtrim(char const *str, char const *set)$/;"	f	typeref:typename:char *
 ft_substr	lib/libft/src/ft_substr.c	/^char	*ft_substr(char const *s, unsigned int start, size_t len)$/;"	f	typeref:typename:char *
 ft_swap	src/ft_export.c	/^void	ft_swap(char **a, char **b)$/;"	f	typeref:typename:void
-ft_tablen	lib/libft/src/ft_tab_utils.c	/^int	ft_tablen(char **tab)$/;"	f	typeref:typename:int
+ft_tabdup	lib/libft/src/ft_tabdup.c	/^char	**ft_tabdup(char **tab_original)$/;"	f	typeref:typename:char **
+ft_tablen	lib/libft/src/ft_tablen.c	/^size_t	ft_tablen(char **tab)$/;"	f	typeref:typename:size_t
 ft_tolower	lib/libft/src/ft_tolower.c	/^int	ft_tolower(int c)$/;"	f	typeref:typename:int
 ft_toupper	lib/libft/src/ft_toupper.c	/^int	ft_toupper(int c)$/;"	f	typeref:typename:int
 ft_unset	src/ft_env2.c	/^int	ft_unset(t_token *token)$/;"	f	typeref:typename:int
 ft_varlen	src/ft_variables.c	/^int	ft_varlen(const char *var)$/;"	f	typeref:typename:int
-ft_wd_count	lib/libft/src/ft_split.c	/^static int	ft_wd_count(char *str, char sep)$/;"	f	typeref:typename:int	file:
+ft_wd_count	lib/libft/src/ft_wd_count.c	/^int	ft_wd_count(char *str, char sep)$/;"	f	typeref:typename:int
 g_d	main.c	/^t_data	g_d;$/;"	v	typeref:typename:t_data
 gc	includes/minishell.h	/^	t_list		*gc;$/;"	m	struct:s_data	typeref:typename:t_list *
 gc_append	lib/libgc/src/gc.c	/^void	*gc_append(t_list **gc_addr, void *ptr)$/;"	f	typeref:typename:void *
@@ -278,6 +280,8 @@ handle_pipe_failure	src/ft_handle_failures.c	/^void	handle_pipe_failure(int resu
 handle_redir_in	src/ft_redir.c	/^void	handle_redir_in(t_token *tok)$/;"	f	typeref:typename:void
 handle_redir_out	src/ft_redir.c	/^void	handle_redir_out(t_token *tok)$/;"	f	typeref:typename:void
 handle_sigint	src/ft_signals.c	/^void	handle_sigint(int sig)$/;"	f	typeref:typename:void
+handle_sigquit_forked	src/ft_signals.c	/^void	handle_sigquit_forked(int sig)$/;"	f	typeref:typename:void
+handle_variable_expansion	src/ft_var_substitution.c	/^char	*handle_variable_expansion(char **result, char *var_name, size_t *i_result)$/;"	f	typeref:typename:char *
 heredoc	includes/minishell.h	/^	int			heredoc;$/;"	m	struct:s_token	typeref:typename:int
 ignoreFailures	.vscode/launch.json	/^					"ignoreFailures": true$/;"	b	object:configurations.0.setupCommands.0
 ignoreFailures	.vscode/launch.json	/^					"ignoreFailures": true$/;"	b	object:configurations.0.setupCommands.1
@@ -288,13 +292,13 @@ is_blank	src/ft_parsing.c	/^int	is_blank(char *str)$/;"	f	typeref:typename:int
 is_builtin	src/ft_builtins.c	/^int	is_builtin(t_token *token)$/;"	f	typeref:typename:int
 is_operand	src/ft_op_grep_skip.c	/^int	is_operand(char *cmd)$/;"	f	typeref:typename:int
 is_pipe	src/ft_tokenization_recursive.c	/^int	is_pipe(t_btree *node)$/;"	f	typeref:typename:int
+is_quote_opened	src/ft_quotes.c	/^int	is_quote_opened(char *str)$/;"	f	typeref:typename:int
 is_quoted	src/ft_quotes_utils.c	/^int	is_quoted(char c, int buff, int action)$/;"	f	typeref:typename:int
 is_to_substitute	src/ft_var_substitution.c	/^int	is_to_substitute(char *var)$/;"	f	typeref:typename:int
 is_valid_var_name	src/ft_variables.c	/^int	is_valid_var_name(const char *var)$/;"	f	typeref:typename:int
 is_var_in_env	src/ft_variables.c	/^int	is_var_in_env(const char *var)$/;"	f	typeref:typename:int
 left	lib/libbtree/include/btree.h	/^	struct s_btree	*left;$/;"	m	struct:s_btree	typeref:struct:s_btree *
 load_until_line	src/get_next_line.c	/^char	*load_until_line(int fd, char **buff)$/;"	f	typeref:typename:char *
-loop_norminette	lib/libft/src/ft_printf_utils.c	/^void	loop_norminette(char **str_addr, va_list ap, int *p_itm, int *ret_val)$/;"	f	typeref:typename:void
 main	main.c	/^int	main(int argc, char **argv, char **envp)$/;"	f	typeref:typename:int
 make_libs	Makefile	/^make_libs:$/;"	t
 make_str	lib/libft/src/ft_itoa.c	/^static void	make_str(long int *n, char *str, int len)$/;"	f	typeref:typename:void	file:
@@ -312,13 +316,12 @@ pop_line	src/get_next_line.c	/^char	*pop_line(char *buff)$/;"	f	typeref:typename
 prepend_path	src/ft_tokens.c	/^void	prepend_path(char **cmd)$/;"	f	typeref:typename:void
 print_export	src/ft_export.c	/^void	print_export(char **tab)$/;"	f	typeref:typename:void
 print_gc	lib/libgc/src/gc.c	/^void	print_gc(t_list *gc)$/;"	f	typeref:typename:void
-print_item	lib/libft/src/ft_printf.c	/^static int	print_item(va_list ap, char c)$/;"	f	typeref:typename:int	file:
 print_node_content	src/ft_tree_free.c	/^void	print_node_content(void *content)$/;"	f	typeref:typename:void
 print_tab	main.c	/^void	print_tab(char **tab)$/;"	f	typeref:typename:void
 print_tree	lib/libbtree/src/display_tree.c	/^void	print_tree(t_btree *root, int space, void (*print)(void *content))$/;"	f	typeref:typename:void
 process_dollar	src/ft_var_substitution.c	/^char	*process_dollar(char *input, size_t *i_input, size_t *i_result,$/;"	f	typeref:typename:char *
+process_valid_variable	src/ft_var_substitution.c	/^void	process_valid_variable(char *input, size_t var_start, size_t var_len,$/;"	f	typeref:typename:void
 program	.vscode/launch.json	/^			"program": "${workspaceFolder}\/minishell",$/;"	s	object:configurations.0
-putubase	lib/libft/src/ft_printf.c	/^static size_t	putubase(long long unsigned n, char *base, size_t base_len,$/;"	f	typeref:typename:size_t	file:
 re	Makefile	/^re: fclean all$/;"	t
 re	lib/libbtree/Makefile	/^re: fclean $(NAME)$/;"	t
 re	lib/libft/Makefile	/^re: fclean all$/;"	t
@@ -330,7 +333,6 @@ redir_in	includes/minishell.h	/^	char		*redir_in;$/;"	m	struct:s_token	typeref:t
 redir_out	includes/minishell.h	/^	char		*redir_out;$/;"	m	struct:s_token	typeref:typename:char *
 remove_var_from_env	src/ft_env2.c	/^void	remove_var_from_env(char **env, int index)$/;"	f	typeref:typename:void
 request	.vscode/launch.json	/^			"request": "launch",$/;"	s	object:configurations.0
-reset_signals	src/ft_signals.c	/^void	reset_signals(void)$/;"	f	typeref:typename:void
 reset_stdin	src/ft_dup.c	/^void	reset_stdin(int stdin_fd)$/;"	f	typeref:typename:void
 restore_stds	src/ft_dup.c	/^void	restore_stds(int *saved_std)$/;"	f	typeref:typename:void
 right	lib/libbtree/include/btree.h	/^	struct s_btree	*right;$/;"	m	struct:s_btree	typeref:struct:s_btree *
@@ -368,7 +370,7 @@ substr_right	src/ft_parsing.c	/^char	*substr_right(char *node_content, char *fou
 t_btree	lib/libbtree/include/btree.h	/^}					t_btree;$/;"	t	typeref:struct:s_btree
 t_btree_content	includes/minishell.h	/^}				t_btree_content;$/;"	t	typeref:struct:btree_content
 t_data	includes/minishell.h	/^}				t_data;$/;"	t	typeref:struct:s_data
-t_list	lib/libft/include/libft.h	/^}					t_list;$/;"	t	typeref:struct:s_list
+t_list	lib/libft/include/libft.h	/^}	t_list;$/;"	t	typeref:struct:s_list
 t_token	includes/minishell.h	/^}				t_token;$/;"	t	typeref:struct:s_token
 text	.vscode/launch.json	/^					"text": "-enable-pretty-printing",$/;"	s	object:configurations.0.setupCommands.0
 text	.vscode/launch.json	/^					"text": "-gdb-set disassembly-flavor intel",$/;"	s	object:configurations.0.setupCommands.1

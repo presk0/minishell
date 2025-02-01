@@ -21,7 +21,7 @@ void	execve_node(t_btree *node)
 		return ;
 	content = node->content;
 	token = &(content->token);
-	reset_signals();
+	forked_sig();
 	execve(token->cmd, token->args, g_d.env);
 	minishell_exit(token->cmd, CMD_NOT_FOUND);
 }

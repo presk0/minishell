@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/27 22:27:35 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/01 19:32:06 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void	remove_var_from_env(char **env, int index)
 {
 	gc_free_item(&g_d.gc, env[index]);
+	env[index] = env[index + 1];
+	index++;
 	while (env[index] != NULL)
 	{
 		env[index] = env[index + 1];
@@ -25,13 +27,17 @@ void	remove_var_from_env(char **env, int index)
 
 int	unset_var_in_env(char *var)
 {
+	printf("coucou");
 	int		var_index;
 	size_t	var_len;
 
 	if (!g_d.env || !var)
 		return (FAILURE);
 	var_len = ft_strlen(var);
+	printf("var: %s\n", var);
+	printf("var_len: %zu\n", var_len);
 	var_index = find_var_index(g_d.env, var, var_len);
+	printf("var_index: %d\n", var_index);
 	if (var_index == -1)
 		return (FAILURE);
 	remove_var_from_env(g_d.env, var_index);

@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 00:10:34 by nidionis          #+#    #+#             */
-/*   Updated: 2025/02/01 16:22:38 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/01 19:39:42 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static char	*find_path(char *cmd, char **envp)
 		return (gc_strdup(&g_d.gc, cmd));
 	if (ft_strncmp(cmd, "./", 2) == 0)
 		return (gc_strdup(&g_d.gc, cmd));
-	while (ft_strnstr(envp[i], "PATH=", 5) == 0)
+	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) == 0)
 		i++;
 	paths = ft_split(envp[i] + 5, ':');
 	i = 0;
