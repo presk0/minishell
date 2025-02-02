@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/02/01 19:35:26 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/02 23:15:59 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ typedef struct s_data
 	t_list		*gc;
 	t_btree		*cmd_tree;
 	int			status;
-	int			sigint_received;
 }				t_data;
 
 extern t_data	g_d;

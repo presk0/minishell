@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/24 00:34:14 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/02 23:12:08 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	handle_sigquit_forked(int sig)
 {
 	(void)sig;
-	write(STDERR_FILENO, "Quit\n", 6);
+	g_d.sigquit_forked = 1;
 	minishell_exit("init_sig", STATUS_SIGQUIT);
 }
 
@@ -41,7 +41,6 @@ void	handle_sigint(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	g_d.sigint_received = 1;
 }
 
 void	init_sig(void)

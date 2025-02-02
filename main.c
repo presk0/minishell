@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 00:24:39 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/28 15:06:32 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/02 23:15:54 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	minishell(char **envp)
 	g_d.gc = NULL;
 	g_d.status = 0;
 	g_d.env = duplicate_tab(envp);
-	g_d.sigint_received = 0;
 	inc_shlvl();
 	while (1)
 	{
