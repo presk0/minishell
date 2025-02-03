@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 00:10:34 by nidionis          #+#    #+#             */
-/*   Updated: 2025/02/03 17:41:18 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/03 17:58:10 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static char	*find_path(char *cmd, char **envp)
 		paths = ft_split(envp[i] + 5, ':');
 	i = 0;
 	path = NULL;
-	if (paths[i])
+	if (paths && paths[i])
 		while (paths[i] && !path)
 			path = is_available_path(paths[i++], cmd);
 	ft_free_split(&paths);
