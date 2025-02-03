@@ -1,2 +1,0 @@
-skip_op_and_args -> preferer strcpy ou memmove ?
-

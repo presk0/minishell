@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 00:10:34 by nidionis          #+#    #+#             */
-/*   Updated: 2025/02/02 23:30:18 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/03 14:36:01 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	prepend_path(char **cmd)
 	if (!cmd)
 		return ;
 	path_available = find_path(*cmd, g_d.env);
-	printf("path_available: %s\n", path_available);
 	if (path_available)
 	{
 		gc_free_item(&g_d.gc, *cmd);
