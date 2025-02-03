@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/02/02 23:12:08 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/03 01:12:11 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	handle_sigquit_forked(int sig)
 {
 	(void)sig;
-	g_d.sigquit_forked = 1;
 	minishell_exit("init_sig", STATUS_SIGQUIT);
 }
 
