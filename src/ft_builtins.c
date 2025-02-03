@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/02/01 18:53:23 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/03 17:20:52 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ int	exec_builtin_scotch(t_btree *node)
 
 int	is_builtin(t_token *token)
 {
+	if (!token->cmd)
+		return (0);
 	if (ft_strcmp(token->cmd, "echo") == 0)
 		return (ECHO_ID);
 	else if (ft_strcmp(token->cmd, "cd") == 0)

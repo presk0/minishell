@@ -6,13 +6,12 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 00:24:39 by nidionis          #+#    #+#             */
-/*   Updated: 2025/02/02 23:15:54 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/03 17:54:24 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-/*
 char	*rl_quoted()
 {
 	char	*line;
@@ -38,7 +37,6 @@ char	*rl_quoted()
 	}
 	return (closed_line);
 }
-*/
 
 void	minishell(char **envp)
 {
@@ -51,15 +49,12 @@ void	minishell(char **envp)
 	inc_shlvl();
 	while (1)
 	{
-		line = readline(PS1);
-		if (gc_append(&g_d.gc, line))
-		{
-			run_line(line);
-			add_history(line);
-			gc_free_item(&g_d.gc, line);
-		}
-		else
-			minishell_exit(NULL, ERR_GC_APPEND);
+		line = rl_quoted();
+		if (!line)
+			minishell_exit(NULL, 0);
+		run_line(line);
+		add_history(line);
+		gc_free_item(&g_d.gc, line);
 	}
 }
 
