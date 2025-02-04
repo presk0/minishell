@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 00:10:34 by nidionis          #+#    #+#             */
-/*   Updated: 2025/02/04 00:39:57 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/04 01:42:58 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*save_token_cmd(t_data *d, char *cmd, t_token *token)
 {
 	char	*itm;
 
-	itm = strdup_wd_quote(cmd);
+	itm = strdup_wd_quote(d, cmd);
 	if (itm)
 	{
 		if (!token->cmd)

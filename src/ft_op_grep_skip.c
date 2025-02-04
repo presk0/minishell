@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/27 21:47:20 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/04 01:40:23 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ char	*skip_op_and_arg(char *str, char op)
 	return (str + strlen_wd_quoted(str));
 }
 
-char	*grep_token(char op, char *cmd)
+char	*grep_token(t_data *d, char op, char *cmd)
 {
 	cmd = skip_operand(cmd, op);
-	return (strdup_wd_quote(cmd));
+	return (strdup_wd_quote(d, cmd));
 }

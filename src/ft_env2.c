@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/02/04 00:01:21 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/04 01:39:05 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	ft_setenv(t_data *d, char *var_line)
 			var = gc_strndup(&d->gc, var_line, var_len);
 			unset_var_in_env(d, var);
 			gc_free_item(&d->gc, var);
-			append_tab(&d->env, gc_strdup(&d->gc, var_line));
+			append_tab(d, &d->env, gc_strdup(&d->gc, var_line));
 		}
 	}
 	else

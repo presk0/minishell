@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/02/04 01:09:03 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/04 01:57:19 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@
 # define ERR 2
 # define STATUS_SIGQUIT 131
 
+extern int child_opened;
+
 typedef struct s_data
 {
 	char		**env;
@@ -92,8 +94,6 @@ typedef struct s_data
 	t_btree		*cmd_tree;
 	int			status;
 }				t_data;
-
-extern t_data	g_d;
 
 typedef struct s_token
 {
@@ -117,7 +117,7 @@ typedef struct s_norminette_sucks
 	char	*input;
 	size_t	i_input;
 	char	*result;
-	size_t	*i_result;
+	size_t	i_result;
 }			t_norminette_sucks;
 
 void	set_cmd_id(t_token *token);
@@ -168,7 +168,7 @@ int		handle_heredoc(char *delimiter);
 int		is_operand(char *cmd);
 char	*skip_operand(char *cmd, char op);
 char	*skip_op_and_arg(char *str, char op);
-char	*grep_token(char op, char *cmd);
+char	*grep_token(t_data *d, char op, char *cmd);
 char	*save_and_skip_redir_out(t_data *d, char *cmd, t_token *token);
 char	*save_and_skip_redir_in(t_data *d, char *cmd, t_token *token);
 char	*save_and_skip_here_doc(t_data *d, char *cmd, t_token *token);

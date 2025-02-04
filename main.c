@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 00:24:39 by nidionis          #+#    #+#             */
-/*   Updated: 2025/02/04 00:57:08 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/04 01:59:36 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void	print_tab(char **tab)
 		while (*tab)
 			printf("%s\n", *tab++);
 }
+
+int	child_opened;
 
 int	main(int argc, char **argv, char **envp)
 {

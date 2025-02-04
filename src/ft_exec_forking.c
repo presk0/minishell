@@ -6,7 +6,7 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/02/04 00:07:21 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/04 01:39:37 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	run_line(t_data *d, char *line)
 	line_cpy = ft_strdup(line);
 	content->cmd = line_cpy;
 	gc_append(&d->gc, line_cpy);
-	d->cmd_tree = new_node(content);
+	d->cmd_tree = new_node(d, content);
 	exec_whole_line(d);
 }
 
