@@ -37,7 +37,7 @@ int	ft_exit(t_data *d, t_token *token)
 														token->args[1]);
 		d->status = 0;
 	}
-	d->status = exit_status;
+	d->status = (int)exit_status;
 	minishell_exit(d, NULL, d->status);
 	return (0);
 }

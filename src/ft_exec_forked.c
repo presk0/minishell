@@ -37,6 +37,10 @@ int	exec_forking(t_data *d, t_btree *node)
 	if (pid == 0)
 		execve_node(d, node);
 	waitpid(pid, &d->status, 0);
+	if (WIFEXITED(d->status))
+		d->status = WEXITSTATUS(d->status);
+	else
+		d->status = 128 + WTERMSIG(d->status);
 	init_sig(d);
 	return (d->status);
 }
