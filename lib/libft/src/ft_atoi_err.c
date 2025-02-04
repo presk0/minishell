@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 19:13:11 by supersko          #+#    #+#             */
-/*   Updated: 2025/02/01 17:14:25 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/04 17:34:17 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_atoi_err(char *str)
 		nbr *= 10;
 		nbr += (long int)c_to_i(*str++);
 		if (nbr > 2147483647)
-			ft_errmsg("[ft_atoi_err] not int value");
+			return (nbr);
 	}
 	if (*str)
 		ft_errmsg(NULL);
