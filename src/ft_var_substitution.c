@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/02/04 00:49:17 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/04 02:24:58 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ size_t	append_until_dollar(t_data *d, t_norminette_sucks *v)
 {
 	size_t	next_dollar;
 
-	next_dollar = strlen_char_simple_quoted(v->input + v->i_input, '$', BUFF_SUBVAR);
+	next_dollar = strlen_char_simple_quoted(v->input + v->i_input, '$', \
+			BUFF_SUBVAR);
 	if (next_dollar)
 		v->i_result = gc_strlcat(&d->gc, &v->result, &v->input[v->i_input],
 				ft_strlen(v->result) + next_dollar);

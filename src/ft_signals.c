@@ -6,16 +6,17 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/02/04 02:15:32 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/04 02:25:42 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void sigchld_handler(int sig)
+void	sigchld_handler(int sig)
 {
-    (void)sig;
-    while (waitpid(-1, NULL, WNOHANG) > 0);
+	(void)sig;
+	while (waitpid(-1, NULL, WNOHANG) > 0)
+		continue ;
 }
 
 void	handle_sigquit_forked(int sig)
@@ -58,13 +59,7 @@ void	init_sig(t_data *d)
 	sigemptyset(&sa_quit.sa_mask);
 	sigaction(SIGQUIT, &sa_quit, NULL);
 	sa_child.sa_handler = sigchld_handler;
-    sigemptyset(&sa_child.sa_mask);
-    sa_child.sa_flags = SA_RESTART | SA_NOCLDSTOP;
-    sigaction(SIGCHLD, &sa_child, NULL);
-}
-
-void	wait_for_child(t_data *d, pid_t pid)
-{
-	if (waitpid(pid, &d->status, 0) == -1)
-		perror("waitpid");
+	sigemptyset(&sa_child.sa_mask);
+	sa_child.sa_flags = SA_RESTART | SA_NOCLDSTOP;
+	sigaction(SIGCHLD, &sa_child, NULL);
 }
