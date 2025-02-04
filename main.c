@@ -43,16 +43,17 @@ void	minishell(char **envp)
 	char	*line;
 	t_data	d;
 
-	init_sig(&d);
 	d.gc = NULL;
 	d.status = 0;
 	d.env = duplicate_tab(&d, envp);
 	inc_shlvl(&d);
 	while (1)
 	{
+		init_sig(&d);
 		line = rl_quoted(&d);
 		if (!line)
 			minishell_exit(&d, NULL, 0);
+		g_child_opened = 0;
 		run_line(&d, line);
 		add_history(line);
 		gc_free_item(&d.gc, line);
@@ -66,7 +67,7 @@ void	print_tab(char **tab)
 			printf("%s\n", *tab++);
 }
 
-int	child_opened;
+int	g_child_opened;
 
 int	main(int argc, char **argv, char **envp)
 {

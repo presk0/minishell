@@ -21,7 +21,7 @@ void	execve_node(t_data *d, t_btree *node)
 		return ;
 	content = node->content;
 	token = &(content->token);
-	forked_sig();
+	sig_default();
 	execve(token->cmd, token->args, d->env);
 	minishell_exit(d, token->cmd, CMD_NOT_FOUND);
 }
@@ -30,11 +30,13 @@ int	exec_forking(t_data *d, t_btree *node)
 {
 	pid_t	pid;
 
+	sig_ignores();
 	pid = fork();
 	if (pid == -1)
 		minishell_exit(d, "[exec_forking] fork failed", -1);
 	if (pid == 0)
 		execve_node(d, node);
 	waitpid(pid, &d->status, 0);
+	init_sig(d);
 	return (d->status);
 }

@@ -19,21 +19,22 @@ void	sigchld_handler(int sig)
 		continue ;
 }
 
-void	handle_sigquit_forked(int sig)
-{
-	(void)sig;
-	exit(131);
-}
-
-void	forked_sig(void)
+void	sig_default(void)
 {
 	struct sigaction	sa_quit;
 
 	(void)sa_quit;
-	if (signal(SIGINT, SIG_DFL) == SIG_ERR)
-		perror("Erreur lors de la réinitialisation de SIGINT");
-	if (signal(SIGTERM, SIG_DFL) == SIG_ERR)
-		perror("Erreur lors de la réinitialisation de SIGTERM");
+	signal(SIGINT, SIG_DFL);
+	signal(SIGTERM, SIG_DFL);
+}
+
+void	sig_ignores(void)
+{
+	struct sigaction	sa_quit;
+
+	(void)sa_quit;
+	signal(SIGINT, SIG_IGN);
+	signal(SIGTERM, SIG_IGN);
 }
 
 void	handle_sigint(int sig)
@@ -52,14 +53,17 @@ void	init_sig(t_data *d)
 	struct sigaction	sa_child;
 
 	(void)d;
-	sa_int.sa_handler = handle_sigint;
-	sigemptyset(&sa_int.sa_mask);
-	sigaction(SIGINT, &sa_int, NULL);
-	sa_quit.sa_handler = SIG_IGN;
-	sigemptyset(&sa_quit.sa_mask);
-	sigaction(SIGQUIT, &sa_quit, NULL);
-	sa_child.sa_handler = sigchld_handler;
-	sigemptyset(&sa_child.sa_mask);
-	sa_child.sa_flags = SA_RESTART | SA_NOCLDSTOP;
-	sigaction(SIGCHLD, &sa_child, NULL);
+	if (!g_child_opened)
+	{
+		sa_int.sa_handler = handle_sigint;
+		sigemptyset(&sa_int.sa_mask);
+		sigaction(SIGINT, &sa_int, NULL);
+		sa_quit.sa_handler = SIG_IGN;
+		sigemptyset(&sa_quit.sa_mask);
+		sigaction(SIGQUIT, &sa_quit, NULL);
+		sa_child.sa_handler = sigchld_handler;
+		sigemptyset(&sa_child.sa_mask);
+		//sa_child.sa_flags = SA_RESTART;
+		sigaction(SIGCHLD, &sa_child, NULL);
+	}
 }

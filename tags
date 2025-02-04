@@ -165,7 +165,7 @@ fclean	lib/libft/Makefile	/^fclean: clean$/;"	t
 fclean	lib/libgc/Makefile	/^fclean: clean$/;"	t
 find_path	src/ft_tokens.c	/^static char	*find_path(char *cmd, char **envp)$/;"	f	typeref:typename:char *	file:
 find_var_index	src/ft_env.c	/^int	find_var_index(char **env, char *var, size_t var_len)$/;"	f	typeref:typename:int
-forked_sig	src/ft_signals.c	/^void	forked_sig(void)$/;"	f	typeref:typename:void
+sig_ignores	src/ft_signals.c	/^void	sig_ignores(void)$/;"	f	typeref:typename:void
 free_token	src/ft_tree_utils.c	/^void	free_token(t_token token)$/;"	f	typeref:typename:void
 free_tree	lib/libbtree/src/ft_btree.c	/^void	free_tree(t_btree *root, void (*f_free)(void *content))$/;"	f	typeref:typename:void
 ft_atoi	lib/libft/src/ft_atoi.c	/^int	ft_atoi(const char *str0)$/;"	f	typeref:typename:int
@@ -357,5 +357,4 @@ tokenize_content	src/ft_tokenization_recursive.c	/^void	tokenize_content(t_btree
 unset_var_in_env	src/ft_env2.c	/^int	unset_var_in_env(char *var)$/;"	f	typeref:typename:int
 update_env_variables	src/ft_cd.c	/^void	update_env_variables(char *oldpwd, char *cwd)$/;"	f	typeref:typename:void
 var_len	src/ft_variables.c	/^size_t	var_len(char *var)$/;"	f	typeref:typename:size_t
-wait_for_child	src/ft_signals.c	/^void	wait_for_child(pid_t pid)$/;"	f	typeref:typename:void
 write_line_to_pipe	src/ft_heredoc.c	/^void	write_line_to_pipe(int pipe_fd[2], char **line_addr)$/;"	f	typeref:typename:void
