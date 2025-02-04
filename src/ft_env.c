@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/02/01 18:53:23 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/03 23:34:59 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,48 +26,48 @@ int	find_var_index(char **env, char *var, size_t var_len)
 	return (-1);
 }
 
-int	ft_env(void)
+int	ft_env(t_data *d)
 {
 	int	i;
 
 	i = 0;
-	while (g_d.env[i] != NULL)
+	while (d->env[i] != NULL)
 	{
-		printf("%s\n", g_d.env[i]);
+		printf("%s\n", d->env[i]);
 		i++;
 	}
 	return (0);
 }
 
-char	*ft_getenv_line(const char *var)
+char	*ft_getenv_line(t_data *d, const char *var)
 {
 	size_t	var_len;
 	int		i;
 
 	var_len = ft_strlen(var);
 	i = 0;
-	while (g_d.env[i] != NULL)
+	while (d->env[i] != NULL)
 	{
-		if (!ft_strncmp(g_d.env[i], var, var_len) && g_d.env[i][var_len] == '=')
-			return (g_d.env[i]);
+		if (!ft_strncmp(d->env[i], var, var_len) && d->env[i][var_len] == '=')
+			return (d->env[i]);
 		i++;
 	}
 	return (NULL);
 }
 
-char	*ft_getenv(const char *var)
+char	*ft_getenv(t_data *d, const char *var)
 {
 	size_t	var_len;
 	int		i;
 
 	var_len = ft_strlen(var);
 	i = 0;
-	while (g_d.env[i] != NULL)
+	while (d->env[i] != NULL)
 	{
-		if (!ft_strncmp(g_d.env[i], var, var_len) && g_d.env[i][var_len] == '=')
-			return (g_d.env[i] + var_len + 1);
+		if (!ft_strncmp(d->env[i], var, var_len) && d->env[i][var_len] == '=')
+			return (d->env[i] + var_len + 1);
 		i++;
 	}
-	g_d.status = CLEAN_EXIT;
+	d->status = CLEAN_EXIT;
 	return (NULL);
 }

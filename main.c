@@ -6,13 +6,13 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 00:24:39 by nidionis          #+#    #+#             */
-/*   Updated: 2025/02/03 17:54:24 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/04 00:57:08 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-char	*rl_quoted()
+char	*rl_quoted(t_data *d)
 {
 	char	*line;
 	char	*closed_line;
@@ -26,10 +26,10 @@ char	*rl_quoted()
 	while (quote && line)
 	{
 		line = readline(prompt);
-		if (gc_append(&g_d.gc, line))
+		if (gc_append(&d->gc, line))
 		{
-			gc_strcat(&g_d.gc, &closed_line, line);
-			gc_free_item(&g_d.gc, line);
+			gc_strcat(&d->gc, &closed_line, line);
+			gc_free_item(&d->gc, line);
 			quote = is_quote_opened(closed_line);
 			if (quote)
 				ft_strlcpy(prompt, "> ", 3);
@@ -41,24 +41,23 @@ char	*rl_quoted()
 void	minishell(char **envp)
 {
 	char	*line;
+	t_data	d;
 
-	init_sig();
-	g_d.gc = NULL;
-	g_d.status = 0;
-	g_d.env = duplicate_tab(envp);
-	inc_shlvl();
+	init_sig(&d);
+	d.gc = NULL;
+	d.status = 0;
+	d.env = duplicate_tab(&d, envp);
+	inc_shlvl(&d);
 	while (1)
 	{
-		line = rl_quoted();
+		line = rl_quoted(&d);
 		if (!line)
-			minishell_exit(NULL, 0);
-		run_line(line);
+			minishell_exit(&d, NULL, 0);
+		run_line(&d, line);
 		add_history(line);
-		gc_free_item(&g_d.gc, line);
+		gc_free_item(&d.gc, line);
 	}
 }
-
-t_data	g_d;
 
 void	print_tab(char **tab)
 {

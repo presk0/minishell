@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/27 19:52:16 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/04 01:08:37 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,16 @@ int	is_valid_var_name(const char *var)
 	return (TRUE);
 }
 
-int	is_var_in_env(const char *var)
+int	is_var_in_env(t_data *d, const char *var)
 {
 	size_t	var_len;
 	int		i;
 
 	i = 0;
 	var_len = strlen(var);
-	while (g_d.env[i] != NULL)
+	while (d->env[i] != NULL)
 	{
-		if (!strncmp(g_d.env[i], var, var_len) && g_d.env[i][var_len] == '=')
+		if (!strncmp(d->env[i], var, var_len) && d->env[i][var_len] == '=')
 			return (TRUE);
 		i++;
 	}

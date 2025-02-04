@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/28 00:32:28 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/04 00:00:52 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 void	reset_stdin(int stdin_fd)
 {
-	if (dup2(stdin_fd, STDIN_FILENO) == -1)
-		minishell_exit("[rec_exec] dup2 failed", -1);
+	dup2(stdin_fd, STDIN_FILENO);
 }
 
 void	save_stds(int *saved_std)

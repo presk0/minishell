@@ -6,13 +6,13 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/02/01 18:53:23 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/03 22:43:06 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int	ft_echo(t_token *token)
+int	ft_echo(t_data *d, t_token *token)
 {
 	int	newline;
 	int	i;
@@ -33,6 +33,6 @@ int	ft_echo(t_token *token)
 	}
 	if (newline)
 		write(STDOUT_FILENO, "\n", 1);
-	g_d.status = CLEAN_EXIT;
+	d->status = CLEAN_EXIT;
 	return (CLEAN_EXIT);
 }

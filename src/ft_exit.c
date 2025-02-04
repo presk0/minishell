@@ -6,24 +6,26 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/02/01 19:54:25 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/04 00:08:17 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	minishell_exit(char *errmsg, int status)
+void	minishell_exit(t_data *d, char *errmsg, int status)
 {
 	if (errmsg)
 		perror(errmsg);
 	else
 		printf("exit\n");
+	if (status > 255)
+		status = -1;
 	rl_clear_history();
-	gc_free_all(&g_d.gc);
+	gc_free_all(&d->gc);
 	exit(status);
 }
 
-int	ft_exit(t_token *token)
+int	ft_exit(t_data *d, t_token *token)
 {
 	long int	exit_status;
 
@@ -33,9 +35,9 @@ int	ft_exit(t_token *token)
 		if (exit_status > INT_MAX)
 			printf("bash: exit: %s: numeric argument required\n", \
 														token->args[1]);
-		g_d.status = 0;
+		d->status = 0;
 	}
-	g_d.status = exit_status;
-	minishell_exit(NULL, g_d.status);
+	d->status = exit_status;
+	minishell_exit(d, NULL, d->status);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 00:10:34 by nidionis          #+#    #+#             */
-/*   Updated: 2025/02/03 17:58:10 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/04 00:39:57 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	*is_available_path(char *path_i, char *cmd)
 	return (NULL);
 }
 
-static char	*find_path(char *cmd, char **envp)
+static char	*find_path(t_data *d, char *cmd, char **envp)
 {
 	char	**paths;
 	char	*path;
@@ -42,9 +42,9 @@ static char	*find_path(char *cmd, char **envp)
 		return (NULL);
 	if (ft_strncmp(cmd, "/", 1) == 0)
 		if (access(cmd, F_OK) == 0)
-			return (gc_strdup(&g_d.gc, cmd));
+			return (gc_strdup(&d->gc, cmd));
 	if (ft_strncmp(cmd, "./", 2) == 0)
-		return (gc_strdup(&g_d.gc, cmd));
+		return (gc_strdup(&d->gc, cmd));
 	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5) != 0)
 		i++;
 	paths = NULL;
@@ -56,31 +56,31 @@ static char	*find_path(char *cmd, char **envp)
 		while (paths[i] && !path)
 			path = is_available_path(paths[i++], cmd);
 	ft_free_split(&paths);
-	return (gc_append(&g_d.gc, path));
+	return (gc_append(&d->gc, path));
 }
 
-void	prepend_path(char **cmd)
+void	prepend_path(t_data *d, char **cmd)
 {
 	char	*path_available;
 
 	if (!cmd)
 		return ;
-	path_available = find_path(*cmd, g_d.env);
+	path_available = find_path(d, *cmd, d->env);
 	if (path_available)
 	{
-		gc_free_item(&g_d.gc, *cmd);
+		gc_free_item(&d->gc, *cmd);
 		*cmd = path_available;
 	}
 	else
 	{
 		if (*cmd)
 			printf("%s: command not found\n", *cmd);
-		gc_free_tree(g_d.gc, &g_d.cmd_tree, gc_free_node_content);
-		g_d.status = CMD_NOT_FOUND;
+		gc_free_tree(d->gc, &d->cmd_tree, gc_free_node_content);
+		d->status = CMD_NOT_FOUND;
 	}
 }
 
-char	*save_token_cmd(char *cmd, t_token *token)
+char	*save_token_cmd(t_data *d, char *cmd, t_token *token)
 {
 	char	*itm;
 
@@ -91,16 +91,16 @@ char	*save_token_cmd(char *cmd, t_token *token)
 			token->cmd = itm;
 		if (*itm == '\0')
 		{
-			gc_free_item(&g_d.gc, itm);
+			gc_free_item(&d->gc, itm);
 			return (++cmd);
 		}
 		else
-			append_tab(&(token->args), itm);
+			append_tab(d, &(token->args), itm);
 	}
 	return (cmd + strlen_wd_quoted(cmd));
 }
 
-t_token	*tokenize_cmd(char *cmd, t_token *token)
+t_token	*tokenize_cmd(t_data *d, char *cmd, t_token *token)
 {
 	int	op;
 
@@ -111,17 +111,17 @@ t_token	*tokenize_cmd(char *cmd, t_token *token)
 	{
 		op = is_operand(cmd);
 		if (op == -1)
-			return (gc_free_item(&g_d.gc, token), NULL);
+			return (gc_free_item(&d->gc, token), NULL);
 		if (op && !is_quoted(*cmd, BUFF_TOK_CMD, SAVE))
-			cmd = save_token_op(cmd, op, token);
+			cmd = save_token_op(d, cmd, op, token);
 		else if (!op && !ft_strchr(WHITE_SPACE, *cmd))
-			cmd = save_token_cmd(cmd, token);
+			cmd = save_token_cmd(d, cmd, token);
 		else
 			cmd++;
 	}
-	substitute_var_in_token(token);
+	substitute_var_in_token(d, token);
 	if (!is_builtin(token))
-		prepend_path(&token->cmd);
+		prepend_path(d, &token->cmd);
 	return (token);
 }
 

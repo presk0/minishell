@@ -6,66 +6,65 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
-/*   Updated: 2025/02/01 19:55:41 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/04 00:49:17 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-size_t	append_until_dollar(char *input, size_t *i_input, size_t *i_result,
-		char **result)
+size_t	append_until_dollar(t_data *d, t_norminette_sucks *v)
 {
 	size_t	next_dollar;
 
-	next_dollar = strlen_char_simple_quoted(input + *i_input, '$', BUFF_SUBVAR);
+	next_dollar = strlen_char_simple_quoted(v->input + v->i_input, '$', BUFF_SUBVAR);
 	if (next_dollar)
-		*i_result = gc_strlcat(&g_d.gc, result, &input[*i_input],
-				ft_strlen(*result) + next_dollar);
-	*i_input += next_dollar;
+		v->i_result = gc_strlcat(&d->gc, &v->result, &v->input[v->i_input],
+				ft_strlen(v->result) + next_dollar);
+	v->i_input += next_dollar;
 	return (next_dollar);
 }
 
-char	*handle_variable_expansion(char **result, \
+char	*handle_variable_expansion(t_data *d, char **result, \
 								char *var_name, size_t *i_result)
 {
 	char	*var_value;
 
-	var_value = ft_getenv(var_name);
+	var_value = ft_getenv(d, var_name);
 	if (var_value)
-		*i_result += gc_strcat(&g_d.gc, result, var_value);
+		*i_result += gc_strcat(&d->gc, result, var_value);
 	else if (var_name && *var_name)
 	{
-		*i_result += gc_strcat(&g_d.gc, result, "$");
-		*i_result += gc_strcat(&g_d.gc, result, var_name);
+		*i_result += gc_strcat(&d->gc, result, "$");
+		*i_result += gc_strcat(&d->gc, result, var_name);
 	}
 	return (var_value);
 }
 
-char	*process_dollar(char *in, size_t *i_in, size_t *i_result, char **result)
+char	*process_dollar(t_data *d, t_norminette_sucks *v)
 {
 	char	*var_name;
 	size_t	var_start;
 	size_t	var_len;
 
-	var_start = *i_in + 1;
-	var_len = ft_varlen(in + var_start);
-	if (var_len > 0 && in[var_start])
+	var_start = v->i_input + 1;
+	var_len = ft_varlen(v->input + var_start);
+	if (var_len > 0 && v->input[var_start])
 	{
-		var_name = ft_strndup(in + var_start, var_len);
+		var_name = ft_strndup(v->input + var_start, var_len);
 		if (var_name)
 		{
-			handle_variable_expansion(result, var_name, i_result);
+			handle_variable_expansion(d, &v->result, var_name, &v->i_result);
 			free(var_name);
 		}
 	}
-	else if (var_len == 0 && in[var_start] == '?')
+	else if (var_len == 0 && v->input[var_start] == '?')
 	{
-		*i_result = gc_strcat(&g_d.gc, result, \
-						gc_append(&g_d.gc, ft_itoa(g_d.status)));
+		v->i_result = gc_strcat(&d->gc, &v->result, \
+						gc_append(&d->gc, ft_itoa(d->status)));
 		var_len = 1;
 	}
 	else
-		*i_result = gc_strcat(&g_d.gc, result, "$");
-	*i_in += var_len + 1;
-	return (*result);
+		v->i_result = gc_strcat(&d->gc, &v->result, "$");
+	v->i_input += var_len + 1;
+	return (v->result);
 }

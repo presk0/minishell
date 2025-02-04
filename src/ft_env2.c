@@ -6,15 +6,15 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/02/01 19:53:42 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/04 00:01:21 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	remove_var_from_env(char **env, int index)
+void	remove_var_from_env(t_data *d, char **env, int index)
 {
-	gc_free_item(&g_d.gc, env[index]);
+	gc_free_item(&d->gc, env[index]);
 	env[index] = env[index + 1];
 	index++;
 	while (env[index] != NULL)
@@ -25,30 +25,30 @@ void	remove_var_from_env(char **env, int index)
 	env[index] = NULL;
 }
 
-int	unset_var_in_env(char *var)
+int	unset_var_in_env(t_data *d, char *var)
 {
 	int		var_index;
 	size_t	var_len;
 
-	if (!g_d.env || !var)
+	if (!d->env || !var)
 		return (FAILURE);
 	var_len = ft_strlen(var);
-	var_index = find_var_index(g_d.env, var, var_len);
+	var_index = find_var_index(d->env, var, var_len);
 	if (var_index == -1)
 		return (FAILURE);
-	remove_var_from_env(g_d.env, var_index);
+	remove_var_from_env(d, d->env, var_index);
 	return (SUCCESS);
 }
 
-int	ft_unset(t_token *token)
+int	ft_unset(t_data *d, t_token *token)
 {
 	char	*var;
 
 	var = token->args[1];
-	return (unset_var_in_env(var));
+	return (unset_var_in_env(d, var));
 }
 
-int	ft_setenv(char *var_line)
+int	ft_setenv(t_data *d, char *var_line)
 {
 	char	*delimiter;
 	size_t	var_len;
@@ -62,10 +62,10 @@ int	ft_setenv(char *var_line)
 		var_len = ft_varlen(var_line);
 		if (var_len)
 		{
-			var = gc_strndup(&g_d.gc, var_line, var_len);
-			unset_var_in_env(var);
-			gc_free_item(&g_d.gc, var);
-			append_tab(&g_d.env, gc_strdup(&g_d.gc, var_line));
+			var = gc_strndup(&d->gc, var_line, var_len);
+			unset_var_in_env(d, var);
+			gc_free_item(&d->gc, var);
+			append_tab(&d->env, gc_strdup(&d->gc, var_line));
 		}
 	}
 	else

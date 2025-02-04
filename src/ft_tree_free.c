@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/01/27 19:54:16 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/04 01:06:57 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	gc_free_node_content(t_list *gc, void *content)
 	if (!node_content)
 		return ;
 	if (node_content->cmd)
-		gc_free_item(&g_d.gc, node_content->cmd);
-	free_token(node_content->token);
-	gc_free_item(&g_d.gc, node_content);
+		gc_free_item(&gc, node_content->cmd);
+	free_token(&gc, node_content->token);
+	gc_free_item(&gc, node_content);
 }
 
 void	gc_free_tree(t_list *gc, t_btree **r, void (*f_free)(t_list *gc,
@@ -35,11 +35,11 @@ void	gc_free_tree(t_list *gc, t_btree **r, void (*f_free)(t_list *gc,
 	if (!r || !*r)
 		return ;
 	node = *r;
-	gc_free_tree(g_d.gc, &node->left, f_free);
-	gc_free_tree(g_d.gc, &node->right, f_free);
+	gc_free_tree(gc, &node->left, f_free);
+	gc_free_tree(gc, &node->right, f_free);
 	if (f_free)
-		f_free(g_d.gc, node->content);
-	gc_free_item(&g_d.gc, node);
+		f_free(gc, node->content);
+	gc_free_item(&gc, node);
 	*r = NULL;
 }
 

@@ -6,13 +6,13 @@
 /*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
 /*												+#+#+#+#+#+   +#+			*/
 /*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/01/24 14:02:52 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/03 22:41:14 by nidionis         ###   ########.fr       */
 /*																			*/
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	execute_command(t_btree *node)
+void	execute_command(t_data *d, t_btree *node)
 {
 	t_token	*tok;
 	int		saved_std[3];
@@ -22,13 +22,13 @@ void	execute_command(t_btree *node)
 	handle_redir_in(tok);
 	handle_redir_out(tok);
 	if (is_builtin(tok))
-		exec_builtin_scotch(node);
+		exec_builtin_scotch(d, node);
 	else
-		exec_forking(node);
+		exec_forking(d, node);
 	restore_stds(saved_std);
 }
 
-void	rec_exec(t_btree *node)
+void	rec_exec(t_data *d, t_btree *node)
 {
 	int	pipe_fd[2];
 	int	stdin_fd;
@@ -43,16 +43,16 @@ void	rec_exec(t_btree *node)
 			close(pipe_fd[0]);
 			dup2(pipe_fd[1], STDOUT_FILENO);
 			close(pipe_fd[1]);
-			rec_exec(node->left);
+			rec_exec(d, node->left);
 			exit(EXIT_SUCCESS);
 		}
 		close(pipe_fd[1]);
 		dup2(pipe_fd[0], STDIN_FILENO);
 		close(pipe_fd[0]);
-		rec_exec(node->right);
+		rec_exec(d, node->right);
 	}
 	else
-		execute_command(node);
+		execute_command(d, node);
 	reset_stdin(stdin_fd);
 	close(stdin_fd);
 }

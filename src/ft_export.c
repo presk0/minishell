@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/02/01 16:43:58 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/03 23:36:35 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,18 @@ void	ft_easy_sort(char ***t)
 	}
 }
 
-int	ft_export(t_token *token)
+int	ft_export(t_data *d, t_token *token)
 {
 	int	i;
 
 	if (!token->args[1])
 	{
-		print_export(g_d.env);
+		print_export(d->env);
 		return (CLEAN_EXIT);
 	}
 	i = 1;
 	while (token->args[i] != NULL)
-		ft_setenv(token->args[i++]);
-	g_d.status = CLEAN_EXIT;
+		ft_setenv(d, token->args[i++]);
+	d->status = CLEAN_EXIT;
 	return (CLEAN_EXIT);
 }

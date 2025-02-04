@@ -6,7 +6,7 @@
 /*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 16:20:59 by nidionis          #+#    #+#             */
-/*   Updated: 2025/02/03 17:20:52 by nidionis         ###   ########.fr       */
+/*   Updated: 2025/02/03 23:38:16 by nidionis         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,37 +32,37 @@ void	set_cmd_id(t_token *token)
 		token->cmd_id = 0;
 }
 
-int	exec_builtin(t_token *token)
+int	exec_builtin(t_data *d, t_token *token)
 {
 	int	exit_status;
 
 	set_cmd_id(token);
 	exit_status = 0;
 	if (token->cmd_id == (int)ECHO_ID)
-		exit_status = ft_echo(token);
+		exit_status = ft_echo(d, token);
 	else if (token->cmd_id == (int)CD_ID)
-		exit_status = ft_cd(token);
+		exit_status = ft_cd(d, token);
 	else if (token->cmd_id == (int)PWD_ID)
-		exit_status = ft_pwd(token);
+		exit_status = ft_pwd(d, token);
 	else if (token->cmd_id == (int)EXPORT_ID)
-		exit_status = ft_export(token);
+		exit_status = ft_export(d, token);
 	else if (token->cmd_id == (int)UNSET_ID)
-		exit_status = ft_unset(token);
+		exit_status = ft_unset(d, token);
 	else if (token->cmd_id == (int)ENV_ID)
-		exit_status = ft_env();
+		exit_status = ft_env(d);
 	else if (token->cmd_id == (int)EXIT_ID)
-		exit_status = ft_exit(token);
+		exit_status = ft_exit(d, token);
 	return (exit_status);
 }
 
-int	exec_builtin_scotch(t_btree *node)
+int	exec_builtin_scotch(t_data *d, t_btree *node)
 {
 	t_btree_content	*c;
 	int				ret;
 
 	(void)node;
 	c = node->content;
-	ret = exec_builtin(&c->token);
+	ret = exec_builtin(d, &c->token);
 	return (ret);
 }
 

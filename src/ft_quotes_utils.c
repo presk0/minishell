@@ -29,14 +29,14 @@ int	strlen_wd_quoted(char *cmd)
 	return (len);
 }
 
-char	*strdup_wd_quote(char *cmd)
+char	*strdup_wd_quote(t_data *d, char *cmd)
 {
 	int		wd_len_quoted;
 	char	*duplicated;
 	char	*out;
 
 	wd_len_quoted = strlen_wd_quoted(cmd);
-	duplicated = gc_malloc(&g_d.gc, 1, wd_len_quoted + 1);
+	duplicated = gc_malloc(&d->gc, 1, wd_len_quoted + 1);
 	if (!duplicated)
 		return (NULL);
 	out = duplicated;

@@ -240,7 +240,6 @@ ft_toupper	lib/libft/src/ft_toupper.c	/^int	ft_toupper(int c)$/;"	f	typeref:type
 ft_unset	src/ft_env2.c	/^int	ft_unset(t_token *token)$/;"	f	typeref:typename:int
 ft_varlen	src/ft_variables.c	/^int	ft_varlen(const char *var)$/;"	f	typeref:typename:int
 ft_wd_count	lib/libft/src/ft_wd_count.c	/^int	ft_wd_count(char *str, char sep)$/;"	f	typeref:typename:int
-g_d	main.c	/^t_data	g_d;$/;"	v	typeref:typename:t_data
 gc	includes/minishell.h	/^	t_list		*gc;$/;"	m	struct:s_data	typeref:typename:t_list *
 gc_append	lib/libgc/src/gc.c	/^void	*gc_append(t_list **gc_addr, void *ptr)$/;"	f	typeref:typename:void *
 gc_free_all	lib/libgc/src/gc.c	/^void	gc_free_all(t_list **gc_addr)$/;"	f	typeref:typename:void
@@ -318,7 +317,7 @@ remove_var_from_env	src/ft_env2.c	/^void	remove_var_from_env(char **env, int ind
 reset_stdin	src/ft_dup.c	/^void	reset_stdin(int stdin_fd)$/;"	f	typeref:typename:void
 restore_stds	src/ft_dup.c	/^void	restore_stds(int *saved_std)$/;"	f	typeref:typename:void
 right	lib/libbtree/include/btree.h	/^	struct s_btree	*right;$/;"	m	struct:s_btree	typeref:struct:s_btree *
-rl_quoted	main.c	/^char	*rl_quoted()$/;"	f	typeref:typename:char *
+rl_quoted	main.c	/^char	*rl_quoted(t_data *d)$/;"	f	typeref:typename:char *
 rm_quotes	src/ft_quotes.c	/^char	*rm_quotes(char *str)$/;"	f	typeref:typename:char *
 run_line	src/ft_exec_forking.c	/^void	run_line(char *line)$/;"	f	typeref:typename:void
 s_btree	lib/libbtree/include/btree.h	/^typedef struct s_btree$/;"	s
