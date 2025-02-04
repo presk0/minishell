@@ -32,11 +32,9 @@ void	run_line(t_data *d, char *line)
 int	exec_whole_line(t_data *d)
 {
 	pid_t	pid;
-	int		status;
 	char	*sep;
 
 	(void)pid;
-	(void)status;
 	sep = gc_strdup(&d->gc, "|");
 	btree_split(d, d->cmd_tree, sep);
 	if (check_childs(d->cmd_tree))

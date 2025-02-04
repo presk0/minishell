@@ -15,12 +15,7 @@
 void	handle_sigquit(int sig)
 {
 	(void)sig;
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	write(STDOUT_FILENO, "Quit", 1);
-	rl_redisplay();
-	while (waitpid(-1, NULL, WNOHANG) > 0)
-		continue ;
+	write(STDOUT_FILENO, "Quit", 4);
 }
 
 void	sig_default(void)
@@ -30,7 +25,7 @@ void	sig_default(void)
 	(void)sa_quit;
 	ft_bzero(&sa_quit, sizeof(sa_quit));
 	signal(SIGINT, SIG_DFL);
-	//signal(SIGTERM, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	sa_quit.sa_handler = handle_sigquit;
 	sigemptyset(&sa_quit.sa_mask);
 	sigaction(SIGQUIT, &sa_quit, NULL);
@@ -42,7 +37,6 @@ void	sig_ignores(void)
 
 	(void)sa_quit;
 	signal(SIGINT, SIG_IGN);
-	//signal(SIGTERM, SIG_IGN);
 }
 
 void	handle_sigint(int sig)
