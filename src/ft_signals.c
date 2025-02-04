@@ -63,7 +63,6 @@ void	init_sig(t_data *d)
 		sigaction(SIGQUIT, &sa_quit, NULL);
 		sa_child.sa_handler = sigchld_handler;
 		sigemptyset(&sa_child.sa_mask);
-		//sa_child.sa_flags = SA_RESTART;
 		sigaction(SIGCHLD, &sa_child, NULL);
 	}
 }
