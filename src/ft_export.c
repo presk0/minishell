@@ -59,7 +59,6 @@ void	ft_easy_sort(char ***t)
 	}
 }
 
-
 int	ft_export(t_data *d, t_token *token)
 {
 	int	i;
