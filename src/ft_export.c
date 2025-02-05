@@ -49,14 +49,16 @@ void	ft_easy_sort(char ***t)
 	while (i < len - 1)
 	{
 		j = 0;
-		while (j < len - 1 - i++)
+		while (j < len - 1 - i)
 		{
 			if (ft_strcmp(tab[j], tab[j + 1]) > 0)
 				ft_swap(&tab[j], &tab[j + 1]);
 			j++;
 		}
+		i++;
 	}
 }
+
 
 int	ft_export(t_data *d, t_token *token)
 {
