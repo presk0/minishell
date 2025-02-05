@@ -15,7 +15,6 @@
 void	handle_sigquit(int sig)
 {
 	(void)sig;
-	write(STDOUT_FILENO, "Quit", 4);
 }
 
 void	sig_default(void)
@@ -50,20 +49,6 @@ void	handle_sigint(int sig)
 		continue ;
 }
 
-//void	init_sig(t_data *d)
-//{
-//	struct sigaction	sa_int;
-//	struct sigaction	sa_quit;
-//
-//	(void)d;
-//	sa_int.sa_handler = handle_sigint;
-//	sigemptyset(&sa_int.sa_mask);
-//	sigaction(SIGINT, &sa_int, NULL);
-//	sa_quit.sa_handler = SIG_IGN;
-//	sigemptyset(&sa_quit.sa_mask);
-//	sigaction(SIGQUIT, &sa_quit, NULL);
-//}
-
 void	init_sig(t_data *d)
 {
 	struct sigaction	sa_int;
@@ -72,13 +57,10 @@ void	init_sig(t_data *d)
 	(void)d;
 	ft_bzero(&sa_int, sizeof(sa_int));
 	ft_bzero(&sa_quit, sizeof(sa_quit));
-
 	sa_int.sa_handler = handle_sigint;
 	sigemptyset(&sa_int.sa_mask);
 	sigaction(SIGINT, &sa_int, NULL);
-
 	sa_quit.sa_handler = SIG_IGN;
 	sigemptyset(&sa_quit.sa_mask);
 	sigaction(SIGQUIT, &sa_quit, NULL);
 }
-

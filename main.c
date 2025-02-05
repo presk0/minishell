@@ -53,7 +53,6 @@ void	minishell(char **envp)
 		line = rl_quoted(&d);
 		if (!line)
 			minishell_exit(&d, NULL, 0);
-		g_child_opened = 0;
 		run_line(&d, line);
 		add_history(line);
 		gc_free_item(&d.gc, line);
@@ -66,8 +65,6 @@ void	print_tab(char **tab)
 		while (*tab)
 			printf("%s\n", *tab++);
 }
-
-int	g_child_opened;
 
 int	main(int argc, char **argv, char **envp)
 {

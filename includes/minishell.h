@@ -85,8 +85,6 @@
 # define ERR 2
 # define STATUS_SIGQUIT 131
 
-extern int	g_child_opened;
-
 typedef struct s_data
 {
 	char		**env;

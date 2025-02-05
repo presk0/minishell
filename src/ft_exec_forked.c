@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			*/
-/*														:::		::::::::   */
-/*   ft_exec_forked.c                                   :+:      :+:    :+:   */
-/*													+:+ +:+			+:+		*/
-/*   By: nidionis <marvin@42.fr>					+#+  +:+		+#+		*/
-/*												+#+#+#+#+#+   +#+			*/
-/*   Created: 2024/09/04 16:20:59 by nidionis			#+#	#+#				*/
-/*   Updated: 2025/02/04 00:03:43 by nidionis         ###   ########.fr       */
-/*																			*/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nidionis <nidionis@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/17 16:26:37 by nkieffer          #+#    #+#             */
+/*   Updated: 2025/02/04 01:57:19 by nidionis         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
@@ -41,6 +41,8 @@ int	exec_forking(t_data *d, t_btree *node)
 		d->status = WEXITSTATUS(d->status);
 	else
 		d->status = 128 + WTERMSIG(d->status);
+	if (d->status == 131)
+		ft_errmsg("Quit\n");
 	init_sig(d);
 	return (d->status);
 }
