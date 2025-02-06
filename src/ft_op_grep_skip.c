@@ -16,12 +16,12 @@ int	is_operand(char *cmd)
 {
 	if (!ft_strncmp(cmd, "<<<", 3))
 	{
-		printf("bash: syntax error near unexpected token `<'");
+		ft_errmsg("bash: syntax error near unexpected token `<'\n");
 		return (-1);
 	}
 	if (!ft_strncmp(cmd, ">>>", 3))
 	{
-		printf("bash: syntax error near unexpected token `>'");
+		ft_errmsg("bash: syntax error near unexpected token `>'\n");
 		return (-1);
 	}
 	if (!ft_strncmp(cmd, "<<", 2))

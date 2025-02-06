@@ -52,7 +52,7 @@ void	minishell(char **envp)
 		init_sig(&d);
 		line = rl_quoted(&d);
 		if (!line)
-			minishell_exit(&d, NULL, 0);
+			minishell_exit(&d, "exit", 0);
 		run_line(&d, line);
 		add_history(line);
 		gc_free_item(&d.gc, line);

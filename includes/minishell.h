@@ -234,5 +234,6 @@ char			*substitute_variables(t_data *d, char *input);
 void			gc_free_tree(t_list *gc, t_btree **r, \
 								void (*f_free)(t_list *gc, void *content));
 int				is_var_in_env(t_data *d, const char *var);
+int				format_exit_status(int status);
 
 #endif

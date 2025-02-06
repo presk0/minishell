@@ -37,10 +37,7 @@ int	exec_forking(t_data *d, t_btree *node)
 	if (pid == 0)
 		execve_node(d, node);
 	waitpid(pid, &d->status, 0);
-	if (WIFEXITED(d->status))
-		d->status = WEXITSTATUS(d->status);
-	else
-		d->status = 128 + WTERMSIG(d->status);
+	d->status = format_exit_status(d->status);
 	if (d->status == 131)
 		ft_errmsg("Quit\n");
 	init_sig(d);
